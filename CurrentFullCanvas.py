@@ -14,6 +14,9 @@ import wx.grid
 import wx.propgrid as pg
 from wx import html2
 
+#OPEN
+import building_test
+
 ###########################################################################
 ## DIALOGUE
 ###########################################################################
@@ -157,8 +160,7 @@ class OPENTestDialogue ( wx.Dialog ): #remember to come and change these variabl
     def newAssetOK( self, event ):
         data = self.getData()
         print(data)
-        # Asset.newAsset(data[0], data[1], data[2])
-        # print(Asset.asset_list[0].list_atrb())
+        building_test.__main__(data[0])
         self.Close()
         event.Skip()
 
