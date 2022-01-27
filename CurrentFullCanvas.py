@@ -6,6 +6,7 @@
 ###########################################################################
 
 import os
+from this import d
 from SaveData import readFromCSV, writeToCSV
 import constant
 import wx
@@ -276,16 +277,16 @@ class frameMain ( wx.Frame ):
         bSizerDataButtons.Add( self.m_buttonAddColumn, 0, wx.ALL, 5 )
 
 
-        bSizerData.Add( bSizerDataButtons, 1, wx.ALIGN_RIGHT, 5 )
+        bSizerData.Add( bSizerDataButtons, 0, wx.ALIGN_RIGHT, 0 )
 
         self.m_gridData = wx.grid.Grid( self.m_panelDATA, wx.ID_ANY, wx.DefaultPosition, wx.DefaultSize, 0 )
 
         #Grid Variables
-        Rows = 40
-        Columns = 15
+        Default_Rows = 100
+        Default_Columns = 30
 
         # Grid
-        self.m_gridData.CreateGrid( Rows, Columns )
+        self.m_gridData.CreateGrid( Default_Rows, Default_Columns )
         self.m_gridData.EnableEditing( True )
         self.m_gridData.EnableGridLines( True )
         self.m_gridData.EnableDragGridSize( False )
@@ -465,11 +466,11 @@ class frameMain ( wx.Frame ):
         event.Skip()
 
     def addRow( self, event ):
-        self.Rows += 1
+        self.m_gridData.AppendRows()
         event.Skip()
 
     def addColumn( self, event ):
-        self.Columns += 1
+        self.m_gridData.AppendCols()
         event.Skip()
 
     def listItemSelected( self, event ):
@@ -480,14 +481,14 @@ class frameMain ( wx.Frame ):
 
     def saveData( self, event ):
         #need a variable for rows and columns first... For now test with local variables:
-        rows = 40
-        columns = 15
+        rows = self.m_gridData.GetNumberRows()
+        columns = self.m_gridData.GetNumberCols()
         outputdata = []
         inputdata = []
         for row in range(rows):
             for column in range(columns):
-                if self.m_gridData.GetCellValue(row, column) != "":
-                    inputdata.append(self.m_gridData.GetCellValue(row, column))
+                # if self.m_gridData.GetCellValue(row, column) != "":
+                inputdata.append(self.m_gridData.GetCellValue(row, column))
             outputdata.append(list(inputdata))
             inputdata = []
         print(outputdata)
@@ -496,18 +497,34 @@ class frameMain ( wx.Frame ):
         event.Skip()
 
     def loadData( self, event ):
-        #Possible problem for this method is if there is more data than there are cells available.
         loadeddata = readFromCSV("data")
-        itemsinrowlist = [len(x) for x in loadeddata if x]
-        columnsused = len(itemsinrowlist)
+        rows = self.m_gridData.GetNumberRows()
+        columns = self.m_gridData.GetNumberCols()
+        itemsinrowlist = [len(x) for x in loadeddata if x] # list of active cell count per row in loaded data
+        rowsused = len(itemsinrowlist) # number of active rows in the loaded data
+        columnsused = itemsinrowlist[0] # number of active columns in the loaded data
+
+        #while loop to make sure normal grid is big enough.
+        while (rows < rowsused):
+            self.m_gridData.AppendRows()
+            rows = self.m_gridData.GetNumberRows()
+
+        while (columns < columnsused):
+            self.m_gridData.AppendCols()
+            columns = self.m_gridData.GetNumberCols()
 
         for column in range(columnsused):
             data = [item[column] for item in loadeddata if item]
-            for row in range(itemsinrowlist[column]): 
+            for row in range(rowsused): 
+                try:
+                    gotdata = data[row] #defined a data thing here for error handling
+                except IndexError:
+                    gotdata = ''
                 if not data[row]:
                     self.m_gridData.SetCellValue(row, column, "")
                 else:
-                    self.m_gridData.SetCellValue(row, column, str(data[row]))
+                    self.m_gridData.SetCellValue(row, column, str(gotdata))
+        # Should definitely have a "Done!" pop-up
         event.Skip()
 
     def importData( self, event ):

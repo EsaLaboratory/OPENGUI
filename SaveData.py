@@ -11,10 +11,10 @@ def writeToCSV(data, name):
         writer.writerows(data)
 
 def readFromCSV(filename):
-    with open(filename + '.csv', newline='') as csvfile:
+    with open(filename + '.csv', newline='', encoding='utf-8-sig') as csvfile:
         filereader = csv.reader(csvfile)
         returndata = list(filereader)
-        print(returndata)
+        # print(returndata)
     return returndata
 
-# readFromCSV("data")
+# print(readFromCSV("data"))
