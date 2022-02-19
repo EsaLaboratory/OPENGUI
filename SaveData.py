@@ -16,5 +16,3 @@ def readFromCSV(filename):
         returndata = list(filereader)
         # print(returndata)
     return returndata
-
-# print(readFromCSV("data"))

@@ -24,7 +24,7 @@ import System.EnergySystem as ES
 
 import sys
 
-def __main__(passedVar):
+def __main__(season_, network_, market_, assets_): #Import variables
         
     print('Code started.')
     #plt.close('all')
@@ -51,7 +51,7 @@ def __main__(passedVar):
     # choice = 0
     # while choice not in ['1','2']:
     #     choice=input('Input season number: \n1 for Summer \n2 for Winter\n');
-    if passedVar == '1':
+    if season_ == '1':
         winterFlag = False
     else:
         winterFlag = True
@@ -126,10 +126,14 @@ def __main__(passedVar):
 
     #(from https://github.com/e2nIEE/pandapower/blob/master/tutorials/minimal_example.ipynb)
     network = pp.create_empty_network()
-    #create buses 
-    bus1 = pp.create_bus(network, vn_kv=20., name="bus 1")
-    bus2 = pp.create_bus(network, vn_kv=0.4, name="bus 2")
-    bus3 = pp.create_bus(network, vn_kv=0.4, name="bus 3")
+    # #create buses 
+    # bus1 = pp.create_bus(network, vn_kv=20., name="bus 1")
+    # bus2 = pp.create_bus(network, vn_kv=0.4, name="bus 2")
+    # bus3 = pp.create_bus(network, vn_kv=0.4, name="bus 3")
+    #CREATE BUSES
+    bus1 = pp.create_bus(network, vn_kv=float(network_[0][0]), name=str(network_[1][0]))
+    bus2 = pp.create_bus(network, vn_kv=float(network_[0][1]), name=str(network_[1][1]))
+    bus3 = pp.create_bus(network, vn_kv=float(network_[0][2]), name=str(network_[1][2]))
     #create bus elements
     pp.create_ext_grid(network, bus=bus1, vm_pu=1.0, name="Grid Connection")
     #create branch elements

@@ -6,174 +6,20 @@
 ###########################################################################
 
 import os
-from this import d
+# from this import d
 from SaveData import readFromCSV, writeToCSV
-import constant
 import wx
 import wx.xrc
 import wx.grid
 import wx.propgrid as pg
 from wx import html2
 
-#OPEN
-import building_test
+#Dialogues
+import Dialogues
+import Popups
 
-###########################################################################
-## DIALOGUE
-###########################################################################
-# Class WebDialogue
-#####################
-class WebHelpDialogue ( wx.Dialog ):
-
-    def __init__( self, parent ):
-        wx.Dialog.__init__ ( self, parent, id = wx.ID_ANY, title = u"Web Help", pos = wx.DefaultPosition, size = wx.DefaultSize, style = wx.DEFAULT_DIALOG_STYLE )
-
-        self.SetSizeHints( wx.DefaultSize, wx.DefaultSize )
-
-        bWebHelpDialogueFrameMain = wx.BoxSizer( wx.VERTICAL )
-
-        bWebHelpDialogueMainFrame = wx.BoxSizer( wx.VERTICAL )
-
-        self.m_WebHelpDialogueActiveArea = wx.Panel( self, wx.ID_ANY, wx.DefaultPosition, wx.DefaultSize, wx.TAB_TRAVERSAL )
-        bWebHelpDialogueSizer = wx.BoxSizer( wx.VERTICAL )
-
-        bWebHelpDialogueSizer.SetMinSize( wx.Size( 800,800 ) )
-        # bWebHelpDialogueRow1 = wx.BoxSizer( wx.HORIZONTAL )
-
-        self.m_browser = wx.html2.WebView.New(self)
-        self.m_browser.LoadURL("gregorjmathieson.github.io/OPEN_GUI_Devlog/")
-        bWebHelpDialogueSizer.Add( self.m_browser, 1, wx.EXPAND, 5)
-        
-        self.m_CloseOK = wx.Button( self.m_WebHelpDialogueActiveArea, wx.ID_ANY, u"OK", wx.DefaultPosition, wx.DefaultSize, 0 )
-        bWebHelpDialogueSizer.Add( self.m_CloseOK, 0, wx.ALIGN_RIGHT|wx.ALL, 5 )
-
-        self.m_WebHelpDialogueActiveArea.SetSizer( bWebHelpDialogueSizer )
-        self.m_WebHelpDialogueActiveArea.Layout()
-        bWebHelpDialogueSizer.Fit( self.m_WebHelpDialogueActiveArea )
-        bWebHelpDialogueMainFrame.Add( self.m_WebHelpDialogueActiveArea, 1, wx.EXPAND, 5 )
-
-
-        bWebHelpDialogueFrameMain.Add( bWebHelpDialogueMainFrame, 1, wx.EXPAND, 5 )
-
-
-        self.SetSizer( bWebHelpDialogueFrameMain )
-        self.Layout()
-        bWebHelpDialogueFrameMain.Fit( self )
-
-        self.Centre( wx.BOTH )
-
-        # Connect Events
-        self.m_CloseOK.Bind( wx.EVT_BUTTON, self.closeOK)
-
-    def __del__( self ):
-        pass
-
-    # Virtual event handlers, override them in your derived class
-    def closeOK( self, event ):
-
-        self.Close()
-        event.Skip()
-
-# OPENTESTDIAGLOGUE ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-class OPENTestDialogue ( wx.Dialog ): #remember to come and change these variable names
-
-    def __init__( self, parent ):
-        wx.Dialog.__init__ ( self, parent, id = wx.ID_ANY, title = u"OPEN Simulation Test Parameters", pos = wx.DefaultPosition, size = wx.DefaultSize, style = wx.DEFAULT_DIALOG_STYLE )
-
-        self.SetSizeHints( wx.DefaultSize, wx.DefaultSize )
-
-        bNewAssetDialogueFrameMain = wx.BoxSizer( wx.VERTICAL )
-
-        bNewAssetDialogueMainFrame = wx.BoxSizer( wx.VERTICAL )
-
-        self.m_NewAssetDialogueActiveArea = wx.Panel( self, wx.ID_ANY, wx.DefaultPosition, wx.DefaultSize, wx.TAB_TRAVERSAL )
-        bNewAssetDialogueSizer = wx.BoxSizer( wx.VERTICAL )
-
-        bNewAssetDialogueSizer.SetMinSize( wx.Size( 200,200 ) )
-        bNewAssetDialogueRow1 = wx.BoxSizer( wx.HORIZONTAL )
-
-        self.m_AssetType = wx.StaticText( self.m_NewAssetDialogueActiveArea, wx.ID_ANY, u"Season", wx.DefaultPosition, wx.DefaultSize, 0 )
-        self.m_AssetType.Wrap( -1 )
-
-        bNewAssetDialogueRow1.Add( self.m_AssetType, 1, wx.ALL, 0 )
-
-        m_AssetTypeChoiceChoices = ["Summer", "Winter"]
-        self.m_AssetTypeChoice = wx.Choice( self.m_NewAssetDialogueActiveArea, wx.ID_ANY, wx.DefaultPosition, wx.DefaultSize, m_AssetTypeChoiceChoices, 0 )
-        self.m_AssetTypeChoice.SetSelection( 0 )
-        bNewAssetDialogueRow1.Add( self.m_AssetTypeChoice, 1, wx.ALL, 0 )
-
-
-        bNewAssetDialogueSizer.Add( bNewAssetDialogueRow1, 1, wx.EXPAND, 0 )
-
-        bNewAssetDialogueRow2 = wx.BoxSizer( wx.HORIZONTAL )
-
-        self.m_NewAssetAttribute1 = wx.StaticText( self.m_NewAssetDialogueActiveArea, wx.ID_ANY, u"TBD", wx.DefaultPosition, wx.DefaultSize, 0 ) #Change here
-        self.m_NewAssetAttribute1.Wrap( -1 )
-
-        bNewAssetDialogueRow2.Add( self.m_NewAssetAttribute1, 1, wx.ALL, 0 )
-
-        self.m_NewAssetAttribute1Value = wx.TextCtrl( self.m_NewAssetDialogueActiveArea, wx.ID_ANY, wx.EmptyString, wx.DefaultPosition, wx.DefaultSize, 0 )
-        bNewAssetDialogueRow2.Add( self.m_NewAssetAttribute1Value, 1, wx.ALL, 0 )
-
-
-        bNewAssetDialogueSizer.Add( bNewAssetDialogueRow2, 1, wx.EXPAND, 0 )
-
-        bNewAssetDialogueRow3 = wx.BoxSizer( wx.HORIZONTAL )
-
-        self.m_NewAssetAttribute2 = wx.StaticText( self.m_NewAssetDialogueActiveArea, wx.ID_ANY, u"TDB", wx.DefaultPosition, wx.DefaultSize, 0 ) #Change here
-        self.m_NewAssetAttribute2.Wrap( -1 )
-
-        bNewAssetDialogueRow3.Add( self.m_NewAssetAttribute2, 1, wx.ALL, 0 )
-
-        self.m_NewAssetAttribute2Value = wx.TextCtrl( self.m_NewAssetDialogueActiveArea, wx.ID_ANY, wx.EmptyString, wx.DefaultPosition, wx.DefaultSize, 0 )
-        bNewAssetDialogueRow3.Add( self.m_NewAssetAttribute2Value, 1, wx.ALL, 0 )
-
-
-        bNewAssetDialogueSizer.Add( bNewAssetDialogueRow3, 1, wx.EXPAND, 0 )
-
-        self.m_NewAssetOK = wx.Button( self.m_NewAssetDialogueActiveArea, wx.ID_ANY, u"OK", wx.DefaultPosition, wx.DefaultSize, 0 )
-        bNewAssetDialogueSizer.Add( self.m_NewAssetOK, 0, wx.ALIGN_RIGHT|wx.ALL, 5 )
-
-
-        self.m_NewAssetDialogueActiveArea.SetSizer( bNewAssetDialogueSizer )
-        self.m_NewAssetDialogueActiveArea.Layout()
-        bNewAssetDialogueSizer.Fit( self.m_NewAssetDialogueActiveArea )
-        bNewAssetDialogueMainFrame.Add( self.m_NewAssetDialogueActiveArea, 1, wx.EXPAND |wx.ALL, 5 )
-
-
-        bNewAssetDialogueFrameMain.Add( bNewAssetDialogueMainFrame, 1, wx.EXPAND, 5 )
-
-
-        self.SetSizer( bNewAssetDialogueFrameMain )
-        self.Layout()
-        bNewAssetDialogueFrameMain.Fit( self )
-
-        self.Centre( wx.BOTH )
-
-        # Connect Events
-        self.m_NewAssetOK.Bind( wx.EVT_BUTTON, self.newAssetOK)
-
-    def __del__( self ):
-        pass
-
-
-    # Virtual event handlers, override them in your derived class
-    def newAssetOK( self, event ):
-        data = self.getData()
-        print(data)
-        building_test.__main__(data[0])
-        self.Close()
-        event.Skip()
-
-    def getData(self):
-        data = []
-        # data.append(self.m_AssetTypeChoice.GetSelection().GetString()) #This doesn't work hmmmm
-        data.append(self.m_AssetTypeChoice.GetSelection())
-        data.append(self.m_NewAssetAttribute1Value.GetValue())
-        data.append(self.m_NewAssetAttribute2Value.GetValue())
-        return data
-
-##################################################################
+# #OPEN
+# import building_test
 
 ###########################################################################
 ## Class frameMain
@@ -209,13 +55,13 @@ class frameMain ( wx.Frame ):
         bSizerPanelMainUserLibrary.Add( self.m_userLibrary, 1, wx.EXPAND, 1 )
 
 
-        bSizerMainPanelUserLibrary.Add( bSizerPanelMainUserLibrary, 1, wx.EXPAND, 5 )
+        bSizerMainPanelUserLibrary.Add( bSizerPanelMainUserLibrary, 1, wx.EXPAND, 0 )
 
 
         self.m_panelUserLibrary.SetSizer( bSizerMainPanelUserLibrary )
         self.m_panelUserLibrary.Layout()
         bSizerMainPanelUserLibrary.Fit( self.m_panelUserLibrary )
-        bSizerLeft.Add( self.m_panelUserLibrary, 1, wx.ALL|wx.EXPAND, 5 )
+        bSizerLeft.Add( self.m_panelUserLibrary, 1, wx.ALL|wx.EXPAND, 0 )
 
         self.m_panelOPENLibrary = wx.Panel( self, wx.ID_ANY, wx.DefaultPosition, wx.DefaultSize, wx.TAB_TRAVERSAL )
         bSizerMainPanelOPENLibrary = wx.BoxSizer( wx.VERTICAL )
@@ -226,48 +72,50 @@ class frameMain ( wx.Frame ):
         bSizerPanelMainOPENLibrary.Add( self.m_treeCtrl, 1, wx.EXPAND, 0 )
 
 
-        bSizerMainPanelOPENLibrary.Add( bSizerPanelMainOPENLibrary, 1, wx.EXPAND, 5 )
+        bSizerMainPanelOPENLibrary.Add( bSizerPanelMainOPENLibrary, 1, wx.EXPAND, 0 )
 
 
         self.m_panelOPENLibrary.SetSizer( bSizerMainPanelOPENLibrary )
         self.m_panelOPENLibrary.Layout()
         bSizerMainPanelOPENLibrary.Fit( self.m_panelOPENLibrary )
-        bSizerLeft.Add( self.m_panelOPENLibrary, 1, wx.EXPAND |wx.ALL, 5 )
+        bSizerLeft.Add( self.m_panelOPENLibrary, 1, wx.EXPAND |wx.ALL, 0 )
 
 
-        bSizerActiveArea.Add( bSizerLeft, 0, wx.EXPAND, 5 )
+        bSizerActiveArea.Add( bSizerLeft, 0, wx.EXPAND, 0 )
 
 #--Centre--#########################################################################################################################################################################################
         bSizerCentral = wx.BoxSizer( wx.VERTICAL )
 
         self.m_notebookCentral = wx.Notebook( self, wx.ID_ANY, wx.DefaultPosition, wx.DefaultSize, 0 )
+        
+        # MODELS PANEL
         self.m_panelModels = wx.Panel( self.m_notebookCentral, wx.ID_ANY, wx.DefaultPosition, wx.DefaultSize, wx.TAB_TRAVERSAL )
         bSizerModels = wx.BoxSizer( wx.VERTICAL )
-
-
         self.m_panelModels.SetSizer( bSizerModels )
         self.m_panelModels.Layout()
         bSizerModels.Fit( self.m_panelModels )
         self.m_notebookCentral.AddPage( self.m_panelModels, u"MODELS", True )
+        
+        # PF PANEL
         self.m_panelPF = wx.Panel( self.m_notebookCentral, wx.ID_ANY, wx.DefaultPosition, wx.DefaultSize, wx.TAB_TRAVERSAL )
         bSizerPF = wx.BoxSizer( wx.VERTICAL )
-
-
         self.m_panelPF.SetSizer( bSizerPF )
         self.m_panelPF.Layout()
         bSizerPF.Fit( self.m_panelPF )
         self.m_notebookCentral.AddPage( self.m_panelPF, u"PF", False )
+        
+        # CURVES PANEL
         self.m_panelCurves = wx.Panel( self.m_notebookCentral, wx.ID_ANY, wx.DefaultPosition, wx.DefaultSize, wx.TAB_TRAVERSAL )
         bSizerCurves = wx.BoxSizer( wx.VERTICAL )
-
-
         self.m_panelCurves.SetSizer( bSizerCurves )
         self.m_panelCurves.Layout()
         bSizerCurves.Fit( self.m_panelCurves )
         self.m_notebookCentral.AddPage( self.m_panelCurves, u"CURVES", False )
+        
+        #DATA PANEL
         self.m_panelDATA = wx.Panel( self.m_notebookCentral, wx.ID_ANY, wx.DefaultPosition, wx.DefaultSize, wx.TAB_TRAVERSAL )
         bSizerData = wx.BoxSizer( wx.VERTICAL )
-                
+        
         bSizerDataButtons = wx.BoxSizer( wx.HORIZONTAL )
 
         self.m_buttonAddRow = wx.Button( self.m_panelDATA, wx.ID_ANY, u"Add Row", wx.DefaultPosition, wx.DefaultSize, 0 )
@@ -275,12 +123,10 @@ class frameMain ( wx.Frame ):
 
         self.m_buttonAddColumn = wx.Button( self.m_panelDATA, wx.ID_ANY, u"Add Column", wx.DefaultPosition, wx.DefaultSize, 0 )
         bSizerDataButtons.Add( self.m_buttonAddColumn, 0, wx.ALL, 5 )
-
-
         bSizerData.Add( bSizerDataButtons, 0, wx.ALIGN_RIGHT, 0 )
 
         self.m_gridData = wx.grid.Grid( self.m_panelDATA, wx.ID_ANY, wx.DefaultPosition, wx.DefaultSize, 0 )
-
+        #TODO add a clear all button
         #Grid Variables
         Default_Rows = 100
         Default_Columns = 30
@@ -306,17 +152,201 @@ class frameMain ( wx.Frame ):
         # Cell Defaults
         self.m_gridData.SetDefaultCellAlignment( wx.ALIGN_LEFT, wx.ALIGN_TOP )
         bSizerData.Add( self.m_gridData, 1, wx.EXPAND, 0 )
-
-
+        
         self.m_panelDATA.SetSizer( bSizerData )
         self.m_panelDATA.Layout()
         bSizerData.Fit( self.m_panelDATA )
         self.m_notebookCentral.AddPage( self.m_panelDATA, u"DATA", False )
+        
+        # PARAMETERS PANEL (Currently just for building case study)
+        self.m_panelParams = wx.Panel( self.m_notebookCentral, wx.ID_ANY, wx.DefaultPosition, wx.DefaultSize, wx.TAB_TRAVERSAL )
+        bSizerParams = wx.BoxSizer( wx.VERTICAL )
+        
+        # set group title font size
+        titlefont = wx.Font( 20, wx.DECORATIVE, wx.NORMAL, wx.NORMAL )
+        
+        # Initialise Groups
+        bParamGroup1 = wx.BoxSizer( wx.VERTICAL )
+        bParamGroup2 = wx.BoxSizer( wx.VERTICAL )
+        
+        # Initialise Rows 3 Parameters per row
+        bParamRow1 = wx.BoxSizer( wx.HORIZONTAL )
+        bParamRow2 = wx.BoxSizer( wx.HORIZONTAL )
+        bParamRow3 = wx.BoxSizer( wx.HORIZONTAL )
+        bParamRow4 = wx.BoxSizer( wx.HORIZONTAL )
+        bParamRow5 = wx.BoxSizer( wx.HORIZONTAL )
+        
+        # Building Parameters
+        
+        self.m_ParamGroupTitle1 = wx.StaticText( self.m_panelParams, wx.ID_ANY, u"Building Parameters", wx.DefaultPosition, wx.DefaultSize, 0 ) 
+        self.m_ParamGroupTitle1.SetFont(titlefont)
+        self.m_ParamGroupTitle1.Wrap( -1 )
+        bParamGroup1.Add( self.m_ParamGroupTitle1, 0, wx.EXPAND, 3)
+        
+        bParam1 = wx.BoxSizer( wx.HORIZONTAL )
+        self.m_Param1 = wx.StaticText( self.m_panelParams, wx.ID_ANY, u"Maximum Temperature", wx.DefaultPosition, wx.DefaultSize, 0 ) 
+        self.m_Param1.Wrap( -1 )
+        bParam1.Add( self.m_Param1, 0, wx.ALL, 3 )
+        self.m_Param1Data = wx.TextCtrl( self.m_panelParams, wx.ID_ANY, u"18", wx.DefaultPosition, wx.DefaultSize, 0 )
+        bParam1.Add( self.m_Param1Data, 0, wx.ALL, 0 )
+        self.m_Param1Units = wx.StaticText( self.m_panelParams, wx.ID_ANY, u"C", wx.DefaultPosition, wx.DefaultSize, 0 )
+        bParam1.Add( self.m_Param1Units, 1, wx.ALL, 0 )
+        
+        bParam2 = wx.BoxSizer( wx.HORIZONTAL )
+        self.m_Param2 = wx.StaticText( self.m_panelParams, wx.ID_ANY, u"Minimum Temperature", wx.DefaultPosition, wx.DefaultSize, 0 ) 
+        self.m_Param2.Wrap( -1 )
+        bParam2.Add( self.m_Param2, 0, wx.ALL, 3 )
+        self.m_Param2Data = wx.TextCtrl( self.m_panelParams, wx.ID_ANY, u"16", wx.DefaultPosition, wx.DefaultSize, 0 )
+        bParam2.Add( self.m_Param2Data, 0, wx.ALL, 0 )
+        self.m_Param2Units = wx.StaticText( self.m_panelParams, wx.ID_ANY, u"C", wx.DefaultPosition, wx.DefaultSize, 0 )
+        bParam2.Add( self.m_Param2Units, 1, wx.ALL, 0 )
 
-        bSizerCentral.Add( self.m_notebookCentral, 1, wx.EXPAND |wx.ALL, 5 )
+        bParam3 = wx.BoxSizer( wx.HORIZONTAL )
+        self.m_Param3 = wx.StaticText( self.m_panelParams, wx.ID_ANY, u"Starting Temperature", wx.DefaultPosition, wx.DefaultSize, 0 ) 
+        self.m_Param3.Wrap( -1 )
+        bParam3.Add( self.m_Param3, 0, wx.ALL, 3 )
+        self.m_Param3Data = wx.TextCtrl( self.m_panelParams, wx.ID_ANY, u"17", wx.DefaultPosition, wx.DefaultSize, 0 )
+        bParam3.Add( self.m_Param3Data, 0, wx.ALL, 0 )
+        self.m_Param3Units = wx.StaticText( self.m_panelParams, wx.ID_ANY, u"C", wx.DefaultPosition, wx.DefaultSize, 0 )
+        bParam3.Add( self.m_Param3Units, 1, wx.ALL, 0 )
+        
+        bParam4 = wx.BoxSizer( wx.HORIZONTAL )
+        self.m_Param4 = wx.StaticText( self.m_panelParams, wx.ID_ANY, u"Maximum Heating Supplied", wx.DefaultPosition, wx.DefaultSize, 0 ) 
+        self.m_Param4.Wrap( -1 )
+        bParam4.Add( self.m_Param4, 0, wx.ALL, 3 )
+        self.m_Param4Data = wx.TextCtrl( self.m_panelParams, wx.ID_ANY, u"90", wx.DefaultPosition, wx.DefaultSize, 0 )
+        bParam4.Add( self.m_Param4Data, 0, wx.ALL, 0 )
+        self.m_Param4Units = wx.StaticText( self.m_panelParams, wx.ID_ANY, u"kW", wx.DefaultPosition, wx.DefaultSize, 0 )
+        bParam4.Add( self.m_Param4Units, 1, wx.ALL, 0 )
+        
+        bParam5 = wx.BoxSizer( wx.HORIZONTAL )
+        self.m_Param5 = wx.StaticText( self.m_panelParams, wx.ID_ANY, u"Maximum Cooling Supplied", wx.DefaultPosition, wx.DefaultSize, 0 ) 
+        self.m_Param5.Wrap( -1 )
+        bParam5.Add( self.m_Param5, 0, wx.ALL, 3 )
+        self.m_Param5Data = wx.TextCtrl( self.m_panelParams, wx.ID_ANY, u"200", wx.DefaultPosition, wx.DefaultSize, 0 )
+        bParam5.Add( self.m_Param5Data, 0, wx.ALL, 0 )
+        self.m_Param5Units = wx.StaticText( self.m_panelParams, wx.ID_ANY, u"kW", wx.DefaultPosition, wx.DefaultSize, 0 )
+        bParam5.Add( self.m_Param5Units, 1, wx.ALL, 0 )
+        
+        bParam6 = wx.BoxSizer( wx.HORIZONTAL )
+        self.m_Param6 = wx.StaticText( self.m_panelParams, wx.ID_ANY, u"Heating Coefficient of Performance", wx.DefaultPosition, wx.DefaultSize, 0 ) 
+        self.m_Param6.Wrap( -1 )
+        bParam6.Add( self.m_Param6, 0, wx.ALL, 3 )
+        self.m_Param6Data = wx.TextCtrl( self.m_panelParams, wx.ID_ANY, u"3", wx.DefaultPosition, wx.DefaultSize, 0 )
+        bParam6.Add( self.m_Param6Data, 0, wx.ALL, 0 )
+        # self.m_Param6Units = wx.StaticText( self.m_panelParams, wx.ID_ANY, u"", wx.DefaultPosition, wx.DefaultSize, 0 )
+        # bParam6.Add( self.m_Param6Units, 1, wx.ALL, 2 )
+        
+        bParam7 = wx.BoxSizer( wx.HORIZONTAL )
+        self.m_Param7 = wx.StaticText( self.m_panelParams, wx.ID_ANY, u"Cooling Coefficient of Performance", wx.DefaultPosition, wx.DefaultSize, 0 ) 
+        self.m_Param7.Wrap( -1 )
+        bParam7.Add( self.m_Param7, 0, wx.ALL, 3 )
+        self.m_Param7Data = wx.TextCtrl( self.m_panelParams, wx.ID_ANY, u"1", wx.DefaultPosition, wx.DefaultSize, 0 )
+        bParam7.Add( self.m_Param7Data, 0, wx.ALL, 0 )
+        # self.m_Param7Units = wx.StaticText( self.m_panelParams, wx.ID_ANY, u"", wx.DefaultPosition, wx.DefaultSize, 0 )
+        # bParam7.Add( self.m_Param7Units, 1, wx.ALL, 2 )
+
+        
+        # Market Parameters
+        self.m_ParamGroupTitle2 = wx.StaticText( self.m_panelParams, wx.ID_ANY, u"Market Parameters", wx.DefaultPosition, wx.DefaultSize, 0 ) 
+        self.m_ParamGroupTitle2.SetFont(titlefont)
+        self.m_ParamGroupTitle2.Wrap( -1 )
+        bParamGroup2.Add( self.m_ParamGroupTitle2, 0, wx.EXPAND, 3)
+
+        bParam8 = wx.BoxSizer( wx.HORIZONTAL )
+        self.m_Param8 = wx.StaticText( self.m_panelParams, wx.ID_ANY, u"Net Export Money Received", wx.DefaultPosition, wx.DefaultSize, 0 ) 
+        self.m_Param8.Wrap( -1 )
+        bParam8.Add( self.m_Param8, 0, wx.ALL, 3 )
+        self.m_Param8Data = wx.TextCtrl( self.m_panelParams, wx.ID_ANY, u"0.04", wx.DefaultPosition, wx.DefaultSize, 0 )
+        bParam8.Add( self.m_Param8Data, 0, wx.ALL, 0 )
+        self.m_Param8Units = wx.StaticText( self.m_panelParams, wx.ID_ANY, u"£", wx.DefaultPosition, wx.DefaultSize, 0 )
+        bParam8.Add( self.m_Param8Units, 1, wx.ALL, 0 )
+        
+        #TODO make the price of net import variable with time
+        bParam9 = wx.BoxSizer( wx.HORIZONTAL )
+        self.m_Param9 = wx.StaticText( self.m_panelParams, wx.ID_ANY, u"Price of Net Imports", wx.DefaultPosition, wx.DefaultSize, 0 ) 
+        self.m_Param9.Wrap( -1 )
+        bParam9.Add( self.m_Param9, 0, wx.ALL, 3 )
+        self.m_Param9Data = wx.TextCtrl( self.m_panelParams, wx.ID_ANY, u"0.07", wx.DefaultPosition, wx.DefaultSize, 0 )
+        bParam9.Add( self.m_Param9Data, 0, wx.ALL, 0 )
+        self.m_Param9Units = wx.StaticText( self.m_panelParams, wx.ID_ANY, u"£", wx.DefaultPosition, wx.DefaultSize, 0 )
+        bParam9.Add( self.m_Param9Units, 1, wx.ALL, 0 )
+        
+        bParam10 = wx.BoxSizer( wx.HORIZONTAL )
+        self.m_Param10 = wx.StaticText( self.m_panelParams, wx.ID_ANY, u"Price per kW for Maximum Demand", wx.DefaultPosition, wx.DefaultSize, 0 ) 
+        self.m_Param10.Wrap( -1 )
+        bParam10.Add( self.m_Param10, 0, wx.ALL, 3 )
+        self.m_Param10Data = wx.TextCtrl( self.m_panelParams, wx.ID_ANY, u"0.10", wx.DefaultPosition, wx.DefaultSize, 0 )
+        bParam10.Add( self.m_Param10Data, 0, wx.ALL, 0 )
+        self.m_Param10Units = wx.StaticText( self.m_panelParams, wx.ID_ANY, u"£", wx.DefaultPosition, wx.DefaultSize, 0 )
+        bParam10.Add( self.m_Param10Units, 1, wx.ALL, 0 )
+        
+        bParam11 = wx.BoxSizer( wx.HORIZONTAL )
+        self.m_Param11 = wx.StaticText( self.m_panelParams, wx.ID_ANY, u"Maximum Import Power", wx.DefaultPosition, wx.DefaultSize, 0 ) 
+        self.m_Param11.Wrap( -1 )
+        bParam11.Add( self.m_Param11, 0, wx.ALL, 3 )
+        self.m_Param11Data = wx.TextCtrl( self.m_panelParams, wx.ID_ANY, u"500", wx.DefaultPosition, wx.DefaultSize, 0 )
+        bParam11.Add( self.m_Param11Data, 0, wx.ALL, 0 )
+        self.m_Param11Units = wx.StaticText( self.m_panelParams, wx.ID_ANY, u"kW", wx.DefaultPosition, wx.DefaultSize, 0 )
+        bParam11.Add( self.m_Param11Units, 1, wx.ALL, 0 )
+        
+        bParam12 = wx.BoxSizer( wx.HORIZONTAL )
+        self.m_Param12 = wx.StaticText( self.m_panelParams, wx.ID_ANY, u"Maximum Export Power", wx.DefaultPosition, wx.DefaultSize, 0 ) 
+        self.m_Param12.Wrap( -1 )
+        bParam12.Add( self.m_Param12, 0, wx.ALL, 3 )
+        self.m_Param12Data = wx.TextCtrl( self.m_panelParams, wx.ID_ANY, u"-500", wx.DefaultPosition, wx.DefaultSize, 0 )
+        bParam12.Add( self.m_Param12Data, 0, wx.ALL, 0 )
+        self.m_Param12Units = wx.StaticText( self.m_panelParams, wx.ID_ANY, u"kW", wx.DefaultPosition, wx.DefaultSize, 0 )
+        bParam12.Add( self.m_Param12Units, 1, wx.ALL, 0 )
+        
+        # Building Parameter Rows
+        bParamRow1.Add( bParam1, 1, wx.EXPAND, 0)
+        bParamRow1.Add( bParam2, 1, wx.EXPAND, 0)
+        bParamRow1.Add( bParam3, 1, wx.EXPAND, 0)
+        bParamRow2.Add( bParam4, 1, wx.EXPAND, 0)
+        bParamRow2.Add( bParam5, 1, wx.EXPAND, 0)
+        bParamRow3.Add( bParam6, 1, wx.EXPAND, 0)
+        bParamRow3.Add( bParam7, 1, wx.EXPAND, 0)
+        
+        # Market Parameter Rows
+        bParamRow4.Add( bParam8, 1, wx.EXPAND, 0)
+        bParamRow4.Add( bParam9, 1, wx.EXPAND, 0)
+        bParamRow4.Add( bParam10, 1, wx.EXPAND, 0)
+        bParamRow5.Add( bParam11, 1, wx.EXPAND, 0)
+        bParamRow5.Add( bParam12, 1, wx.EXPAND, 0)
+        
+        #Building Group
+        bParamGroup1.Add( bParamRow1, 0, wx.EXPAND, 0 )
+        bParamGroup1.Add( bParamRow2, 0, wx.EXPAND, 0 )
+        bParamGroup1.Add( bParamRow3, 0, wx.EXPAND, 0 )
+        
+        #Market Group
+        bParamGroup2.Add( bParamRow4, 0, wx.EXPAND, 0 )
+        bParamGroup2.Add( bParamRow5, 0, wx.EXPAND, 0 )
+        
+
+        
+        # Add groups to panel
+        bSizerParams.Add( bParamGroup1, 1, wx.EXPAND, 0 )
+        bSizerParams.Add( bParamGroup2, 1, wx.EXPAND, 0 )
+        
+        #Refresh Button
+        bParamRefresh = wx.BoxSizer( wx.HORIZONTAL )
+        self.m_buttonRefresh = wx.Button( self.m_panelParams, wx.ID_ANY, u"Refresh Parameters", wx.DefaultPosition, wx.DefaultSize, 0 )
+        bParamRefresh.Add( self.m_buttonRefresh, 0, wx.ALL, 5 )
+        bSizerParams.Add( bParamRefresh, 0, wx.ALIGN_RIGHT, 5 )
+        
+        self.m_panelParams.SetSizer( bSizerParams )
+        self.m_panelParams.Layout()
+        bSizerParams.Fit( self.m_panelParams )
+        
+        self.m_notebookCentral.AddPage( self.m_panelParams, u"PARAMETERS", False )
+        
+
+        bSizerCentral.Add( self.m_notebookCentral, 1, wx.EXPAND |wx.ALL, 0 )
 
 
-        bSizerActiveArea.Add( bSizerCentral, 1, wx.EXPAND, 5 )
+        bSizerActiveArea.Add( bSizerCentral, 1, wx.EXPAND, 0 )
 
 #--RIGHT--###########################################################################################################################################################################################
         bSizerRight = wx.BoxSizer( wx.VERTICAL )
@@ -447,6 +477,7 @@ class frameMain ( wx.Frame ):
         self.m_dirPicker.Bind( wx.EVT_DIRPICKER_CHANGED, self.changeActiveDirectory )
         self.m_buttonAddRow.Bind( wx.EVT_BUTTON, self.addRow )
         self.m_buttonAddColumn.Bind( wx.EVT_BUTTON, self.addColumn )
+        self.m_buttonRefresh.Bind( wx.EVT_BUTTON, self.refreshParams )
         self.m_ActiveAssetList.Bind( wx.EVT_LIST_ITEM_SELECTED, self.listItemSelected )
         self.Bind( wx.EVT_MENU, self.createNewAsset, id = self.m_MenuItemAsset.GetId() )
         self.Bind( wx.EVT_MENU, self.saveData, id = self.m_DataSave.GetId() )
@@ -471,6 +502,23 @@ class frameMain ( wx.Frame ):
 
     def addColumn( self, event ):
         self.m_gridData.AppendCols()
+        event.Skip()
+        
+    def refreshParams( self, event ):
+        a = Dialogues.OPENTestDialogue(self)
+        #TODO maybe just having it as one array is hard to read...
+        a.parameters[0] = self.m_Param1Data.GetValue()
+        a.parameters[1] = self.m_Param2Data.GetValue()
+        a.parameters[2] = self.m_Param3Data.GetValue()
+        a.parameters[3] = self.m_Param4Data.GetValue()
+        a.parameters[4] = self.m_Param5Data.GetValue()
+        a.parameters[5] = self.m_Param6Data.GetValue()
+        a.parameters[6] = self.m_Param7Data.GetValue()
+        a.parameters[7] = self.m_Param8Data.GetValue()
+        a.parameters[8] = self.m_Param9Data.GetValue()
+        a.parameters[9] = self.m_Param10Data.GetValue()
+        a.parameters[10] = self.m_Param11Data.GetValue()
+        a.parameters[11] = self.m_Param12Data.GetValue()
         event.Skip()
 
     def listItemSelected( self, event ):
@@ -520,7 +568,7 @@ class frameMain ( wx.Frame ):
                     gotdata = data[row] #defined a data thing here for error handling
                 except IndexError:
                     gotdata = ''
-                if not data[row]:
+                if not data[row]: #Do I still need this???
                     self.m_gridData.SetCellValue(row, column, "")
                 else:
                     self.m_gridData.SetCellValue(row, column, str(gotdata))
@@ -534,12 +582,16 @@ class frameMain ( wx.Frame ):
         event.Skip()
 
     def runOPENTest( self, event ):
-        a = OPENTestDialogue(self).ShowModal()
-        print(a)
+        # Here we import network settings
+        # ex: StaticText int(voltage) str(name) for each
+        ##Bus1 vn_kv name
+        #pass this through to the dialogue... is that possible?
+        a = Dialogues.OPENTestDialogue(self)
+        print(a.ShowModal())
         event.Skip()
     
     def webHelp( self, event ):
-        web = WebHelpDialogue(self).ShowModal()
+        web = Dialogues.WebHelpDialogue(self).ShowModal()
         print(web)
         event.Skip()
 
