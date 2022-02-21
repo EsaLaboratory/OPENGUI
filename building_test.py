@@ -24,7 +24,7 @@ import System.EnergySystem as ES
 
 import sys
 
-def __main__(season_, network_, market_, assets_): #Import variables
+def __main__(season_, network_, market_, assets_, parameters_): #Import variables
         
     print('Code started.')
     #plt.close('all')
@@ -99,26 +99,46 @@ def __main__(season_, network_, market_, assets_): #Import variables
     for i in range(N_EVs):
         td_EVs[i] = np.max([td_EVs[i],ta_EVs[i]])
         E0_EVs[i] = np.max([E0_EVs[i],Emax_EV-P_max_EV*(td_EVs[i]-ta_EVs[i])])
+    # #Building parameters
+    # Tmax = 18 # degree celsius
+    # Tmin = 16 # degree celsius
+    # T0 = 17 # degree centigrade
+    # heatmax = 90 #kW Max heat supplied
+    # coolmax = 200 #kW Max cooling
+    # CoP_heating = 3# coefficient of performance - heating
+    # CoP_cooling = 1# coefficient of performance - cooling
+    # #Parameters from MultiSAVES
+    # C = 500 # kWh/ degree celsius
+    # R = 0.0337 #degree celsius/kW
+    # #Market parameters
+    # dt_market = dt_ems #market and EMS have the same time-series
+    # T_market = T_ems #market and EMS have same length
+    # prices_export = 0.04*np.ones(T_market) #money received of net exports
+    # prices_import = np.hstack((0.07*np.ones(int(T_market*7/24)), \
+    #                         0.15*np.ones(int(T_market*17/24)))) #price of net imports
+    # demand_charge = 0.10 #price per kW for the maximum demand
+    # Pmax_market = 500*np.ones(T_market) #maximum import power
+    # Pmin_market = -500*np.ones(T_market) #maximum export power
     #Building parameters
-    Tmax = 18 # degree celsius
-    Tmin = 16 # degree celsius
-    T0 = 17 # degree centigrade
-    heatmax = 90 #kW Max heat supplied
-    coolmax = 200 #kW Max cooling
-    CoP_heating = 3# coefficient of performance - heating
-    CoP_cooling = 1# coefficient of performance - cooling
+    Tmax = int(parameters_[0]) # degree celsius
+    Tmin = int(parameters_[1]) # degree celsius
+    T0 = int(parameters_[2]) # degree centigrade
+    heatmax = int(parameters_[3]) #kW Max heat supplied
+    coolmax = int(parameters_[4]) #kW Max cooling
+    CoP_heating = int(parameters_[5]) # coefficient of performance - heating
+    CoP_cooling = int(parameters_[6]) # coefficient of performance - cooling
     #Parameters from MultiSAVES
     C = 500 # kWh/ degree celsius
     R = 0.0337 #degree celsius/kW
     #Market parameters
     dt_market = dt_ems #market and EMS have the same time-series
     T_market = T_ems #market and EMS have same length
-    prices_export = 0.04*np.ones(T_market) #money received of net exports
-    prices_import = np.hstack((0.07*np.ones(int(T_market*7/24)), \
+    prices_export = float(parameters_[7])*np.ones(T_market) #money received of net exports
+    prices_import = np.hstack((float(parameters_[8])*np.ones(int(T_market*7/24)), \
                             0.15*np.ones(int(T_market*17/24)))) #price of net imports
-    demand_charge = 0.10 #price per kW for the maximum demand
-    Pmax_market = 500*np.ones(T_market) #maximum import power
-    Pmin_market = -500*np.ones(T_market) #maximum export power
+    demand_charge = float(parameters_[9]) #price per kW for the maximum demand
+    Pmax_market = int(parameters_[10])*np.ones(T_market) #maximum import power
+    Pmin_market = int(parameters_[11])*np.ones(T_market) #maximum export power
 
     #######################################
     ### STEP 2: setup the network

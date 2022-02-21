@@ -17,9 +17,10 @@ from wx import html2
 #Dialogues
 import Dialogues
 import Popups
+import AssetList
 
 # #OPEN
-# import building_test
+
 
 ###########################################################################
 ## Class frameMain
@@ -68,7 +69,12 @@ class frameMain ( wx.Frame ):
 
         bSizerPanelMainOPENLibrary = wx.BoxSizer( wx.VERTICAL )
 
+        # TREE
         self.m_treeCtrl = wx.TreeCtrl( self.m_panelOPENLibrary, wx.ID_ANY, wx.DefaultPosition, wx.DefaultSize, wx.TR_DEFAULT_STYLE )
+        self.m_EnergySystemRoot = self.m_treeCtrl.AddRoot(u"Energy System",-1,-1, None)
+        self.m_AssetsBranch = self.m_treeCtrl.AppendItem(self.m_EnergySystemRoot, u"Assets", -1, -1, None)
+        self.m_MarketBranch = self.m_treeCtrl.AppendItem(self.m_EnergySystemRoot, u"Market", -1, -1, None)
+        self.m_NetworkBranch = self.m_treeCtrl.AppendItem(self.m_EnergySystemRoot, u"Network", -1, -1, None)
         bSizerPanelMainOPENLibrary.Add( self.m_treeCtrl, 1, wx.EXPAND, 0 )
 
 
@@ -359,26 +365,26 @@ class frameMain ( wx.Frame ):
         self.m_propertyGrid = pg.PropertyGrid(self.m_panelSelectedAssetAttributes, wx.ID_ANY, wx.DefaultPosition, wx.DefaultSize, wx.propgrid.PG_DEFAULT_STYLE)
         self.m_propertyGrid.SetMinSize( wx.Size( 200,-1 ) )
 
-        self.m_propertyGridItem1 = self.m_propertyGrid.Append( pg.StringProperty( u"Name1", u"Name1" ) )
-        self.m_propertyGridItem2 = self.m_propertyGrid.Append( pg.StringProperty( u"Name2", u"Name2" ) )
-        self.m_propertyGridItem3 = self.m_propertyGrid.Append( pg.StringProperty( u"Name3", u"Name3" ) )
-        self.m_propertyGridItem4 = self.m_propertyGrid.Append( pg.StringProperty( u"Name4", u"Name4" ) )
-        self.m_propertyGridItem5 = self.m_propertyGrid.Append( pg.StringProperty( u"Name5", u"Name5" ) )
-        self.m_propertyGridItem6 = self.m_propertyGrid.Append( pg.StringProperty( u"Name6", u"Name6" ) )
-        self.m_propertyGridItem7 = self.m_propertyGrid.Append( pg.StringProperty( u"Name7", u"Name7" ) )
-        self.m_propertyGridItem8 = self.m_propertyGrid.Append( pg.StringProperty( u"Name8", u"Name8" ) )
-        self.m_propertyGridItem9 = self.m_propertyGrid.Append( pg.StringProperty( u"Name9", u"Name9" ) )
-        self.m_propertyGridItem10 = self.m_propertyGrid.Append( pg.StringProperty( u"Name10", u"Name10" ) )
-        self.m_propertyGridItem11 = self.m_propertyGrid.Append( pg.StringProperty( u"Name11", u"Name11" ) )
-        self.m_propertyGridItem12 = self.m_propertyGrid.Append( pg.StringProperty( u"Name12", u"Name12" ) )
-        self.m_propertyGridItem13 = self.m_propertyGrid.Append( pg.StringProperty( u"Name13", u"Name13" ) )
-        self.m_propertyGridItem14 = self.m_propertyGrid.Append( pg.StringProperty( u"Name14", u"Name14" ) )
-        self.m_propertyGridItem15 = self.m_propertyGrid.Append( pg.StringProperty( u"Name15", u"Name15" ) )
-        self.m_propertyGridItem16 = self.m_propertyGrid.Append( pg.StringProperty( u"Name16", u"Name16" ) )
-        self.m_propertyGridItem17 = self.m_propertyGrid.Append( pg.StringProperty( u"Name17", u"Name17" ) )
-        self.m_propertyGridItem18 = self.m_propertyGrid.Append( pg.StringProperty( u"Name18", u"Name18" ) )
-        self.m_propertyGridItem19 = self.m_propertyGrid.Append( pg.StringProperty( u"Name19", u"Name19" ) )
-        self.m_propertyGridItem20 = self.m_propertyGrid.Append( pg.StringProperty( u"Name20", u"Name20" ) )
+        # self.m_propertyGridItem1 = self.m_propertyGrid.Append( pg.StringProperty( u"Name1", u"Name1" ) )
+        # self.m_propertyGridItem2 = self.m_propertyGrid.Append( pg.StringProperty( u"Name2", u"Name2" ) )
+        # self.m_propertyGridItem3 = self.m_propertyGrid.Append( pg.StringProperty( u"Name3", u"Name3" ) )
+        # self.m_propertyGridItem4 = self.m_propertyGrid.Append( pg.StringProperty( u"Name4", u"Name4" ) )
+        # self.m_propertyGridItem5 = self.m_propertyGrid.Append( pg.StringProperty( u"Name5", u"Name5" ) )
+        # self.m_propertyGridItem6 = self.m_propertyGrid.Append( pg.StringProperty( u"Name6", u"Name6" ) )
+        # self.m_propertyGridItem7 = self.m_propertyGrid.Append( pg.StringProperty( u"Name7", u"Name7" ) )
+        # self.m_propertyGridItem8 = self.m_propertyGrid.Append( pg.StringProperty( u"Name8", u"Name8" ) )
+        # self.m_propertyGridItem9 = self.m_propertyGrid.Append( pg.StringProperty( u"Name9", u"Name9" ) )
+        # self.m_propertyGridItem10 = self.m_propertyGrid.Append( pg.StringProperty( u"Name10", u"Name10" ) )
+        # self.m_propertyGridItem11 = self.m_propertyGrid.Append( pg.StringProperty( u"Name11", u"Name11" ) )
+        # self.m_propertyGridItem12 = self.m_propertyGrid.Append( pg.StringProperty( u"Name12", u"Name12" ) )
+        # self.m_propertyGridItem13 = self.m_propertyGrid.Append( pg.StringProperty( u"Name13", u"Name13" ) )
+        # self.m_propertyGridItem14 = self.m_propertyGrid.Append( pg.StringProperty( u"Name14", u"Name14" ) )
+        # self.m_propertyGridItem15 = self.m_propertyGrid.Append( pg.StringProperty( u"Name15", u"Name15" ) )
+        # self.m_propertyGridItem16 = self.m_propertyGrid.Append( pg.StringProperty( u"Name16", u"Name16" ) )
+        # self.m_propertyGridItem17 = self.m_propertyGrid.Append( pg.StringProperty( u"Name17", u"Name17" ) )
+        # self.m_propertyGridItem18 = self.m_propertyGrid.Append( pg.StringProperty( u"Name18", u"Name18" ) )
+        # self.m_propertyGridItem19 = self.m_propertyGrid.Append( pg.StringProperty( u"Name19", u"Name19" ) )
+        # self.m_propertyGridItem20 = self.m_propertyGrid.Append( pg.StringProperty( u"Name20", u"Name20" ) )
         bSizerPanelMainSelectedAssetAttributes.Add( self.m_propertyGrid, 1, wx.EXPAND, 0 )
 
 
@@ -390,12 +396,13 @@ class frameMain ( wx.Frame ):
         bSizerMainPanelSelectedAssetAttributes.Fit( self.m_panelSelectedAssetAttributes )
         bSizerRight.Add( self.m_panelSelectedAssetAttributes, 1, wx.EXPAND, 0 )
 
+        # ACTIVE ASSET LIST
         self.m_panelActiveAssetList = wx.Panel( self, wx.ID_ANY, wx.DefaultPosition, wx.DefaultSize, wx.TAB_TRAVERSAL )
         bSizerMainPanelActiveAssetList = wx.BoxSizer( wx.VERTICAL )
 
         bSizerPanelMainActiveAssetList = wx.BoxSizer( wx.VERTICAL )
 
-        self.m_ActiveAssetList = wx.ListCtrl( self.m_panelActiveAssetList, wx.ID_ANY, wx.DefaultPosition, wx.DefaultSize, wx.LC_LIST )
+        self.m_ActiveAssetList = wx.ListCtrl( self.m_panelActiveAssetList, wx.ID_ANY, wx.DefaultPosition, wx.DefaultSize, wx.LC_REPORT | wx.BORDER_NONE | wx.LC_EDIT_LABELS )
         bSizerPanelMainActiveAssetList.Add( self.m_ActiveAssetList, 1, wx.EXPAND, 0 )
 
 
@@ -474,7 +481,8 @@ class frameMain ( wx.Frame ):
         self.Centre( wx.BOTH )
 
         # Connect Events
-        self.m_dirPicker.Bind( wx.EVT_DIRPICKER_CHANGED, self.changeActiveDirectory )
+        self.m_dirPicker.Bind( wx.EVT_DIRPICKER_CHANGED, self.changeActiveDirectory, )
+        self.Bind( wx.EVT_TREE_ITEM_ACTIVATED, self.branchSelect, self.m_treeCtrl )
         self.m_buttonAddRow.Bind( wx.EVT_BUTTON, self.addRow )
         self.m_buttonAddColumn.Bind( wx.EVT_BUTTON, self.addColumn )
         self.m_buttonRefresh.Bind( wx.EVT_BUTTON, self.refreshParams )
@@ -494,6 +502,12 @@ class frameMain ( wx.Frame ):
     # Virtual event handlers, override them in your derived class
     def changeActiveDirectory( self, event ):
         self.m_userLibrary.SetPath(self.m_dirPicker.GetPath())
+        event.Skip()
+    
+    def branchSelect( self, event ):
+        active = self.m_treeCtrl.GetItemText(event.GetItem())
+        print(f"Clicked on: {active}")
+        AssetList.populateAssetList(self, active)
         event.Skip()
 
     def addRow( self, event ):
@@ -522,6 +536,11 @@ class frameMain ( wx.Frame ):
         event.Skip()
 
     def listItemSelected( self, event ):
+        item = self.m_ActiveAssetList.GetFocusedItem()
+        asset_type = self.m_ActiveAssetList.GetItemText(item, col=1)
+        # print(item)
+        # print(data)
+        AssetList.populateParameterList(self, asset_type)
         event.Skip()
 
     def createNewAsset( self, event ):
