@@ -107,7 +107,7 @@ class WebHelpDialogue ( wx.Dialog ):
         # bWebHelpDialogueRow1 = wx.BoxSizer( wx.HORIZONTAL )
 
         self.m_browser = wx.html2.WebView.New(self.m_WebHelpDialogueActiveArea)
-        self.m_browser.LoadURL("gregorjmathieson.github.io/OPEN_GUI_Devlog/")
+        self.m_browser.LoadURL("gregorjmathieson.github.io/OPEN_GUI_Devlog/webhelp.html")
         bWebHelpDialogueSizer.Add( self.m_browser, 1, wx.EXPAND, 5)
         
         self.m_CloseOK = wx.Button( self.m_WebHelpDialogueActiveArea, wx.ID_ANY, u"OK", wx.DefaultPosition, wx.DefaultSize, 0 )
