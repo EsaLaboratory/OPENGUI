@@ -1,5 +1,7 @@
 import wx
-import building_test
+import building_test_copy
+import AssetList as ass
+import numpy as np
 # import CurrentFullCanvas
 
 ###########################################################################
@@ -19,13 +21,17 @@ class WebHelpDialogue ( wx.Dialog ):
         bWebHelpDialogueMainFrame = wx.BoxSizer( wx.VERTICAL )
 
         self.m_WebHelpDialogueActiveArea = wx.Panel( self, wx.ID_ANY, wx.DefaultPosition, wx.DefaultSize, wx.TAB_TRAVERSAL )
+        # self.m_WebHelpDialogueActiveArea = wx.ScrolledWindow( self, wx.ID_ANY, wx.DefaultPosition, wx.DefaultSize, wx.HSCROLL|wx.VSCROLL)
+        # self.m_WebHelpDialogueActiveArea.SetAutoLayout(1)
+        # self.m_WebHelpDialogueActiveArea.SetScrollRate(10,10)
         bWebHelpDialogueSizer = wx.BoxSizer( wx.VERTICAL )
 
         bWebHelpDialogueSizer.SetMinSize( wx.Size( 800,800 ) )
         # bWebHelpDialogueRow1 = wx.BoxSizer( wx.HORIZONTAL )
 
-        self.m_browser = wx.html2.WebView.New(self)
+        self.m_browser = wx.html2.WebView.New(self.m_WebHelpDialogueActiveArea)
         self.m_browser.LoadURL("gregorjmathieson.github.io/OPEN_GUI_Devlog/")
+        # self.m_browser.LoadURL("google.com")
         bWebHelpDialogueSizer.Add( self.m_browser, 1, wx.EXPAND, 5)
         
         self.m_CloseOK = wx.Button( self.m_WebHelpDialogueActiveArea, wx.ID_ANY, u"OK", wx.DefaultPosition, wx.DefaultSize, 0 )
@@ -58,15 +64,110 @@ class WebHelpDialogue ( wx.Dialog ):
         self.Close()
         event.Skip()
 
-# OPENTESTDIAGLOGUE ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-class OPENTestDialogue ( wx.Dialog ): #remember to come and change these variable names
+####################
+# NEW ASSET DIALOGUE
+####################
+class NewAssetDialogue ( wx.Dialog ):
 
     def __init__( self, parent ):
-        # #TEST HERE
-        # self.variable = 100
-        # ####
+        wx.Dialog.__init__ ( self, parent, id = wx.ID_ANY, title = u"New Asset", pos = wx.DefaultPosition, size = wx.DefaultSize, style = wx.DEFAULT_DIALOG_STYLE )
+
+        self.SetSizeHints( wx.DefaultSize, wx.DefaultSize )
+
+        bNewAssetDialogueFrameMain = wx.BoxSizer( wx.VERTICAL )
+
+        bNewAssetDialogueMainFrame = wx.BoxSizer( wx.VERTICAL )
+
+        self.m_NewAssetDialogueActiveArea = wx.Panel( self, wx.ID_ANY, wx.DefaultPosition, wx.DefaultSize, wx.TAB_TRAVERSAL )
+        bNewAssetDialogueSizer = wx.BoxSizer( wx.VERTICAL )
+
+        bNewAssetDialogueSizer.SetMinSize( wx.Size( 200,200 ) )
+        bNewAssetDialogueRow1 = wx.BoxSizer( wx.HORIZONTAL )
+
+        self.m_AssetType = wx.StaticText( self.m_NewAssetDialogueActiveArea, wx.ID_ANY, u"Asset Type", wx.DefaultPosition, wx.DefaultSize, 0 )
+        self.m_AssetType.Wrap( -1 )
+
+        bNewAssetDialogueRow1.Add( self.m_AssetType, 1, wx.ALL, 0 )
+
+        m_AssetTypeChoiceChoices = ["Asset", "Building", "Storage", "NonDispatch", "Asset (3 phase)", "Storage (3 phase)", "NonDispatch (3 phase)"]
+
+        self.m_AssetTypeChoice = wx.Choice( self.m_NewAssetDialogueActiveArea, wx.ID_ANY, wx.DefaultPosition, wx.DefaultSize, m_AssetTypeChoiceChoices, 0 )
+        self.m_AssetTypeChoice.SetSelection( 0 )
+        bNewAssetDialogueRow1.Add( self.m_AssetTypeChoice, 1, wx.ALL, 0 )
+
+
+        bNewAssetDialogueSizer.Add( bNewAssetDialogueRow1, 1, wx.EXPAND, 0 )
+
+        bNewAssetDialogueRow2 = wx.BoxSizer( wx.HORIZONTAL )
+
+        self.m_NewAssetAttribute1 = wx.StaticText( self.m_NewAssetDialogueActiveArea, wx.ID_ANY, u"Name", wx.DefaultPosition, wx.DefaultSize, 0 )
+        self.m_NewAssetAttribute1.Wrap( -1 )
+
+        bNewAssetDialogueRow2.Add( self.m_NewAssetAttribute1, 1, wx.ALL, 0 )
+
+        self.m_NewAssetAttribute1Value = wx.TextCtrl( self.m_NewAssetDialogueActiveArea, wx.ID_ANY, wx.EmptyString, wx.DefaultPosition, wx.DefaultSize, 0 )
+        bNewAssetDialogueRow2.Add( self.m_NewAssetAttribute1Value, 1, wx.ALL, 0 )
+
+
+        bNewAssetDialogueSizer.Add( bNewAssetDialogueRow2, 1, wx.EXPAND, 0 )
+
+        self.m_NewAssetOK = wx.Button( self.m_NewAssetDialogueActiveArea, wx.ID_ANY, u"OK", wx.DefaultPosition, wx.DefaultSize, 0 )
+        bNewAssetDialogueSizer.Add( self.m_NewAssetOK, 0, wx.ALIGN_RIGHT|wx.ALL, 5 )
+
+
+        self.m_NewAssetDialogueActiveArea.SetSizer( bNewAssetDialogueSizer )
+        self.m_NewAssetDialogueActiveArea.Layout()
+        bNewAssetDialogueSizer.Fit( self.m_NewAssetDialogueActiveArea )
+        bNewAssetDialogueMainFrame.Add( self.m_NewAssetDialogueActiveArea, 1, wx.EXPAND |wx.ALL, 5 )
+
+
+        bNewAssetDialogueFrameMain.Add( bNewAssetDialogueMainFrame, 1, wx.EXPAND, 5 )
+
+
+        self.SetSizer( bNewAssetDialogueFrameMain )
+        self.Layout()
+        bNewAssetDialogueFrameMain.Fit( self )
+
+        self.Centre( wx.BOTH )
+
+        # Connect Events
+        self.m_NewAssetOK.Bind( wx.EVT_BUTTON, self.newAssetOK)
+
+    def __del__( self ):
+        pass
+
+
+    # Virtual event handlers, override them in your derived class
+    def newAssetOK( self, event ):
+        ass.ActiveAsset(str(self.m_NewAssetAttribute1Value.GetValue()), self.m_AssetTypeChoice.GetString(self.m_AssetTypeChoice.GetSelection()))
+        # print(self.m_AssetTypeChoice.GetString(self.m_AssetTypeChoice.GetSelection()))
+        # print(self.m_AssetTypeChoice.GetSelection())
+        self.Close()
+        event.Skip()
+
+    # def getData(self):
+    #     data = []
+    #     # data.append(self.m_AssetTypeChoice.GetSelection().GetString()) #This doesn't work hmmmm
+    #     data.append(self.m_AssetTypeChoice.GetSelection())
+    #     # data.append(self.m_NewAssetAttribute1Value.GetValue())
+    #     # data.append(self.m_NewAssetAttribute1Value.GetValue())
+    #     return data
+
+##################################################################
+####################
+# OPENTESTDIAGLOGUE 
+####################
+class OPENTestDialogue ( wx.Dialog ): #remember to come and change these variable names
+    
+    assets = []
+    markets = []
+
+    def __init__( self, parent, curves_inherit, curve_container ):
         wx.Dialog.__init__ ( self, parent, id = wx.ID_ANY, title = u"OPEN Simulation Test Parameters", pos = wx.DefaultPosition, size = wx.DefaultSize, style = wx.DEFAULT_DIALOG_STYLE )
 
+        self.curves_inherit = curves_inherit
+        self.container = curve_container
+        
         self.SetSizeHints( wx.DefaultSize, wx.DefaultSize )
 
         bTestDialogueFrameMain = wx.BoxSizer( wx.VERTICAL )
@@ -190,10 +291,11 @@ class OPENTestDialogue ( wx.Dialog ): #remember to come and change these variabl
         #TODO make sure that there is an error case if the voltages aren't numbers!!!
         season, network = self.getData()
         print(season, network)
+        for asset in OPENTestDialogue.assets:
+            print(asset)
         #TODO add market and assets input
-        market = assets = 0 # for now
-        building_test.__main__(season, network, market, assets, self.parameters)
         self.Close()
+        building_test_copy.__main__(season, network, OPENTestDialogue.markets[0], OPENTestDialogue.assets, self.curves_inherit, self.container)
         event.Skip()
 
     def getData(self):

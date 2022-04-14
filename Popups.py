@@ -4,7 +4,62 @@ import wx
 ###########################################################################
 ## POP-UPS
 ###########################################################################
-#TODO add error dialog
+###########################
+# Error Popup generic case
+###########################
+class GenericError ( wx.Dialog ):
+
+    def __init__( self, text="Error!", parent=None):
+        wx.Dialog.__init__( self, parent, id = wx.ID_ANY, title = u"Error", pos = wx.DefaultPosition, size = wx.DefaultSize, style = wx.DEFAULT_DIALOG_STYLE )
+
+        self.SetSizeHints( wx.DefaultSize, wx.DefaultSize )
+
+        bErrorDialogueFrameMain = wx.BoxSizer( wx.VERTICAL )
+
+        bErrorDialogueMainFrame = wx.BoxSizer( wx.VERTICAL )
+
+        self.m_ErrorDialogueActiveArea = wx.Panel( self, wx.ID_ANY, wx.DefaultPosition, wx.DefaultSize, wx.TAB_TRAVERSAL )
+        bErrorDialogueSizer = wx.BoxSizer( wx.VERTICAL )
+
+        # bErrorDialogueSizer.SetMinSize( wx.Size( 800,400 ) )
+
+        #add static text here
+        self.m_label = wx.StaticText(self.m_ErrorDialogueActiveArea, -1, style = wx.ALIGN_CENTER)
+        self.m_font = wx.Font(10, wx.FONTFAMILY_DEFAULT, wx.FONTSTYLE_NORMAL, wx.FONTWEIGHT_BOLD, True)
+        self.m_txt = text
+        self.m_label.SetFont(self.m_font)
+        self.m_label.SetLabel(self.m_txt)
+        bErrorDialogueSizer.Add( self.m_label, 1, wx.ALIGN_CENTER|wx.ALL, 5 )
+
+        self.m_CloseOK = wx.Button( self.m_ErrorDialogueActiveArea, wx.ID_ANY, u"OK", wx.DefaultPosition, wx.DefaultSize, 0 )
+        bErrorDialogueSizer.Add( self.m_CloseOK, 1, wx.ALIGN_CENTER|wx.ALL, 5 )
+
+        self.m_ErrorDialogueActiveArea.SetSizer( bErrorDialogueSizer )
+        self.m_ErrorDialogueActiveArea.Layout()
+        bErrorDialogueSizer.Fit( self.m_ErrorDialogueActiveArea )
+        bErrorDialogueMainFrame.Add( self.m_ErrorDialogueActiveArea, 1, wx.EXPAND, 5 )
+
+
+        bErrorDialogueFrameMain.Add( bErrorDialogueMainFrame, 1, wx.EXPAND, 5 )
+
+
+        self.SetSizer( bErrorDialogueFrameMain )
+        self.Layout()
+        bErrorDialogueFrameMain.Fit( self )
+
+        self.Centre( wx.BOTH )
+
+        # Connect Events
+        self.m_CloseOK.Bind( wx.EVT_BUTTON, self.closeOK)
+
+    def __del__( self ):
+        pass
+
+    # Virtual event handlers, override them in your derived class
+    def closeOK( self, event ):
+
+        self.Close()
+        event.Skip()
 ###########################
 # Task Complete generic case
 ###########################

@@ -1,4 +1,6 @@
 import csv
+from distutils.log import error
+import Popups
 from os.path import exists as file_exists
 
 def writeToCSV(data, name):
@@ -11,8 +13,16 @@ def writeToCSV(data, name):
         writer.writerows(data)
 
 def readFromCSV(filename):
-    with open(filename + '.csv', newline='', encoding='utf-8-sig') as csvfile:
+    try:
+        csvfile = open(filename + '.csv', newline='', encoding='utf-8-sig')
+    except OSError:
+        error_popup = Popups.GenericError("File not found!")
+        error_popup.ShowModal()
+        return
+    with csvfile:
         filereader = csv.reader(csvfile)
         returndata = list(filereader)
         # print(returndata)
     return returndata
+
+# Eventually there will be an import data function here...
