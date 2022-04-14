@@ -52,12 +52,14 @@ class frameMain ( wx.Frame ):
         bSizerPanelMainUserLibrary = wx.BoxSizer( wx.VERTICAL )
 
     #Here I am using os.getcwd() to get the current directory
-        self.m_dirPicker = wx.DirPickerCtrl( self.m_panelUserLibrary, wx.ID_ANY, os.getcwd(), u"Select a folder", wx.DefaultPosition, wx.DefaultSize, wx.DIRP_DEFAULT_STYLE )
+        self.directory = os.getcwd()
+        self.m_dirPicker = wx.DirPickerCtrl( self.m_panelUserLibrary, wx.ID_ANY, self.directory, u"Select a folder", wx.DefaultPosition, wx.DefaultSize, wx.DIRP_DEFAULT_STYLE )
         bSizerPanelMainUserLibrary.Add( self.m_dirPicker, 0, 0, 1 )
 
-        self.m_userLibrary = wx.GenericDirCtrl( self.m_panelUserLibrary, wx.ID_ANY, os.getcwd(), wx.DefaultPosition, wx.DefaultSize, wx.DIRCTRL_3D_INTERNAL|wx.SUNKEN_BORDER, wx.EmptyString, 0 )
-
+        #User library
+        self.m_userLibrary = wx.GenericDirCtrl( self.m_panelUserLibrary, wx.ID_ANY, self.directory, wx.DefaultPosition, wx.DefaultSize, wx.DIRCTRL_3D_INTERNAL|wx.SUNKEN_BORDER, wx.EmptyString, 0 )
         self.m_userLibrary.ShowHidden( False )
+        
         bSizerPanelMainUserLibrary.Add( self.m_userLibrary, 1, wx.EXPAND, 1 )
 
 
@@ -154,7 +156,7 @@ class frameMain ( wx.Frame ):
         bSizerData = wx.BoxSizer( wx.VERTICAL )
         
         bSizerDataButtons = wx.BoxSizer( wx.HORIZONTAL )
-
+        
         self.m_buttonAddRow = wx.Button( self.m_panelDATA, wx.ID_ANY, u"Add Row", wx.DefaultPosition, wx.DefaultSize, 0 )
         bSizerDataButtons.Add( self.m_buttonAddRow, 0, wx.ALL, 5 )
 
@@ -199,6 +201,9 @@ class frameMain ( wx.Frame ):
 
 
         bSizerActiveArea.Add( bSizerCentral, 1, wx.EXPAND, 0 )
+        
+        #declare active file for csv imports
+        self.active_file = "data.csv"
 
 #--RIGHT--###########################################################################################################################################################################################
         bSizerRight = wx.BoxSizer( wx.VERTICAL )
@@ -253,7 +258,13 @@ class frameMain ( wx.Frame ):
 
         self.SetSizer( bSizerFrameMain )
         self.Layout()
+        
+#--StatusBar--###########################################################################################################################################################################################
         self.m_statusBar = self.CreateStatusBar( 1, wx.STB_DEFAULT_STYLE, wx.ID_ANY )
+        self.m_statusBar.SetFieldsCount(2)
+        self.m_statusBar.SetStatusText("OPEN GUI Alpha v0.01", 1)
+        
+#--MENU--###########################################################################################################################################################################################
         self.m_menuBar = wx.MenuBar( 0 )
     #File ---------------------------------
         self.m_menuFile = wx.Menu()
@@ -272,17 +283,17 @@ class frameMain ( wx.Frame ):
 
     #Data ---------------------------------------------------
         self.m_menuData = wx.Menu()
-        self.m_DataSave = wx.MenuItem( self.m_menuData, wx.ID_ANY, u"Save", wx.EmptyString, wx.ITEM_NORMAL )
+        self.m_DataSave = wx.MenuItem( self.m_menuData, wx.ID_ANY, u"Save Data", wx.EmptyString, wx.ITEM_NORMAL )
         self.m_menuData.Append( self.m_DataSave )
 
-        self.m_DataLoad = wx.MenuItem( self.m_menuData, wx.ID_ANY, u"Load", wx.EmptyString, wx.ITEM_NORMAL )
+        self.m_DataLoad = wx.MenuItem( self.m_menuData, wx.ID_ANY, u"Load Selected File", wx.EmptyString, wx.ITEM_NORMAL )
         self.m_menuData.Append( self.m_DataLoad )
 
-        self.m_DataImport = wx.MenuItem( self.m_menuData, wx.ID_ANY, u"Import", wx.EmptyString, wx.ITEM_NORMAL )
-        self.m_menuData.Append( self.m_DataImport )
+        # self.m_DataImport = wx.MenuItem( self.m_menuData, wx.ID_ANY, u"Import", wx.EmptyString, wx.ITEM_NORMAL )
+        # self.m_menuData.Append( self.m_DataImport )
 
-        self.m_DataExport = wx.MenuItem( self.m_menuData, wx.ID_ANY, u"Export", wx.EmptyString, wx.ITEM_NORMAL )
-        self.m_menuData.Append( self.m_DataExport )
+        # self.m_DataExport = wx.MenuItem( self.m_menuData, wx.ID_ANY, u"Export", wx.EmptyString, wx.ITEM_NORMAL )
+        # self.m_menuData.Append( self.m_DataExport )
 
         self.m_menuBar.Append( self.m_menuData, u"Data" )
 
@@ -311,6 +322,7 @@ class frameMain ( wx.Frame ):
         #TODO have a show info event for the asset list
         # Connect Events
         self.m_dirPicker.Bind( wx.EVT_DIRPICKER_CHANGED, self.changeActiveDirectory, )
+        self.m_userLibrary.Bind( wx.EVT_DIRCTRL_FILEACTIVATED, self.changeActiveFile)
         self.Bind( wx.EVT_TREE_ITEM_ACTIVATED, self.branchSelect, self.m_treeCtrl )
         # self.m_notebookCentral.Bind( wx.EVT_NOTEBOOK_PAGE_CHANGED, self.updateCurves )
         self.m_buttonAddRow.Bind( wx.EVT_BUTTON, self.addRow )
@@ -322,8 +334,8 @@ class frameMain ( wx.Frame ):
         self.Bind( wx.EVT_MENU, self.createNewMarket, id = self.m_MenuItemMarket.GetId() )
         self.Bind( wx.EVT_MENU, self.saveData, id = self.m_DataSave.GetId() )
         self.Bind( wx.EVT_MENU, self.loadData, id = self.m_DataLoad.GetId() )
-        self.Bind( wx.EVT_MENU, self.importData, id = self.m_DataImport.GetId() )
-        self.Bind( wx.EVT_MENU, self.exportData, id = self.m_DataExport.GetId() )
+        # self.Bind( wx.EVT_MENU, self.importData, id = self.m_DataImport.GetId() )
+        # self.Bind( wx.EVT_MENU, self.exportData, id = self.m_DataExport.GetId() )
         self.Bind( wx.EVT_MENU, self.runOPENTest, id = self.m_menuItemOPENTest.GetId() )
         self.Bind( wx.EVT_MENU, self.webHelp, id = self.m_webHelp.GetId() )
 
@@ -332,7 +344,18 @@ class frameMain ( wx.Frame ):
 
     # Virtual event handlers, override them in your derived class
     def changeActiveDirectory( self, event ):
-        self.m_userLibrary.SetPath(self.m_dirPicker.GetPath())
+        print(self.directory)
+        new_directory = self.m_dirPicker.GetPath()
+        self.directory = new_directory
+        self.m_userLibrary.SetPath(new_directory)
+        self.m_userLibrary.Layout()
+        self.m_userLibrary.FitInside()
+        print(self.directory)
+        event.Skip()
+        
+    def changeActiveFile (self, event ):
+        self.active_file = self.m_userLibrary.GetFilePath() #selected in ctrl
+        self.m_statusBar.SetStatusText(self.active_file)
         event.Skip()
     
     def branchSelect( self, event ):
@@ -403,6 +426,10 @@ class frameMain ( wx.Frame ):
         a = Dialogues.NewAssetDialogue(self)
         print(a.ShowModal())
         AssetList.populateAssetList(self, "Assets")
+        
+        #task complete
+        b = Popups.GenericTaskComplete(self)
+        print(b.ShowModal())
         event.Skip()
     
     def createNewMarket( self, event ):
@@ -410,9 +437,22 @@ class frameMain ( wx.Frame ):
         #TODO have market class instantiated here
         AssetList.ActiveMarket("Active Market")
         AssetList.populateAssetList(self, "Market")
+        
+        #task complete
+        b = Popups.GenericTaskComplete(self)
+        print(b.ShowModal())
         event.Skip()
 
     def saveData( self, event ):
+        #take active file as default save name
+        default_name = self.active_file.rsplit('\\', 1)[-1]   
+        default_name = default_name.rsplit('.', 1)[0]
+        print(default_name)
+
+        #take user input
+        a = Dialogues.SaveDialogue(self, default_name)
+        print(a.ShowModal())
+        
         #need a variable for rows and columns first... For now test with local variables:
         rows = self.m_gridData.GetNumberRows()
         columns = self.m_gridData.GetNumberCols()
@@ -424,14 +464,26 @@ class frameMain ( wx.Frame ):
                 inputdata.append(self.m_gridData.GetCellValue(row, column))
             outputdata.append(list(inputdata))
             inputdata = []
-        print(outputdata)
-        writeToCSV(outputdata, "data") #should have a dialogue here that displays what the filename is
+        # print(outputdata)
+        print(a.name)
+        writeToCSV(outputdata, a.name, a.filetype) #should have a dialogue here that displays what the filename is
         #also, is it possible to change the directory that it saves in? Eventually there should be a DATA folder...
+        
+        #task complete
+        b = Popups.GenericTaskComplete(self)
+        print(b.ShowModal())
+        
+        #Set selected folder to SaveData
+        new_directory = os.getcwd() + r"\SaveData\data.csv"
+        self.m_userLibrary.SetPath(new_directory)
+        self.m_userLibrary.Layout()
+        self.m_userLibrary.FitInside()
         event.Skip()
 
     def loadData( self, event ):
         #TODO save data with name
-        loadeddata = readFromCSV("data")
+        loadeddata = readFromCSV(self.active_file)
+        # loadeddata = readFromCSV("data")
         if loadeddata == None: return
         
         rows = self.m_gridData.GetNumberRows()
@@ -460,14 +512,17 @@ class frameMain ( wx.Frame ):
                     self.m_gridData.SetCellValue(row, column, "")
                 else:
                     self.m_gridData.SetCellValue(row, column, str(gotdata))
-        # Should definitely have a "Done!" pop-up
+
+        #task complete
+        b = Popups.GenericTaskComplete(self)
+        print(b.ShowModal())
         event.Skip()
 
-    def importData( self, event ):
-        event.Skip()
+    # def importData( self, event ):
+    #     event.Skip()
 
-    def exportData( self, event ):
-        event.Skip()
+    # def exportData( self, event ):
+    #     event.Skip()
     
     def updateCurves(self):
         self.m_curves.Clear()
@@ -496,6 +551,10 @@ class frameMain ( wx.Frame ):
         print(a.ShowModal())
         self.updateCurves()
         self.refreshModels()
+        
+        #task complete
+        b = Popups.GenericTaskComplete(self)
+        print(b.ShowModal())
         event.Skip()
     
     def webHelp( self, event ):

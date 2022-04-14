@@ -18,15 +18,13 @@ import picos as pic
 import matplotlib.pyplot as plt
 from datetime import date, timedelta
 
-import sys
-import wx
-
 import System.Assets as AS
 import System.Markets as MK
 import System.EnergySystem as ES
 
+import sys
 
-def __main__(season_, network_, market_, assets_, curve_, container_): #Import variables
+def __main__(season_, network_, market_, assets_, parameters_): #Import variables
         
     print('Code started.')
     #plt.close('all')
@@ -71,7 +69,7 @@ def __main__(season_, network_, market_, assets_, curve_, container_): #Import v
     PVtotal_smr = np.sum(PVpu_raw_smr,1)
     PVtotal_wtr = np.sum(PVpu_raw_wtr,1)
 
-    if season_ == 0:
+    if winterFlag == False:
         PVpu = PVtotal_smr/np.max(PVtotal_smr)
     else:
         PVpu = PVtotal_wtr/np.max(PVtotal_smr)
@@ -101,46 +99,46 @@ def __main__(season_, network_, market_, assets_, curve_, container_): #Import v
     for i in range(N_EVs):
         td_EVs[i] = np.max([td_EVs[i],ta_EVs[i]])
         E0_EVs[i] = np.max([E0_EVs[i],Emax_EV-P_max_EV*(td_EVs[i]-ta_EVs[i])])
-    #Building parameters
-    Tmax = 18 # degree celsius
-    Tmin = 16 # degree celsius
-    T0 = 17 # degree centigrade
-    heatmax = 90 #kW Max heat supplied
-    coolmax = 200 #kW Max cooling
-    CoP_heating = 3# coefficient of performance - heating
-    CoP_cooling = 1# coefficient of performance - cooling
-    #Parameters from MultiSAVES
-    C = 500 # kWh/ degree celsius
-    R = 0.0337 #degree celsius/kW
-    #Market parameters
-    market_.dt_market = dt_ems #market and EMS have the same time-series
-    T_market = T_ems #market and EMS have same length
-    market_.prices_export *= np.ones(T_market) #money received of net exports
-    market_.prices_import = np.hstack((0.07*np.ones(int(T_market*7/24)), \
-                            0.15*np.ones(int(T_market*17/24)))) #price of net imports #TODO make this input more clear
-    market_.demand_charge = 0.10 #price per kW for the maximum demand
-    market_.Pmax = 500*np.ones(T_market) #maximum import power
-    market_.Pmin = -500*np.ones(T_market) #maximum export power
     # #Building parameters
-    # Tmax = int(parameters_[0]) # degree celsius
-    # Tmin = int(parameters_[1]) # degree celsius
-    # T0 = int(parameters_[2]) # degree centigrade
-    # heatmax = int(parameters_[3]) #kW Max heat supplied
-    # coolmax = int(parameters_[4]) #kW Max cooling
-    # CoP_heating = int(parameters_[5]) # coefficient of performance - heating
-    # CoP_cooling = int(parameters_[6]) # coefficient of performance - cooling
+    # Tmax = 18 # degree celsius
+    # Tmin = 16 # degree celsius
+    # T0 = 17 # degree centigrade
+    # heatmax = 90 #kW Max heat supplied
+    # coolmax = 200 #kW Max cooling
+    # CoP_heating = 3# coefficient of performance - heating
+    # CoP_cooling = 1# coefficient of performance - cooling
     # #Parameters from MultiSAVES
     # C = 500 # kWh/ degree celsius
     # R = 0.0337 #degree celsius/kW
     # #Market parameters
     # dt_market = dt_ems #market and EMS have the same time-series
     # T_market = T_ems #market and EMS have same length
-    # prices_export = float(parameters_[7])*np.ones(T_market) #money received of net exports
-    # prices_import = np.hstack((float(parameters_[8])*np.ones(int(T_market*7/24)), \
+    # prices_export = 0.04*np.ones(T_market) #money received of net exports
+    # prices_import = np.hstack((0.07*np.ones(int(T_market*7/24)), \
     #                         0.15*np.ones(int(T_market*17/24)))) #price of net imports
-    # demand_charge = float(parameters_[9]) #price per kW for the maximum demand
-    # Pmax_market = int(parameters_[10])*np.ones(T_market) #maximum import power
-    # Pmin_market = int(parameters_[11])*np.ones(T_market) #maximum export power
+    # demand_charge = 0.10 #price per kW for the maximum demand
+    # Pmax_market = 500*np.ones(T_market) #maximum import power
+    # Pmin_market = -500*np.ones(T_market) #maximum export power
+    #Building parameters
+    Tmax = int(parameters_[0]) # degree celsius
+    Tmin = int(parameters_[1]) # degree celsius
+    T0 = int(parameters_[2]) # degree centigrade
+    heatmax = int(parameters_[3]) #kW Max heat supplied
+    coolmax = int(parameters_[4]) #kW Max cooling
+    CoP_heating = int(parameters_[5]) # coefficient of performance - heating
+    CoP_cooling = int(parameters_[6]) # coefficient of performance - cooling
+    #Parameters from MultiSAVES
+    C = 500 # kWh/ degree celsius
+    R = 0.0337 #degree celsius/kW
+    #Market parameters
+    dt_market = dt_ems #market and EMS have the same time-series
+    T_market = T_ems #market and EMS have same length
+    prices_export = float(parameters_[7])*np.ones(T_market) #money received of net exports
+    prices_import = np.hstack((float(parameters_[8])*np.ones(int(T_market*7/24)), \
+                            0.15*np.ones(int(T_market*17/24)))) #price of net imports
+    demand_charge = float(parameters_[9]) #price per kW for the maximum demand
+    Pmax_market = int(parameters_[10])*np.ones(T_market) #maximum import power
+    Pmin_market = int(parameters_[11])*np.ones(T_market) #maximum export power
 
     #######################################
     ### STEP 2: setup the network
@@ -173,54 +171,42 @@ def __main__(season_, network_, market_, assets_, curve_, container_): #Import v
     nondispatch_assets = []
 
     #PV source at bus 3
-    assets_[1].Pnet = -PVpu*Ppv_nom #100kW PV plant
-    assets_[1].Qnet = np.zeros(T)
-    assets_[1].bus_id = bus3
-    # PV_gen_bus3 = AS.NondispatchableAsset(Pnet, Qnet, bus3, dt, T)
-    # nondispatch_assets.append(PV_gen_bus3)
-    PV_gen_bus3 = assets_[1]
+    Pnet = -PVpu*Ppv_nom #100kW PV plant
+    Qnet = np.zeros(T)
+    PV_gen_bus3 = AS.NondispatchableAsset(Pnet, Qnet, bus3, dt, T)
     nondispatch_assets.append(PV_gen_bus3)
 
     #Load at bus 3
-    assets_[2].Pnet = np.sum(Loads,1) #summed load across 120 households
-    assets_[2].Qnet = np.zeros(T)
-    assets_[2].bus_id = bus3
-    # load_bus3 = AS.NondispatchableAsset(Pnet, Qnet, bus3, dt, T)
-    load_bus3 = assets_[2]
+    Pnet = np.sum(Loads,1) #summed load across 120 households
+    Qnet = np.zeros(T)
+    load_bus3 = AS.NondispatchableAsset(Pnet, Qnet, bus3, dt, T)
     nondispatch_assets.append(load_bus3)
-    # nondispatch_assets.append(assets_[2])
 
     #Building asset at bus 3
-    # Tmax_bldg_i = Tmax*np.ones(T_ems)
-    # Tmin_bldg_i = Tmin*np.ones(T_ems)
-    # Hmax_bldg_i = heatmax
-    # Cmax_bldg_i = coolmax
-    # T0_i = T0
-    # C_i = C
-    # R_i = R
-    # CoP_heating_i = CoP_heating
-    # CoP_cooling_i = CoP_cooling
-    if season_ == 1:
-        assets_[0].Ta = 10*np.ones(T_ems)
+    Tmax_bldg_i = Tmax*np.ones(T_ems)
+    Tmin_bldg_i = Tmin*np.ones(T_ems)
+    Hmax_bldg_i = heatmax
+    Cmax_bldg_i = coolmax
+    T0_i = T0
+    C_i = C
+    R_i = R
+    CoP_heating_i = CoP_heating
+    CoP_cooling_i = CoP_cooling
+    if winterFlag == True:
+        Ta_i = 10*np.ones(T_ems)
     else:
-        assets_[0].Ta = 22*np.ones(T_ems)
-    # bus_id_bldg_i = bus3
-    assets_[0].bus_id = bus3
-    # bldg_i = AS.BuildingAsset(Tmax_bldg_i, Tmin_bldg_i, Hmax_bldg_i, Cmax_bldg_i, T0_i, C_i, R_i, CoP_heating_i, CoP_cooling_i, Ta_i, bus_id_bldg_i, dt, T, dt_ems, T_ems)
-    bldg_i = assets_[0]
+        Ta_i = 22*np.ones(T_ems)
+    bus_id_bldg_i = bus3
+    bldg_i = AS.BuildingAsset(Tmax_bldg_i, Tmin_bldg_i, Hmax_bldg_i, Cmax_bldg_i, T0_i, C_i, R_i, CoP_heating_i, CoP_cooling_i, Ta_i, bus_id_bldg_i, dt, T, dt_ems, T_ems)
     building_assets.append(bldg_i)
-    # building_assets.append(assets_[0])
     N_BLDGs = len(building_assets)
         
     #######################################
     ### STEP 4: setup the market
     #######################################
         
-    # bus_id_market = bus1
-    # market = MK.Market(bus_id_market, prices_export, prices_import, demand_charge, Pmax_market, Pmin_market, dt_market, T_market)
-    market_.bus_id = bus1
-    market = market_
-    # print("Hello!", market)
+    bus_id_market = bus1
+    market = MK.Market(bus_id_market, prices_export, prices_import, demand_charge, Pmax_market, Pmin_market, dt_market, T_market)
 
     #######################################
     #STEP 5: setup the energy system
@@ -256,10 +242,7 @@ def __main__(season_, network_, market_, assets_, curve_, container_): #Import v
     #######################################
     ### STEP 7: plot results
     #######################################
-    import curves # using the curvespanel class...
-    #TODO how do these plots work...?
-    #FIXME make sure all relevant info is carried across
-    
+
     #x-axis time values
     time = dt*np.arange(T)
     time_ems = dt_ems*np.arange(T_ems)
@@ -272,19 +255,13 @@ def __main__(season_, network_, market_, assets_, curve_, container_): #Import v
     #Plot the base demand and the total imported power
     plt.figure(num=None, figsize=(6, 3), dpi=80, facecolor='w', edgecolor='k')
     plt.plot(time,P_demand_base,'--',label='Base Demand')
-    #HERE
-    curves.newgraph(curve_, time, P_demand_base, '--', 'Base Demand')
-    # plt.plot(time,Pnet_market,label='Total Power Imported')
-    #HERE
-    # curves.newgraph(curve_, time, Pnet_market)
+    plt.plot(time,Pnet_market,label='Total Power Imported')
     plt.ylabel('Power (kW)')
     plt.xlabel('Time (h)')
     plt.xlim(0, max(time))
     plt.legend()
     plt.grid(True,alpha=0.5)
     plt.tight_layout()
-    #Here!
-    curves.newgraph(curve_, time, P_demand_base, '--', 'Base Demand', 'Time (h)', 'Power (kW)', time, Pnet_market, '-', 'Total Power Imported')
 
     Pnet_market_30min_avg = np.zeros(T_ems)
     for t_ems in range(T_ems):
@@ -294,19 +271,13 @@ def __main__(season_, network_, market_, assets_, curve_, container_): #Import v
     plt.figure(figsize=(6, 12), dpi=80, facecolor='w')
     plt.subplot(4,1,1)
     plt.plot(time_ems,market.prices_import)
-    #HERE
-    curves.newgraph(curve_, time_ems, market.prices_import, '-', '', 'Time (h)', 'Price (£/kWh)')
     plt.grid(True,alpha=0.5)
     plt.ylabel('Price (£/kWh)')
     plt.xlabel('Time (h)')
     plt.xlim(0, max(time_ems))
     ax0 = plt.subplot(4,1,2)
     plt.plot(time_ems,P_demand_ems,label='Base Demand (EMS)')
-    #HERE
-    curves.newgraph(curve_, time_ems, P_demand_ems)
     plt.plot(time_ems,P_demand_ems+np.sum(P_BLDG_ems,1),label='Total Demand (EMS)')
-    #HERE
-    curves.newgraph(curve_, time_ems, P_demand_ems+np.sum(P_BLDG_ems,1))
     plt.ylabel('Overall Power (kW)')
     plt.xlabel('Time (h)')
     plt.xlim(0, max(time_ems))
@@ -315,20 +286,14 @@ def __main__(season_, network_, market_, assets_, curve_, container_): #Import v
     ax1=plt.subplot(4, 1, 3)
     for i in range(N_BLDGs):
         ax1.plot(time,building_assets[i].Pnet,color='C0')
-
     ax1.set_ylabel('HVAC Power (kW)')
     ax1.set_xlabel('Time (h)')
     plt.grid(True,alpha=0.5)
     ax2=plt.subplot(4, 1, 4)
     for i in range(N_BLDGs):
         ax2.plot(time_ems,building_assets[i].T_int,color='C0')
-
     ax2.plot(time_ems,building_assets[i].Tmax*np.ones(T_ems),'k:')
-    #HERE
-    curves.newgraph(curve_, time_ems, market.prices_import)
     ax2.plot(time_ems,building_assets[i].Tmin*np.ones(T_ems),'k:')
-    #HERE
-    curves.newgraph(curve_, time_ems, building_assets[i].Tmin*np.ones(T_ems))
     ax2.set_ylabel('Internal\nTemperature ($^{o}C$)')
     ax2.set_xlabel('Time (h)')
     ax0.set_xlim(0, max(time_ems))
@@ -357,7 +322,7 @@ def __main__(season_, network_, market_, assets_, curve_, container_): #Import v
 
     #Final plots
     #Base and total demand
-    if not season_:
+    if not winterFlag:
         season_str = '_summer'
     else:
         season_str = '_winter'
@@ -366,11 +331,7 @@ def __main__(season_, network_, market_, assets_, curve_, container_): #Import v
 
     plt.figure(num=None, figsize=(6, 2.5), dpi=80, facecolor='w', edgecolor='k') #6,3.75
     plt.plot(time,P_demand_base,'--',label='Base Demand')
-    #HERE
-    curves.newgraph(curve_, time, P_demand_base)
     plt.plot(time,Pnet_market,label='Total Demand')
-    #HERE
-    curves.newgraph(curve_, time, Pnet_market)
     plt.xticks([0,8,16,max(time)],('00:00', '08:00', '16:00', '00:00'))
     plt.xlabel('Time (hh:mm)')
     plt.xlim(0, max(time))
@@ -385,7 +346,7 @@ def __main__(season_, network_, market_, assets_, curve_, container_): #Import v
     plt.savefig(join(path_string, normpath('Demand' + season_str + save_suffix)),
                 bbox_inches='tight')
     #HVAC Power
-    if not season_:
+    if not winterFlag:
         plt.figure(num=None, figsize=(6, 2.5), dpi=80, facecolor='w', edgecolor='k') #6,3.75
         for i in range(N_BLDGs):
             plt.plot(time,building_assets[i].Pnet,color='C0',label='HVAC Cooling',zorder=10)
@@ -427,11 +388,7 @@ def __main__(season_, network_, market_, assets_, curve_, container_): #Import v
     for i in range(N_BLDGs):
         plt.plot(time_ems,building_assets[i].T_int,color='C0',label = 'Temperature')
     plt.plot(time_ems,building_assets[i].Tmax*np.ones(T_ems),'r:',linestyle = ':', zorder=11,label = 'Limits')
-    #HERE
-    curves.newgraph(curve_, time_ems, building_assets[i].Tmax*np.ones(T_ems))
     plt.plot(time_ems,building_assets[i].Tmin*np.ones(T_ems),'r:',linestyle = ':', zorder=11)
-    #HERE
-    curves.newgraph(curve_, time_ems, building_assets[i].Tmin*np.ones(T_ems))
     plt.xticks([0,8,16,23.75],('00:00', '08:00', '16:00', '00:00'))
     plt.xlabel('Time (hh:mm)')
     plt.xlim(0, max(time_ems))
@@ -450,17 +407,10 @@ def __main__(season_, network_, market_, assets_, curve_, container_): #Import v
     #Plot to check that for each interval of the EMS either P_import = 0 or P_exports = 0
     plt.figure(num=None, figsize=(6, 3), dpi=80, facecolor='w', edgecolor='k')
     plt.plot(time_ems,P_import_ems,label='Imported Power (EMS)')
-    #HERE
-    curves.newgraph(curve_, time_ems, P_import_ems)
     plt.plot(time_ems,P_export_ems,label='Exported Power (EMS)')
-    #HERE
-    curves.newgraph(curve_, time_ems, P_export_ems)
     plt.ylabel('Power (kW)')
     plt.xlabel('Time (h)')
     plt.legend()
     plt.grid(True,alpha=0.5)
     plt.tight_layout()
 
-    # for plot in curves.plots:
-    #     container_.Add(plot, 1, wx.ALL, 5)
-    #     plot.draw()

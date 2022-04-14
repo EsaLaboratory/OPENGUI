@@ -1,5 +1,5 @@
 import wx
-import building_test_copy
+import building_test
 import AssetList as ass
 import numpy as np
 # import CurrentFullCanvas
@@ -7,6 +7,83 @@ import numpy as np
 ###########################################################################
 ## DIALOGUE
 ###########################################################################
+####################
+# Save File DIALOGUE
+####################
+class SaveDialogue ( wx.Dialog ):
+
+    def __init__( self, parent, initial=""):
+        wx.Dialog.__init__ ( self, parent, id = wx.ID_ANY, title = u"Save Data", pos = wx.DefaultPosition, size = wx.DefaultSize, style = wx.DEFAULT_DIALOG_STYLE )
+
+        #initialise variables
+        self.name = ""
+        self.filetype = ""
+
+        self.SetSizeHints( wx.DefaultSize, wx.DefaultSize )
+
+        bSaveDialogueFrameMain = wx.BoxSizer( wx.VERTICAL )
+
+        bSaveDialogueMainFrame = wx.BoxSizer( wx.VERTICAL )
+
+        self.m_SaveDialogueActiveArea = wx.Panel( self, wx.ID_ANY, wx.DefaultPosition, wx.DefaultSize, wx.TAB_TRAVERSAL )
+        bSaveDialogueSizer = wx.BoxSizer( wx.VERTICAL )
+
+        bSaveDialogueSizer.SetMinSize( wx.Size( 200,60 ) )
+        bSaveDialogueRow1 = wx.BoxSizer( wx.HORIZONTAL )
+        
+        self.m_SaveAttribute1 = wx.StaticText( self.m_SaveDialogueActiveArea, wx.ID_ANY, u"File Name", wx.DefaultPosition, wx.DefaultSize, 0 )
+        self.m_SaveAttribute1.Wrap( -1 )
+
+        bSaveDialogueRow1.Add( self.m_SaveAttribute1, 1, wx.ALL, 0 )
+        
+        self.m_SaveAttribute1Value = wx.TextCtrl( self.m_SaveDialogueActiveArea, wx.ID_ANY, initial, wx.DefaultPosition, wx.DefaultSize, 0 )
+        bSaveDialogueRow1.Add( self.m_SaveAttribute1Value, 1, wx.ALL, 0 )
+
+        m_FileTypeChoiceChoices = [".csv", ".txt"]
+
+        self.m_FileTypeChoice = wx.Choice( self.m_SaveDialogueActiveArea, wx.ID_ANY, wx.DefaultPosition, wx.DefaultSize, m_FileTypeChoiceChoices, 0 )
+        self.m_FileTypeChoice.SetSelection( 0 )
+        bSaveDialogueRow1.Add( self.m_FileTypeChoice, 1, wx.ALL, 0 )
+
+        bSaveDialogueSizer.Add( bSaveDialogueRow1, 1, wx.EXPAND, 0 )
+
+        self.m_SaveOK = wx.Button( self.m_SaveDialogueActiveArea, wx.ID_ANY, u"OK", wx.DefaultPosition, wx.DefaultSize, 0 )
+        bSaveDialogueSizer.Add( self.m_SaveOK, 0, wx.ALIGN_RIGHT|wx.ALL, 5 )
+
+
+        self.m_SaveDialogueActiveArea.SetSizer( bSaveDialogueSizer )
+        self.m_SaveDialogueActiveArea.Layout()
+        bSaveDialogueSizer.Fit( self.m_SaveDialogueActiveArea )
+        bSaveDialogueMainFrame.Add( self.m_SaveDialogueActiveArea, 1, wx.EXPAND |wx.ALL, 5 )
+
+
+        bSaveDialogueFrameMain.Add( bSaveDialogueMainFrame, 1, wx.EXPAND, 5 )
+
+
+        self.SetSizer( bSaveDialogueFrameMain )
+        self.Layout()
+        bSaveDialogueFrameMain.Fit( self )
+
+        self.Centre( wx.BOTH )
+
+        # Connect Events
+        self.m_SaveOK.Bind( wx.EVT_BUTTON, self.saveOK)
+
+    def __del__( self ):
+        pass
+
+
+    # Virtual event handlers, override them in your derived class
+    def saveOK( self, event ):
+        # ass.ActiveAsset(str(self.m_SaveAttribute1Value.GetValue()), self.m_AssetTypeChoice.GetString(self.m_AssetTypeChoice.GetSelection()))
+        print(self.m_FileTypeChoice.GetString(self.m_FileTypeChoice.GetSelection()))
+        # print(self.m_FileTypeChoice.GetSelection())
+        self.name = self.m_SaveAttribute1Value.GetValue()
+        self.filetype = self.m_FileTypeChoice.GetString(self.m_FileTypeChoice.GetSelection())
+        self.Close()
+        event.Skip()
+        
+#####################
 # Class WebDialogue
 #####################
 class WebHelpDialogue ( wx.Dialog ):
@@ -31,7 +108,6 @@ class WebHelpDialogue ( wx.Dialog ):
 
         self.m_browser = wx.html2.WebView.New(self.m_WebHelpDialogueActiveArea)
         self.m_browser.LoadURL("gregorjmathieson.github.io/OPEN_GUI_Devlog/")
-        # self.m_browser.LoadURL("google.com")
         bWebHelpDialogueSizer.Add( self.m_browser, 1, wx.EXPAND, 5)
         
         self.m_CloseOK = wx.Button( self.m_WebHelpDialogueActiveArea, wx.ID_ANY, u"OK", wx.DefaultPosition, wx.DefaultSize, 0 )
@@ -295,7 +371,7 @@ class OPENTestDialogue ( wx.Dialog ): #remember to come and change these variabl
             print(asset)
         #TODO add market and assets input
         self.Close()
-        building_test_copy.__main__(season, network, OPENTestDialogue.markets[0], OPENTestDialogue.assets, self.curves_inherit, self.container)
+        building_test.__main__(season, network, OPENTestDialogue.markets[0], OPENTestDialogue.assets, self.curves_inherit, self.container)
         event.Skip()
 
     def getData(self):
