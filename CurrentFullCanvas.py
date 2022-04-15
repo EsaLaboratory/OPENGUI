@@ -12,6 +12,7 @@ import wx.xrc
 import wx.grid
 import wx.propgrid as pg
 from wx import html2
+from webbrowser import open as link
 
 #Dialogues
 import Dialogues
@@ -157,6 +158,9 @@ class frameMain ( wx.Frame ):
         
         bSizerDataButtons = wx.BoxSizer( wx.HORIZONTAL )
         
+        self.m_buttonClearAll = wx.Button( self.m_panelDATA, wx.ID_ANY, u"Clear All", wx.DefaultPosition, wx.DefaultSize, 0 )
+        bSizerDataButtons.Add( self.m_buttonClearAll, 0, wx.ALL, 5 )
+        
         self.m_buttonAddRow = wx.Button( self.m_panelDATA, wx.ID_ANY, u"Add Row", wx.DefaultPosition, wx.DefaultSize, 0 )
         bSizerDataButtons.Add( self.m_buttonAddRow, 0, wx.ALL, 5 )
 
@@ -165,7 +169,7 @@ class frameMain ( wx.Frame ):
         bSizerData.Add( bSizerDataButtons, 0, wx.ALIGN_RIGHT, 0 )
 
         self.m_gridData = wx.grid.Grid( self.m_panelDATA, wx.ID_ANY, wx.DefaultPosition, wx.DefaultSize, 0 )
-        #TODO add a clear all button
+
         #Grid Variables
         Default_Rows = 100
         Default_Columns = 30
@@ -276,8 +280,8 @@ class frameMain ( wx.Frame ):
         
         self.m_menuFile.AppendSubMenu( self.m_subMenuNew, u"New" )
 
-        self.m_Quit = wx.Menu()
-        self.m_menuFile.AppendSubMenu( self.m_Quit, u"Quit" )
+        self.m_menuQuit = wx.MenuItem(self.m_menuFile, wx.ID_ANY, u"Quit", wx.EmptyString, wx.ITEM_NORMAL)
+        self.m_menuFile.Append( self.m_menuQuit )
 
         self.m_menuBar.Append( self.m_menuFile, u"File" )
 
@@ -309,8 +313,14 @@ class frameMain ( wx.Frame ):
 
     #Help -------------------------------------------------------
         self.m_menuHelp = wx.Menu()
-        self.m_webHelp = wx.MenuItem( self.m_menuHelp, wx.ID_ANY, u"Web Help", wx.EmptyString, wx.ITEM_NORMAL )
-        self.m_menuHelp.Append( self.m_webHelp )
+        self.m_videoTutorials = wx.MenuItem( self.m_menuHelp, wx.ID_ANY, u"Video Tutorials (Opens in Default Browser)", "https://gregorjmathieson.github.io/OPEN_GUI_Devlog/webhelp.html", wx.ITEM_NORMAL )
+        self.m_menuHelp.Append( self.m_videoTutorials )
+        
+        self.m_OPENDocs = wx.MenuItem( self.m_menuHelp, wx.ID_ANY, u"OPEN Documentation", "https://open-platform-for-energy-networks.readthedocs.io/en/latest/api_reference.html", wx.ITEM_NORMAL )
+        self.m_menuHelp.Append( self.m_OPENDocs )
+        
+        self.m_reportIssue = wx.MenuItem( self.m_menuHelp, wx.ID_ANY, u"Report an Issue (Opens in Default Browser)", "https://github.com/gregorjmathieson/OPENGUI/issues/new", wx.ITEM_NORMAL )
+        self.m_menuHelp.Append( self.m_reportIssue )
 
         self.m_menuBar.Append( self.m_menuHelp, u"Help")
 
@@ -320,24 +330,30 @@ class frameMain ( wx.Frame ):
 
         self.Centre( wx.BOTH )
         #TODO have a show info event for the asset list
-        # Connect Events
+
+
+#--EVENTS--###########################################################################################################################################################################################
+
         self.m_dirPicker.Bind( wx.EVT_DIRPICKER_CHANGED, self.changeActiveDirectory, )
         self.m_userLibrary.Bind( wx.EVT_DIRCTRL_FILEACTIVATED, self.changeActiveFile)
         self.Bind( wx.EVT_TREE_ITEM_ACTIVATED, self.branchSelect, self.m_treeCtrl )
         # self.m_notebookCentral.Bind( wx.EVT_NOTEBOOK_PAGE_CHANGED, self.updateCurves )
+        self.m_buttonClearAll.Bind( wx.EVT_BUTTON, self.clearGrid )
         self.m_buttonAddRow.Bind( wx.EVT_BUTTON, self.addRow )
         self.m_buttonAddColumn.Bind( wx.EVT_BUTTON, self.addColumn )
-        # self.m_buttonRefresh.Bind( wx.EVT_BUTTON, self.refreshParams )
         self.Bind( pg.EVT_PG_CHANGED, self.updateParams, id = self.m_propertyGrid.GetId() )
         self.m_ActiveAssetList.Bind( wx.EVT_LIST_ITEM_SELECTED, self.listItemSelected )
         self.Bind( wx.EVT_MENU, self.createNewAsset, id = self.m_MenuItemAsset.GetId() )
         self.Bind( wx.EVT_MENU, self.createNewMarket, id = self.m_MenuItemMarket.GetId() )
+        self.Bind( wx.EVT_MENU, self.shutDown, id = self.m_menuQuit.GetId() )
         self.Bind( wx.EVT_MENU, self.saveData, id = self.m_DataSave.GetId() )
         self.Bind( wx.EVT_MENU, self.loadData, id = self.m_DataLoad.GetId() )
         # self.Bind( wx.EVT_MENU, self.importData, id = self.m_DataImport.GetId() )
         # self.Bind( wx.EVT_MENU, self.exportData, id = self.m_DataExport.GetId() )
         self.Bind( wx.EVT_MENU, self.runOPENTest, id = self.m_menuItemOPENTest.GetId() )
-        self.Bind( wx.EVT_MENU, self.webHelp, id = self.m_webHelp.GetId() )
+        self.Bind( wx.EVT_MENU, self.videoTutorials, id = self.m_videoTutorials.GetId() )
+        self.Bind( wx.EVT_MENU, self.OPENDocs, id = self.m_OPENDocs.GetId() )
+        self.Bind( wx.EVT_MENU, self.reportIssue, id = self.m_reportIssue.GetId() )
 
     def __del__( self ):
         pass
@@ -391,7 +407,10 @@ class frameMain ( wx.Frame ):
         #     else:
         #         pass
 
-
+    def clearGrid( self, event ):
+        self.m_gridData.ClearGrid()
+        event.Skip()
+    
     def addRow( self, event ):
         self.m_gridData.AppendRows()
         event.Skip()
@@ -412,12 +431,7 @@ class frameMain ( wx.Frame ):
 
     def listItemSelected( self, event ):
         item = self.m_ActiveAssetList.GetFocusedItem() #active asset in list
-        # active = self.m_treeCtrl.GetItemText(event.GetItem())
         active = self.m_ActiveAssetList.GetItemText(item, col=1)
-        # name = self.m_ActiveAssetList.GetItemText(item, col=0)
-        # asset_type = self.m_ActiveAssetList.GetItemText(item, col=1)
-        # # print(item)
-        # # print(data)
         AssetList.populateParameterList(self, item, active)
         self.refreshModels()
         event.Skip()
@@ -433,14 +447,16 @@ class frameMain ( wx.Frame ):
         event.Skip()
     
     def createNewMarket( self, event ):
-        #TODO have a "Done" popup here
-        #TODO have market class instantiated here
         AssetList.ActiveMarket("Active Market")
         AssetList.populateAssetList(self, "Market")
         
         #task complete
         b = Popups.GenericTaskComplete(self)
         print(b.ShowModal())
+        event.Skip()
+        
+    def shutDown( self, event):
+        self.Close()
         event.Skip()
 
     def saveData( self, event ):
@@ -481,7 +497,6 @@ class frameMain ( wx.Frame ):
         event.Skip()
 
     def loadData( self, event ):
-        #TODO save data with name
         loadeddata = readFromCSV(self.active_file)
         # loadeddata = readFromCSV("data")
         if loadeddata == None: return
@@ -557,10 +572,20 @@ class frameMain ( wx.Frame ):
         print(b.ShowModal())
         event.Skip()
     
-    def webHelp( self, event ):
+    def videoTutorials( self, event ):
+        link("https://gregorjmathieson.github.io/OPEN_GUI_Devlog/webhelp.html")
+        event.Skip()
+    
+    def OPENDocs( self, event ):
         web = Dialogues.WebHelpDialogue(self).Show()
         print(web)
         event.Skip()
+        
+    def reportIssue( self, event ):
+        link("https://github.com/gregorjmathieson/OPENGUI/issues/new")
+        event.Skip()
+    
+    
 
 
 #run the program

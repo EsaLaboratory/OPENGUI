@@ -107,7 +107,8 @@ class WebHelpDialogue ( wx.Dialog ):
         # bWebHelpDialogueRow1 = wx.BoxSizer( wx.HORIZONTAL )
 
         self.m_browser = wx.html2.WebView.New(self.m_WebHelpDialogueActiveArea)
-        self.m_browser.LoadURL("gregorjmathieson.github.io/OPEN_GUI_Devlog/webhelp.html")
+        # self.m_browser.LoadURL("gregorjmathieson.github.io/OPEN_GUI_Devlog/")
+        self.m_browser.LoadURL("https://open-platform-for-energy-networks.readthedocs.io/en/latest/api_reference.html")
         bWebHelpDialogueSizer.Add( self.m_browser, 1, wx.EXPAND, 5)
         
         self.m_CloseOK = wx.Button( self.m_WebHelpDialogueActiveArea, wx.ID_ANY, u"OK", wx.DefaultPosition, wx.DefaultSize, 0 )
@@ -369,7 +370,6 @@ class OPENTestDialogue ( wx.Dialog ): #remember to come and change these variabl
         print(season, network)
         for asset in OPENTestDialogue.assets:
             print(asset)
-        #TODO add market and assets input
         self.Close()
         building_test.__main__(season, network, OPENTestDialogue.markets[0], OPENTestDialogue.assets, self.curves_inherit, self.container)
         event.Skip()
