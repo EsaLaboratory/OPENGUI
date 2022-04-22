@@ -2,7 +2,7 @@
 This repository contains the necessary files
 to use the OPENGUI with the OPEN package.
 
-##Requirements
+## Requirements
 --------------------------------------------------
 OPEN can be installed from:
 https://github.com/EPGOxford/OPEN
@@ -15,7 +15,7 @@ or Python interpreter used must have the wxPython
 library installed.
 https://wxpython.org/pages/downloads/index.html
 
-##Installation
+## Installation
 --------------------------------------------------
 Finally, the OPENGUI python files should be
 dragged and dropped into the location of the 
