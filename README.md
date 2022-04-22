@@ -6,6 +6,7 @@ to use the OPENGUI with the OPEN package.
 --------------------------------------------------
 OPEN can be installed from:
 https://github.com/EPGOxford/OPEN
+
 Note that all of its prerequisites are also
 required for OPENGUI to function.
 
