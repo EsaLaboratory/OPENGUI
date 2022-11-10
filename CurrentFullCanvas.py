@@ -27,13 +27,19 @@ if sys.argv:
     filepath = sys.argv[0]
     folder, filename = os.path.split(filepath)
     os.chdir(folder) # now your working dir is the parent folder of the script
-    
+
+#TODO add titles to the panels
+#TODO have a better way of storing data. Currently there isn't a clean way of data permanence.
 ###########################################################################
 ## Class frameMain
 ###########################################################################
 class frameMain ( wx.Frame ):
+    """Main frame of the canvas. Container for all subframes.
+    """
 
     def __init__( self, parent ):
+        """Constructor"""
+        
         wx.Frame.__init__ ( self, parent, id = wx.ID_ANY, title = u"OPEN_CANVAS", pos = wx.DefaultPosition, size = wx.Size( 1555,897 ), style = wx.DEFAULT_FRAME_STYLE|wx.TAB_TRAVERSAL )
 
         self.SetSizeHints( wx.DefaultSize, wx.DefaultSize )
@@ -360,6 +366,12 @@ class frameMain ( wx.Frame ):
 
     # Virtual event handlers, override them in your derived class
     def changeActiveDirectory( self, event ):
+        """Changes the active directory of the file tree.
+        
+        Opens the file explorer dialogue on the user's computer and copies that
+        path to the path of the file tree.
+        """
+        
         print(self.directory)
         new_directory = self.m_dirPicker.GetPath()
         self.directory = new_directory
@@ -370,11 +382,23 @@ class frameMain ( wx.Frame ):
         event.Skip()
         
     def changeActiveFile (self, event ):
+        """Changes the selected file for import.
+        
+        Takes the file selected by the user (via double-click) and marks
+        the file as "selected". The selected file's path is then displayed
+        in the status bar at the bottom of the canvas.
+        """
+        
         self.active_file = self.m_userLibrary.GetFilePath() #selected in ctrl
         self.m_statusBar.SetStatusText(self.active_file)
         event.Skip()
     
     def branchSelect( self, event ):
+        """Populates the Asset table with the assets of the selected branch.
+        
+        The actively selected branch of the energy system tree will have its
+        active assets displayed on the active asset list.
+        """
         active = self.m_treeCtrl.GetItemText(event.GetItem())
         print(f"Clicked on: {active}")
         AssetList.populateAssetList(self, active)
@@ -408,18 +432,34 @@ class frameMain ( wx.Frame ):
         #         pass
 
     def clearGrid( self, event ):
+        """The data grid will be cleared of all text.
+        """
+        
         self.m_gridData.ClearGrid()
         event.Skip()
     
     def addRow( self, event ):
+        """A row will be added to the data grid.
+        """
+        
         self.m_gridData.AppendRows()
         event.Skip()
 
     def addColumn( self, event ):
+        """A column will be added to the data grid.
+        """
+        
         self.m_gridData.AppendCols()
         event.Skip()
         
     def updateParams(self, event):
+        """The parameters of an asset will be updated.
+        
+        Whenever any parameter of an asset is edited in the active asset
+        parameter list, the values will be refreshed and stored within 
+        the local memory.
+        """
+        
         prop = event.GetProperty()
         label = prop.GetLabel()
         value = prop.GetValue()
@@ -430,6 +470,12 @@ class frameMain ( wx.Frame ):
         event.Skip()
 
     def listItemSelected( self, event ):
+        """Populates the parameter list with the parameters of the selected asset.
+        
+        Whenever an asset (or object) is selected from the active assets list,
+        its parameters will be displayed on the active asset parameters list.
+        """
+        
         item = self.m_ActiveAssetList.GetFocusedItem() #active asset in list
         active = self.m_ActiveAssetList.GetItemText(item, col=1)
         AssetList.populateParameterList(self, item, active)
@@ -437,6 +483,12 @@ class frameMain ( wx.Frame ):
         event.Skip()
 
     def createNewAsset( self, event ):
+        """Opens the dialogue for creating a new asset.
+        
+        Once the items in the dialogue have been selected by the user,
+        a new asset is selected and sent to the active asset list.
+        """
+        
         a = Dialogues.NewAssetDialogue(self)
         print(a.ShowModal())
         AssetList.populateAssetList(self, "Assets")
@@ -447,6 +499,11 @@ class frameMain ( wx.Frame ):
         event.Skip()
     
     def createNewMarket( self, event ):
+        """Creates a new Market Object.
+        
+        Creates a Market Object with arbitrary default parameters.
+        """
+        
         AssetList.ActiveMarket("Active Market")
         AssetList.populateAssetList(self, "Market")
         
@@ -456,10 +513,17 @@ class frameMain ( wx.Frame ):
         event.Skip()
         
     def shutDown( self, event):
+        """Closes the application
+        """
+        
         self.Close()
         event.Skip()
 
     def saveData( self, event ):
+        """Saves the data in the grid as a .txt or .xml file,
+        depending on user choice from a pop-up window.
+        """
+        
         #take active file as default save name
         default_name = self.active_file.rsplit('\\', 1)[-1]   
         default_name = default_name.rsplit('.', 1)[0]
@@ -497,6 +561,9 @@ class frameMain ( wx.Frame ):
         event.Skip()
 
     def loadData( self, event ):
+        """Loads data from selected file into the data grid.
+        """
+        
         loadeddata = readFromCSV(self.active_file)
         # loadeddata = readFromCSV("data")
         if loadeddata == None: return
@@ -540,6 +607,9 @@ class frameMain ( wx.Frame ):
     #     event.Skip()
     
     def updateCurves(self):
+        """Prints the plots from OPEN simulation into the curves tab of the main canvas.
+        """
+        
         self.m_curves.Clear()
         # self.m_curves.Destroy()
         for plot in curves.plots:
@@ -554,6 +624,11 @@ class frameMain ( wx.Frame ):
         # event.Skip()
 
     def runOPENTest( self, event ):
+        """Runs the building_test.py simulation. 
+        
+        Currently the only simulation interaction with OPEN.
+        """
+        
         # Here we import network settings
         # ex: StaticText int(voltage) str(name) for each
         ##Bus1 vn_kv name
@@ -573,16 +648,25 @@ class frameMain ( wx.Frame ):
         event.Skip()
     
     def videoTutorials( self, event ):
+        """Opens the video tutorials wep page in the user's default browser.
+        """
+        
         link("https://gregorjmathieson.github.io/OPEN_GUI_Devlog/webhelp.html")
         event.Skip()
     
     def OPENDocs( self, event ):
+        """Opens the OPEN documentation on the internal web viewer.
+        """
+        
         web = Dialogues.WebHelpDialogue(self).Show()
         print(web)
         event.Skip()
         
     def reportIssue( self, event ):
-        link("https://github.com/gregorjmathieson/OPENGUI/issues/new")
+        """Opens the GitHub "report an issue" page for OPENGUI.
+        """
+        
+        link("https://github.com/EsaLaboratory/OPENGUI/issues/new")
         event.Skip()
     
     

@@ -1,0 +1,183 @@
+
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+
+    <title>AssetList module &#8212; OPENGUI 2023 documentation</title>
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="_static/alabaster.css" />
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/sphinx_highlight.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="building_test module" href="building_test.html" />
+    <link rel="prev" title="Welcome to OPENGUI’s documentation!" href="index.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <section id="module-AssetList">
+<span id="assetlist-module"></span><h1>AssetList module<a class="headerlink" href="#module-AssetList" title="Permalink to this heading">¶</a></h1>
+<dl class="py class">
+<dt class="sig sig-object py" id="AssetList.ActiveAsset">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">AssetList.</span></span><span class="sig-name descname"><span class="pre">ActiveAsset</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">asset_type</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#AssetList.ActiveAsset" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="System.html#System.Assets.BuildingAsset" title="System.Assets.BuildingAsset"><code class="xref py py-class docutils literal notranslate"><span class="pre">BuildingAsset</span></code></a>, <a class="reference internal" href="System.html#System.Assets.StorageAsset" title="System.Assets.StorageAsset"><code class="xref py py-class docutils literal notranslate"><span class="pre">StorageAsset</span></code></a>, <a class="reference internal" href="System.html#System.Assets.NondispatchableAsset" title="System.Assets.NondispatchableAsset"><code class="xref py py-class docutils literal notranslate"><span class="pre">NondispatchableAsset</span></code></a>, <a class="reference internal" href="System.html#System.Assets.StorageAsset_3ph" title="System.Assets.StorageAsset_3ph"><code class="xref py py-class docutils literal notranslate"><span class="pre">StorageAsset_3ph</span></code></a>, <a class="reference internal" href="System.html#System.Assets.NondispatchableAsset_3ph" title="System.Assets.NondispatchableAsset_3ph"><code class="xref py py-class docutils literal notranslate"><span class="pre">NondispatchableAsset_3ph</span></code></a></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="AssetList.ActiveAsset.active_assets">
+<span class="sig-name descname"><span class="pre">active_assets</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">[&lt;AssetList.ActiveAsset</span> <span class="pre">object&gt;,</span> <span class="pre">&lt;AssetList.ActiveAsset</span> <span class="pre">object&gt;,</span> <span class="pre">&lt;AssetList.ActiveAsset</span> <span class="pre">object&gt;]</span></em><a class="headerlink" href="#AssetList.ActiveAsset.active_assets" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="AssetList.ActiveAsset.pickAsset">
+<span class="sig-name descname"><span class="pre">pickAsset</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#AssetList.ActiveAsset.pickAsset" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="AssetList.ActiveMarket">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">AssetList.</span></span><span class="sig-name descname"><span class="pre">ActiveMarket</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#AssetList.ActiveMarket" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="System.html#System.Markets.Market" title="System.Markets.Market"><code class="xref py py-class docutils literal notranslate"><span class="pre">Market</span></code></a></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="AssetList.ActiveMarket.active_markets">
+<span class="sig-name descname"><span class="pre">active_markets</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">[&lt;AssetList.ActiveMarket</span> <span class="pre">object&gt;]</span></em><a class="headerlink" href="#AssetList.ActiveMarket.active_markets" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="AssetList.populateAssetList">
+<span class="sig-prename descclassname"><span class="pre">AssetList.</span></span><span class="sig-name descname"><span class="pre">populateAssetList</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">active</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#AssetList.populateAssetList" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="AssetList.populateParameterList">
+<span class="sig-prename descclassname"><span class="pre">AssetList.</span></span><span class="sig-name descname"><span class="pre">populateParameterList</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">item</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">active</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#AssetList.populateParameterList" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="AssetList.translate">
+<span class="sig-prename descclassname"><span class="pre">AssetList.</span></span><span class="sig-name descname"><span class="pre">translate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">default</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#AssetList.translate" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="AssetList.updateParam">
+<span class="sig-prename descclassname"><span class="pre">AssetList.</span></span><span class="sig-name descname"><span class="pre">updateParam</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">label</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">value</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">item</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">asset_type</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#AssetList.updateParam" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="index.html">OPENGUI</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">AssetList module</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#AssetList.ActiveAsset"><code class="docutils literal notranslate"><span class="pre">ActiveAsset</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#AssetList.ActiveMarket"><code class="docutils literal notranslate"><span class="pre">ActiveMarket</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#AssetList.populateAssetList"><code class="docutils literal notranslate"><span class="pre">populateAssetList()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#AssetList.populateParameterList"><code class="docutils literal notranslate"><span class="pre">populateParameterList()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#AssetList.translate"><code class="docutils literal notranslate"><span class="pre">translate()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#AssetList.updateParam"><code class="docutils literal notranslate"><span class="pre">updateParam()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="building_test.html">building_test module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="curves.html">curves module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Dialogues.html">Dialogues module</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="modules.html">OPENGUI</a><ul class="current">
+<li class="toctree-l2 current"><a class="current reference internal" href="#">AssetList module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="CurrentFullCanvas.html">CurrentFullCanvas module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Dialogues.html">Dialogues module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Popups.html">Popups module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="SaveData.html">SaveData module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="System.html">System package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="building_test.html">building_test module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="building_test_old.html">building_test_old module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="curves.html">curves module</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="Popups.html">Popups module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="SaveData.html">SaveData module</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="index.html" title="previous chapter">Welcome to OPENGUI’s documentation!</a></li>
+      <li>Next: <a href="building_test.html" title="next chapter">building_test module</a></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2022, Gregor Mathieson.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 5.3.0</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="_sources/AssetList.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

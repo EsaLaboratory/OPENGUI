@@ -1,0 +1,267 @@
+
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+
+    <title>CurrentFullCanvas module &#8212; OPENGUI 2023 documentation</title>
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="_static/alabaster.css" />
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/sphinx_highlight.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Popups module" href="Popups.html" />
+    <link rel="prev" title="OPENGUI" href="modules.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <section id="module-CurrentFullCanvas">
+<span id="currentfullcanvas-module"></span><h1>CurrentFullCanvas module<a class="headerlink" href="#module-CurrentFullCanvas" title="Permalink to this heading">¶</a></h1>
+<dl class="py class">
+<dt class="sig sig-object py" id="CurrentFullCanvas.frameMain">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">CurrentFullCanvas.</span></span><span class="sig-name descname"><span class="pre">frameMain</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">parent</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#CurrentFullCanvas.frameMain" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Frame</span></code></p>
+<p>Main frame of the canvas. Container for all subframes.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="CurrentFullCanvas.frameMain.OPENDocs">
+<span class="sig-name descname"><span class="pre">OPENDocs</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">event</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#CurrentFullCanvas.frameMain.OPENDocs" title="Permalink to this definition">¶</a></dt>
+<dd><p>Opens the OPEN documentation on the internal web viewer.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="CurrentFullCanvas.frameMain.addColumn">
+<span class="sig-name descname"><span class="pre">addColumn</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">event</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#CurrentFullCanvas.frameMain.addColumn" title="Permalink to this definition">¶</a></dt>
+<dd><p>A column will be added to the data grid.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="CurrentFullCanvas.frameMain.addRow">
+<span class="sig-name descname"><span class="pre">addRow</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">event</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#CurrentFullCanvas.frameMain.addRow" title="Permalink to this definition">¶</a></dt>
+<dd><p>A row will be added to the data grid.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="CurrentFullCanvas.frameMain.branchSelect">
+<span class="sig-name descname"><span class="pre">branchSelect</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">event</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#CurrentFullCanvas.frameMain.branchSelect" title="Permalink to this definition">¶</a></dt>
+<dd><p>Populates the Asset table with the assets of the selected branch.</p>
+<p>The actively selected branch of the energy system tree will have its
+active assets displayed on the active asset list.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="CurrentFullCanvas.frameMain.changeActiveDirectory">
+<span class="sig-name descname"><span class="pre">changeActiveDirectory</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">event</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#CurrentFullCanvas.frameMain.changeActiveDirectory" title="Permalink to this definition">¶</a></dt>
+<dd><p>Changes the active directory of the file tree.</p>
+<p>Opens the file explorer dialogue on the user’s computer and copies that
+path to the path of the file tree.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="CurrentFullCanvas.frameMain.changeActiveFile">
+<span class="sig-name descname"><span class="pre">changeActiveFile</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">event</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#CurrentFullCanvas.frameMain.changeActiveFile" title="Permalink to this definition">¶</a></dt>
+<dd><p>Changes the selected file for import.</p>
+<p>Takes the file selected by the user (via double-click) and marks
+the file as “selected”. The selected file’s path is then displayed
+in the status bar at the bottom of the canvas.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="CurrentFullCanvas.frameMain.clearGrid">
+<span class="sig-name descname"><span class="pre">clearGrid</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">event</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#CurrentFullCanvas.frameMain.clearGrid" title="Permalink to this definition">¶</a></dt>
+<dd><p>The data grid will be cleared of all text.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="CurrentFullCanvas.frameMain.createNewAsset">
+<span class="sig-name descname"><span class="pre">createNewAsset</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">event</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#CurrentFullCanvas.frameMain.createNewAsset" title="Permalink to this definition">¶</a></dt>
+<dd><p>Opens the dialogue for creating a new asset.</p>
+<p>Once the items in the dialogue have been selected by the user,
+a new asset is selected and sent to the active asset list.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="CurrentFullCanvas.frameMain.createNewMarket">
+<span class="sig-name descname"><span class="pre">createNewMarket</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">event</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#CurrentFullCanvas.frameMain.createNewMarket" title="Permalink to this definition">¶</a></dt>
+<dd><p>Creates a new Market Object.</p>
+<p>Creates a Market Object with arbitrary default parameters.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="CurrentFullCanvas.frameMain.listItemSelected">
+<span class="sig-name descname"><span class="pre">listItemSelected</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">event</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#CurrentFullCanvas.frameMain.listItemSelected" title="Permalink to this definition">¶</a></dt>
+<dd><p>Populates the parameter list with the parameters of the selected asset.</p>
+<p>Whenever an asset (or object) is selected from the active assets list,
+its parameters will be displayed on the active asset parameters list.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="CurrentFullCanvas.frameMain.loadData">
+<span class="sig-name descname"><span class="pre">loadData</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">event</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#CurrentFullCanvas.frameMain.loadData" title="Permalink to this definition">¶</a></dt>
+<dd><p>Loads data from selected file into the data grid.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="CurrentFullCanvas.frameMain.refreshModels">
+<span class="sig-name descname"><span class="pre">refreshModels</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#CurrentFullCanvas.frameMain.refreshModels" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="CurrentFullCanvas.frameMain.reportIssue">
+<span class="sig-name descname"><span class="pre">reportIssue</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">event</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#CurrentFullCanvas.frameMain.reportIssue" title="Permalink to this definition">¶</a></dt>
+<dd><p>Opens the GitHub “report an issue” page for OPENGUI.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="CurrentFullCanvas.frameMain.runOPENTest">
+<span class="sig-name descname"><span class="pre">runOPENTest</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">event</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#CurrentFullCanvas.frameMain.runOPENTest" title="Permalink to this definition">¶</a></dt>
+<dd><p>Runs the building_test.py simulation.</p>
+<p>Currently the only simulation interaction with OPEN.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="CurrentFullCanvas.frameMain.saveData">
+<span class="sig-name descname"><span class="pre">saveData</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">event</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#CurrentFullCanvas.frameMain.saveData" title="Permalink to this definition">¶</a></dt>
+<dd><p>Saves the data in the grid as a .txt or .xml file,
+depending on user choice from a pop-up window.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="CurrentFullCanvas.frameMain.shutDown">
+<span class="sig-name descname"><span class="pre">shutDown</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">event</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#CurrentFullCanvas.frameMain.shutDown" title="Permalink to this definition">¶</a></dt>
+<dd><p>Closes the application</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="CurrentFullCanvas.frameMain.updateCurves">
+<span class="sig-name descname"><span class="pre">updateCurves</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#CurrentFullCanvas.frameMain.updateCurves" title="Permalink to this definition">¶</a></dt>
+<dd><p>Prints the plots from OPEN simulation into the curves tab of the main canvas.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="CurrentFullCanvas.frameMain.updateParams">
+<span class="sig-name descname"><span class="pre">updateParams</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">event</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#CurrentFullCanvas.frameMain.updateParams" title="Permalink to this definition">¶</a></dt>
+<dd><p>The parameters of an asset will be updated.</p>
+<p>Whenever any parameter of an asset is edited in the active asset
+parameter list, the values will be refreshed and stored within
+the local memory.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="CurrentFullCanvas.frameMain.videoTutorials">
+<span class="sig-name descname"><span class="pre">videoTutorials</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">event</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#CurrentFullCanvas.frameMain.videoTutorials" title="Permalink to this definition">¶</a></dt>
+<dd><p>Opens the video tutorials wep page in the user’s default browser.</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="index.html">OPENGUI</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="AssetList.html">AssetList module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="building_test.html">building_test module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="curves.html">curves module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Dialogues.html">Dialogues module</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="modules.html">OPENGUI</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="AssetList.html">AssetList module</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">CurrentFullCanvas module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Dialogues.html">Dialogues module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Popups.html">Popups module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="SaveData.html">SaveData module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="System.html">System package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="building_test.html">building_test module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="building_test_old.html">building_test_old module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="curves.html">curves module</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="Popups.html">Popups module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="SaveData.html">SaveData module</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+  <li><a href="modules.html">OPENGUI</a><ul>
+      <li>Previous: <a href="modules.html" title="previous chapter">OPENGUI</a></li>
+      <li>Next: <a href="Popups.html" title="next chapter">Popups module</a></li>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2022, Gregor Mathieson.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 5.3.0</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="_sources/CurrentFullCanvas.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

@@ -11,8 +11,15 @@ import numpy as np
 # Save File DIALOGUE
 ####################
 class SaveDialogue ( wx.Dialog ):
+    """Dialogue for saving Data.
+    
+    Contains a method of selecting what file type to save the data as,
+    as well as a filename text control box.
+    """
 
     def __init__( self, parent, initial=""):
+        """Constructor"""
+        
         wx.Dialog.__init__ ( self, parent, id = wx.ID_ANY, title = u"Save Data", pos = wx.DefaultPosition, size = wx.DefaultSize, style = wx.DEFAULT_DIALOG_STYLE )
 
         #initialise variables
@@ -75,6 +82,12 @@ class SaveDialogue ( wx.Dialog ):
 
     # Virtual event handlers, override them in your derived class
     def saveOK( self, event ):
+        """Completes the data entry and saves the file.
+        
+        Is activated by clicking the "OK" button in the dialogue.
+        Once selected, the data is then sent to a file with the data selected.
+        """
+        
         # ass.ActiveAsset(str(self.m_SaveAttribute1Value.GetValue()), self.m_AssetTypeChoice.GetString(self.m_AssetTypeChoice.GetSelection()))
         print(self.m_FileTypeChoice.GetString(self.m_FileTypeChoice.GetSelection()))
         # print(self.m_FileTypeChoice.GetSelection())
@@ -87,6 +100,11 @@ class SaveDialogue ( wx.Dialog ):
 # Class WebDialogue
 #####################
 class WebHelpDialogue ( wx.Dialog ):
+    """Dialogue for OPEN Documentation.
+    
+    Opens the website leading to the OPEN documentation in a window within
+    the GUI.
+    """
 
     def __init__( self, parent ):
         wx.Dialog.__init__ ( self, parent, id = wx.ID_ANY, title = u"Web Help", pos = wx.DefaultPosition, size = wx.DefaultSize, style = wx.DEFAULT_DIALOG_STYLE )
@@ -137,6 +155,8 @@ class WebHelpDialogue ( wx.Dialog ):
 
     # Virtual event handlers, override them in your derived class
     def closeOK( self, event ):
+        """Closes the dialogue.
+        """
 
         self.Close()
         event.Skip()
@@ -145,6 +165,12 @@ class WebHelpDialogue ( wx.Dialog ):
 # NEW ASSET DIALOGUE
 ####################
 class NewAssetDialogue ( wx.Dialog ):
+    """Dialogue for creating a new asset.
+    
+    Has a drop down menu with different asset types.
+    Once an asset type is selected, the name of the asset can also be chosen.
+    The asset is instantiated once the OK button is selected.
+    """
 
     def __init__( self, parent ):
         wx.Dialog.__init__ ( self, parent, id = wx.ID_ANY, title = u"New Asset", pos = wx.DefaultPosition, size = wx.DefaultSize, style = wx.DEFAULT_DIALOG_STYLE )
@@ -216,6 +242,9 @@ class NewAssetDialogue ( wx.Dialog ):
 
     # Virtual event handlers, override them in your derived class
     def newAssetOK( self, event ):
+        """Creates a new asset with the selected type and name.
+        """
+        
         ass.ActiveAsset(str(self.m_NewAssetAttribute1Value.GetValue()), self.m_AssetTypeChoice.GetString(self.m_AssetTypeChoice.GetSelection()))
         # print(self.m_AssetTypeChoice.GetString(self.m_AssetTypeChoice.GetSelection()))
         # print(self.m_AssetTypeChoice.GetSelection())
@@ -235,6 +264,11 @@ class NewAssetDialogue ( wx.Dialog ):
 # OPENTESTDIAGLOGUE 
 ####################
 class OPENTestDialogue ( wx.Dialog ): #remember to come and change these variable names
+    """Dialogue for running an OPEN simulation.
+    
+    Does the building case study simulation. Has a drop down menu with
+    the ability to select either "summer" or "winter".
+    """
     
     assets = []
     markets = []
@@ -364,6 +398,9 @@ class OPENTestDialogue ( wx.Dialog ): #remember to come and change these variabl
 
     # Virtual event handlers, override them in your derived class
     def TestOK( self, event ):
+        """Runs the OPEN simulation once the OK button is selected.
+        """
+        
         print(self.parameters)
         #TODO make sure that there is an error case if the voltages aren't numbers!!!
         season, network = self.getData()
@@ -375,6 +412,19 @@ class OPENTestDialogue ( wx.Dialog ): #remember to come and change these variabl
         event.Skip()
 
     def getData(self):
+        """Receives the data from the OPENTestdialogue.
+        
+        Takes selection in order to send variables to the simulation file.
+        
+        Returns
+        -------
+        season
+            The selected season to run the simulation with.
+        
+        network
+            The network array with the names and voltages of each bus in the power system.
+        """
+        
         network = []
         season = self.m_SeasonTypeChoice.GetSelection()
         network.append([self.m_TestAttribute1Voltage.GetValue(),self.m_TestAttribute2Voltage.GetValue(),self.m_TestAttribute3Voltage.GetValue()]) #gets the inputted voltages!

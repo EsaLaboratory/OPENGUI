@@ -1,0 +1,1198 @@
+
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+
+    <title>System package &#8212; OPENGUI 2023 documentation</title>
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="_static/alabaster.css" />
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/sphinx_highlight.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="building_test module" href="building_test.html" />
+    <link rel="prev" title="SaveData module" href="SaveData.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <section id="system-package">
+<h1>System package<a class="headerlink" href="#system-package" title="Permalink to this heading">¶</a></h1>
+<section id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this heading">¶</a></h2>
+</section>
+<section id="module-System.Assets">
+<span id="system-assets-module"></span><h2>System.Assets module<a class="headerlink" href="#module-System.Assets" title="Permalink to this heading">¶</a></h2>
+<p>OPEN Asset module</p>
+<p>Asset objects define distributed energy resources (DERs) and loads.
+Attributes include network location, phase connection and real and reactive
+output power profiles over the simulation time-series.
+Flexible Asset classes have an update control method, which is called by
+EnergySystem simulation methods with control references to update the output
+power profiles and state variables. The update control method also implements
+constraints which limit the implementation of references.
+OPEN includes the following Asset subclasses: NondispatchableAsset for
+uncontrollable loads and generation sources, StorageAsset for storage systems
+and BuildingAsset for buildings with flexible heating, ventilation and air
+conditioning (HVAC).</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="System.Assets.Asset">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">System.Assets.</span></span><span class="sig-name descname"><span class="pre">Asset</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">bus_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dt</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">T</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">phases</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[0,</span> <span class="pre">1,</span> <span class="pre">2]</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#System.Assets.Asset" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>An energy resource located at a particular bus in the network</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>bus_id</strong> (<em>float</em>) – id number of the bus in the network</p></li>
+<li><p><strong>dt</strong> (<em>float</em>) – time interval duration</p></li>
+<li><p><strong>T</strong> (<em>int</em>) – number of time intervals</p></li>
+<li><p><strong>phases</strong> (<em>list</em><em>, </em><em>optional</em><em>, </em><em>default</em><em> [</em><em>0</em><em>,</em><em>1</em><em>,</em><em>2</em><em>]</em>) – [0, 1, 2] indicates 3 phase connection         Wye: [0, 1] indicates an a,b connection         Delta: [0] indicates a-b, [1] b-c, [2] c-a</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference internal" href="#System.Assets.Asset" title="System.Assets.Asset">Asset</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="System.Assets.Asset_3ph">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">System.Assets.</span></span><span class="sig-name descname"><span class="pre">Asset_3ph</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">bus_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">phases</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dt</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">T</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#System.Assets.Asset_3ph" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#System.Assets.Asset" title="System.Assets.Asset"><code class="xref py py-class docutils literal notranslate"><span class="pre">Asset</span></code></a></p>
+<p>An energy resource located at a particular bus in the 3 phase network</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>bus_id</strong> (<em>float</em>) – id number of the bus in the network</p></li>
+<li><p><strong>phases</strong> (<em>list</em>) – [0, 1, 2] indicates 3 phase connection
+Wye: [0, 1] indicates an a,b connection
+Delta: [0] indicates a-b, [1] b-c, [2] c-a</p></li>
+<li><p><strong>dt</strong> (<em>float</em>) – time interval duration</p></li>
+<li><p><strong>T</strong> (<em>int</em>) – number of time intervals</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference internal" href="#System.Assets.Asset" title="System.Assets.Asset">Asset</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="System.Assets.BuildingAsset">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">System.Assets.</span></span><span class="sig-name descname"><span class="pre">BuildingAsset</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">Tmax</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Tmin</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Hmax</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Cmax</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">T0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">C</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">R</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">CoP_heating</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">CoP_cooling</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Ta</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bus_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dt</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">T</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dt_ems</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">T_ems</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#System.Assets.BuildingAsset" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#System.Assets.Asset" title="System.Assets.Asset"><code class="xref py py-class docutils literal notranslate"><span class="pre">Asset</span></code></a></p>
+<p>A building asset (use for flexibility from building HVAC)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>Tmax</strong> (<em>float</em>) – Maximum temperature inside the building (Degree C)</p></li>
+<li><p><strong>float</strong> (<em>Tmin =</em>) – Minimum temperature inside the building (Degree C)</p></li>
+<li><p><strong>Hmax</strong> (<em>float</em>) – Maximum power consumed by electrical heating (kW)</p></li>
+<li><p><strong>Cmax</strong> (<em>float</em>) – Maximum power consumed by electrical cooling (kW)</p></li>
+<li><p><strong>deltat</strong> (<em>float</em>) – Time interval after which system is allowed to change decisions (h)</p></li>
+<li><p><strong>T0</strong> (<em>float</em>) – Initial temperature inside the buidling (Degree C)</p></li>
+<li><p><strong>C</strong> (<em>float</em>) – Thermal capacitance of building (kWh/Degree C)</p></li>
+<li><p><strong>R</strong> (<em>float</em>) – Thermal resistance of building to outside environment(Degree C/kW)</p></li>
+<li><p><strong>CoP_heating</strong> (<em>float</em>) – Coefficient of performance of the heat pump (N/A)</p></li>
+<li><p><strong>CoP_cooling</strong> (<em>float</em>) – Coefficient of performance of the chiller (N/A)</p></li>
+<li><p><strong>Ta</strong> (<em>numpy.ndarray</em>) – Ambient temperature (Degree C)</p></li>
+<li><p><strong>alpha</strong> (<em>float</em>) – Coefficient of previous temperature in the temperature dynamics
+equation (N/A)</p></li>
+<li><p><strong>beta</strong> (<em>float</em>) – Coefficient of power consumed to heat/cool the building in the
+temperature dynamics equation (Degree C/kW)</p></li>
+<li><p><strong>gamma</strong> (<em>float</em>) – Coefficient of ambient temperature in the temperature dynamics
+equation (N/A)</p></li>
+<li><p><strong>Pnet</strong> (<em>numpy.ndarray</em>) – Input real power (kW)</p></li>
+<li><p><strong>Qnet</strong> (<em>numpy.ndarray</em>) – Input reactive power (kVAR)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference internal" href="#System.Assets.Asset" title="System.Assets.Asset">Asset</a></p>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="System.Assets.BuildingAsset.update_control">
+<span class="sig-name descname"><span class="pre">update_control</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">Pnet</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#System.Assets.BuildingAsset.update_control" title="Permalink to this definition">¶</a></dt>
+<dd><p>Update the power consumed by the HVAC at time interval t</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>Pnet</strong> (<em>numpy.ndarray</em>) – input powers over the time series (kW)</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="System.Assets.NondispatchableAsset">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">System.Assets.</span></span><span class="sig-name descname"><span class="pre">NondispatchableAsset</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">Pnet</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Qnet</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bus_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dt</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">T</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">phases</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[0,</span> <span class="pre">1,</span> <span class="pre">2]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Pnet_pred</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Qnet_pred</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#System.Assets.NondispatchableAsset" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#System.Assets.Asset" title="System.Assets.Asset"><code class="xref py py-class docutils literal notranslate"><span class="pre">Asset</span></code></a></p>
+<p>A 3 phase nondispatchable asset class (use for inflexible loads,
+PVsources etc)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>Pnet</strong> (<em>float</em>) – uncontrolled real input powers over the time series</p></li>
+<li><p><strong>Qnet</strong> (<em>float</em>) – uncontrolled reactive input powers over the time series (kVar)</p></li>
+<li><p><strong>bus_id</strong> (<em>float</em>) – id number of the bus in the network</p></li>
+<li><p><strong>dt</strong> (<em>float</em>) – time interval duration</p></li>
+<li><p><strong>T</strong> (<em>int</em>) – number of time intervals</p></li>
+<li><p><strong>phases</strong> (<em>list</em><em>, </em><em>optional</em><em>, </em><em>default</em><em> [</em><em>0</em><em>,</em><em>1</em><em>,</em><em>2</em><em>]</em>) – [0, 1, 2] indicates 3 phase connection         Wye: [0, 1] indicates an a,b connection         Delta: [0] indicates a-b, [1] b-c, [2] c-a</p></li>
+<li><p><strong>Pnet_pred</strong> (<em>float</em><em> or </em><em>None</em>) – predicted real input powers over the time series (kW)</p></li>
+<li><p><strong>Qnet_pred</strong> (<em>float</em><em> or </em><em>None</em>) – predicted reactive input powers over the time series (kVar)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference internal" href="#System.Assets.Asset" title="System.Assets.Asset">Asset</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="System.Assets.NondispatchableAsset_3ph">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">System.Assets.</span></span><span class="sig-name descname"><span class="pre">NondispatchableAsset_3ph</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">Pnet</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Qnet</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bus_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">phases</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dt</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">T</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Pnet_pred</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Qnet_pred</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#System.Assets.NondispatchableAsset_3ph" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#System.Assets.Asset_3ph" title="System.Assets.Asset_3ph"><code class="xref py py-class docutils literal notranslate"><span class="pre">Asset_3ph</span></code></a></p>
+<p>A 3 phase nondispatchable asset class (use for inflexible loads,
+PVsources etc)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>Pnet</strong> (<em>float</em>) – uncontrolled real input powers over the time series</p></li>
+<li><p><strong>Qnet</strong> (<em>float</em>) – uncontrolled reactive input powers over the time series (kVar)</p></li>
+<li><p><strong>bus_id</strong> (<em>float</em>) – id number of the bus in the network</p></li>
+<li><p><strong>phases</strong> (<em>list</em>) – [0, 1, 2] indicates 3 phase connection
+Wye: [0, 1] indicates an a,b connection
+Delta: [0] indicates a-b, [1] b-c, [2] c-a</p></li>
+<li><p><strong>dt</strong> (<em>float</em>) – time interval duration</p></li>
+<li><p><strong>T</strong> (<em>int</em>) – number of time intervals</p></li>
+<li><p><strong>Pnet_pred</strong> (<em>float</em>) – predicted real input powers over the time series (kW)</p></li>
+<li><p><strong>Qnet_pred</strong> (<em>float</em>) – predicted reactive input powers over the time series (kVar)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference internal" href="#System.Assets.Asset" title="System.Assets.Asset">Asset</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="System.Assets.StorageAsset">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">System.Assets.</span></span><span class="sig-name descname"><span class="pre">StorageAsset</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">Emax</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Emin</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Pmax</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Pmin</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">E0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ET</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bus_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dt</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">T</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dt_ems</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">T_ems</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">phases</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[0,</span> <span class="pre">1,</span> <span class="pre">2]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Pmax_abs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">c_deg_lin</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">eff</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">eff_opt</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#System.Assets.StorageAsset" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#System.Assets.Asset" title="System.Assets.Asset"><code class="xref py py-class docutils literal notranslate"><span class="pre">Asset</span></code></a></p>
+<p>A storage asset (use for batteries, EVs etc.)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>Emax</strong> (<em>numpy.ndarray</em>) – maximum energy levels over the time series (kWh)</p></li>
+<li><p><strong>Emin</strong> (<em>numpy.ndarray</em>) – minimum energy levels over the time series (kWh)</p></li>
+<li><p><strong>Pmax</strong> (<em>numpy.ndarray</em>) – maximum input powers over the time series (kW)</p></li>
+<li><p><strong>Pmin</strong> (<em>numpy.ndarray</em>) – minimum input powers over the time series (kW)</p></li>
+<li><p><strong>E0</strong> (<em>float</em>) – initial energy level (kWh)</p></li>
+<li><p><strong>ET</strong> (<em>float</em>) – required terminal energy level (kWh)</p></li>
+<li><p><strong>bus_id</strong> (<em>float</em>) – id number of the bus in the network</p></li>
+<li><p><strong>dt</strong> (<em>float</em>) – time interval duration (s)</p></li>
+<li><p><strong>T</strong> (<em>int</em>) – number of time intervals</p></li>
+<li><p><strong>dt_ems</strong> (<em>float</em>) – time interval duration (energy management system time horizon) (s)</p></li>
+<li><p><strong>T_ems</strong> (<em>int</em>) – number of time intervals (energy management system time horizon)</p></li>
+<li><p><strong>phases</strong> (<em>list</em><em>, </em><em>optional</em><em>, </em><em>default</em><em> [</em><em>0</em><em>,</em><em>1</em><em>,</em><em>2</em><em>]</em>) – [0, 1, 2] indicates 3 phase connection         Wye: [0, 1] indicates an a,b connection         Delta: [0] indicates a-b, [1] b-c, [2] c-a</p></li>
+<li><p><strong>Pmax_abs</strong> (<em>float</em>) – max power level (kW)</p></li>
+<li><p><strong>c_deg_lin</strong> (<em>float</em>) – battery degradation rate with energy throughput (£/kWh)</p></li>
+<li><p><strong>eff</strong> (<em>float</em><em>, </em><em>default 1</em>) – charging efficiency (between 0 and 1)</p></li>
+<li><p><strong>eff_opt</strong> (<em>float</em><em>, </em><em>default 1</em>) – charging efficiency to be used in optimiser (between 0 and 1).</p></li>
+<li><p><strong>Pnet</strong> (<em>numpy.ndarray</em>) – Input real power over the simulation time series (kW)</p></li>
+<li><p><strong>Qnet</strong> (<em>numpy.ndarray</em>) – Input reactive power over the simulation time series(kVAR)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference internal" href="#System.Assets.Asset" title="System.Assets.Asset">Asset</a></p>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="System.Assets.StorageAsset.update_control">
+<span class="sig-name descname"><span class="pre">update_control</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">Pnet</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#System.Assets.StorageAsset.update_control" title="Permalink to this definition">¶</a></dt>
+<dd><p>Update the storage system power and energy profile</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>Pnet</strong> (<em>float</em>) – input powers over the time series (kW)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="System.Assets.StorageAsset.update_control_t">
+<span class="sig-name descname"><span class="pre">update_control_t</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">Pnet_t</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">t</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#System.Assets.StorageAsset.update_control_t" title="Permalink to this definition">¶</a></dt>
+<dd><p>Update the storage system power and energy at time interval t</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>Pnet_t</strong> (<em>float</em>) – input powers over the time series (kW)</p></li>
+<li><p><strong>t</strong> (<em>int</em>) – time interval</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="System.Assets.StorageAsset_3ph">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">System.Assets.</span></span><span class="sig-name descname"><span class="pre">StorageAsset_3ph</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">Emax</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Emin</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Pmax</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Pmin</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">E0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ET</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bus_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">phases</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dt</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">T</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dt_ems</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">T_ems</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Pmax_abs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">c_deg_lin</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">eff</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">eff_opt</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#System.Assets.StorageAsset_3ph" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#System.Assets.Asset_3ph" title="System.Assets.Asset_3ph"><code class="xref py py-class docutils literal notranslate"><span class="pre">Asset_3ph</span></code></a></p>
+<p>An 3 phase storage asset (use for batteries, EVs etc.)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>Emax</strong> (<em>numpy.ndarray</em>) – maximum energy levels over the time series (kWh)</p></li>
+<li><p><strong>Emin</strong> (<em>numpy.ndarray</em>) – minimum energy levels over the time series (kWh)</p></li>
+<li><p><strong>Pmax</strong> (<em>numpy.ndarray</em>) – maximum input powers over the time series (kW)</p></li>
+<li><p><strong>Pmin</strong> (<em>numpy.ndarray</em>) – minimum input powers over the time series (kW)</p></li>
+<li><p><strong>E0</strong> (<em>float</em>) – initial energy level (kWh)</p></li>
+<li><p><strong>ET</strong> (<em>float</em>) – required terminal energy level (kWh)</p></li>
+<li><p><strong>bus_id</strong> (<em>float</em>) – id number of the bus in the network</p></li>
+<li><p><strong>phases</strong> (<em>list</em><em>, </em><em>optional</em><em>, </em><em>default</em><em> [</em><em>0</em><em>,</em><em>1</em><em>,</em><em>2</em><em>]</em>) – [0, 1, 2] indicates 3 phase connection
+Wye: [0, 1] indicates an a,b connection
+Delta: [0] indicates a-b, [1] b-c, [2] c-a</p></li>
+<li><p><strong>dt</strong> (<em>float</em>) – time interval duration (s)</p></li>
+<li><p><strong>T</strong> (<em>int</em>) – number of time intervals</p></li>
+<li><p><strong>dt_ems</strong> (<em>float</em>) – time interval duration (energy management system time horizon) (s)</p></li>
+<li><p><strong>T_ems</strong> (<em>int</em>) – number of time intervals (energy management system time horizon)</p></li>
+<li><p><strong>phases</strong> – [0, 1, 2] indicates 3 phase connection         Wye: [0, 1] indicates an a,b connection         Delta: [0] indicates a-b, [1] b-c, [2] c-a</p></li>
+<li><p><strong>Pmax_abs</strong> (<em>float</em>) – max power level (kW)</p></li>
+<li><p><strong>c_deg_lin</strong> (<em>float</em>) – battery degradation rate with energy throughput (£/kWh)</p></li>
+<li><p><strong>eff</strong> (<em>float</em><em>, </em><em>default 1</em>) – charging efficiency (between 0 and 1).</p></li>
+<li><p><strong>eff_opt</strong> (<em>float</em><em>, </em><em>default 1</em>) – charging efficiency to be used in optimiser (between 0 and 1).</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference internal" href="#System.Assets.Asset" title="System.Assets.Asset">Asset</a></p>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="System.Assets.StorageAsset_3ph.update_control">
+<span class="sig-name descname"><span class="pre">update_control</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">Pnet</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#System.Assets.StorageAsset_3ph.update_control" title="Permalink to this definition">¶</a></dt>
+<dd><p>Update the storage system power and energy profile</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>Pnet</strong> (<em>numpy.ndarray</em>) – input powers over the time series (kW)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="System.Assets.StorageAsset_3ph.update_control_t">
+<span class="sig-name descname"><span class="pre">update_control_t</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">Pnet_t</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">t</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#System.Assets.StorageAsset_3ph.update_control_t" title="Permalink to this definition">¶</a></dt>
+<dd><p>Update the storage system power and energy at time interval t</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>Pnet_t</strong> (<em>numpy.ndarray</em>) – input powers over the time series (kW)</p></li>
+<li><p><strong>t</strong> (<em>int</em>) – time interval</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-System.EnergySystem">
+<span id="system-energysystem-module"></span><h2>System.EnergySystem module<a class="headerlink" href="#module-System.EnergySystem" title="Permalink to this heading">¶</a></h2>
+<p>OPEN Energy System Module.</p>
+<p>The EnergySystem Class has two types of methods
+i) energy management system (EMS) methods which implement algorithms to
+calculate Asset control references, and
+ii) simulation methods which call an EMS method to obtain control
+references for Asset objects, update the state of Asset objects by calling
+their updatecontrol method and update the state of the Network by calling
+its power flow method.
+An EnergySystem has two separate time series, one for the EMS, and the
+other for simulation.</p>
+<p>OPEN includes two EMS methods for controllable Asset objects:
+(i) one for multi-period optimisation
+with a simple ‘copper plate’ network model, and
+(ii) one for multi-period optimisation with a linear multi-phase
+distribution network model which includes voltage and current flow
+constraints.</p>
+<p>Open has simulation methods for:
+(i) open-loop optimisation, where the EMS method is run ahead of operation
+to obtain controllable Asset references over the EMS time-series; and
+(ii) for MPC, where the EMS method is implemented with a receding horizon
+so that the flexible Asset references are updated at each step of the EMS
+time series.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="System.EnergySystem.EnergySystem">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">System.EnergySystem.</span></span><span class="sig-name descname"><span class="pre">EnergySystem</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">storage_assets</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nondispatch_assets</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">network</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">market</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dt</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">T</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dt_ems</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">T_ems</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">building_assets</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#System.EnergySystem.EnergySystem" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Base Energy Sysem Class</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>storage_assets</strong> (<em>list</em><em> of </em><em>objects</em>) – Containing details of each storage asset</p></li>
+<li><p><strong>building_assets</strong> (<em>list</em><em> of </em><em>objects</em>) – Containsing details of each building asset</p></li>
+<li><p><strong>nondispatch_assets</strong> (<em>list</em><em> of </em><em>objects</em>) – Containsing details of each nondispatchable asset</p></li>
+<li><p><strong>network</strong> (<em>object</em>) – Object containing information about the network</p></li>
+<li><p><strong>market</strong> (<em>object</em>) – Object containing information about the market</p></li>
+<li><p><strong>dt_ems</strong> (<em>float</em>) – EMS time interval duration (hours)</p></li>
+<li><p><strong>T_ems</strong> (<em>int</em>) – Number of EMS time intervals</p></li>
+<li><p><strong>dt</strong> (<em>float</em>) – time interval duration (hours)</p></li>
+<li><p><strong>T</strong> (<em>int</em>) – number of time intervals</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference internal" href="#System.EnergySystem.EnergySystem" title="System.EnergySystem.EnergySystem">EnergySystem</a></p>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="System.EnergySystem.EnergySystem.EMS_3ph_linear_t0">
+<span class="sig-name descname"><span class="pre">EMS_3ph_linear_t0</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">t0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">i_unconstrained_lines</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">v_unconstrained_buses</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#System.EnergySystem.EnergySystem.EMS_3ph_linear_t0" title="Permalink to this definition">¶</a></dt>
+<dd><p>Energy management system optimization assuming 3 phase linear network
+model for Model Predictive Control interval t0</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>self</strong> (<em>EnergySystem object</em>) – Object containing information on assets, market, network and time
+resolution.</p></li>
+<li><p><strong>t0</strong> (<em>int</em>) – Interval in Model Predictive Control. If open loop, t0 = 0</p></li>
+<li><p><strong>i_unconstrained_lines</strong> (<em>list</em>) – List of network lines which have unconstrained current</p></li>
+<li><p><strong>v_unconstrained_buses</strong> (<em>list</em>) – List of buses at which the voltage is not constrained</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><p><strong>Output</strong> –</p>
+<dl>
+<dt>The following numpy.ndarrays are present depending upon asset mix:</dt><dd><p>P_ES_val : Charge/discharge power for storage assets (kW)
+P_import_val : Power imported from central grid (kW)
+P_export_val : Power exported to central grid (kW)
+P_demand_val : System power demand at energy management time</p>
+<blockquote>
+<div><p>resolution (kW)</p>
+</div></blockquote>
+<dl class="simple">
+<dt>PF_networks_lin<span class="classifier">Network 3ph list of objects, one for each</span></dt><dd><p>optimisation interval, storing the linear power
+flow model used to formulate netowrk
+constraints</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>dictionary</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="System.EnergySystem.EnergySystem.EMS_copper_plate">
+<span class="sig-name descname"><span class="pre">EMS_copper_plate</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#System.EnergySystem.EnergySystem.EMS_copper_plate" title="Permalink to this definition">¶</a></dt>
+<dd><p>Energy management system optimization assuming all assets connected to
+a single node.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>self</strong> (<em>EnergySystem object</em>) – Object containing information on assets, market, network and time
+resolution.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><p><strong>Output</strong> –</p>
+<dl>
+<dt>The following numpy.ndarrays are present depending upon asset mix:</dt><dd><p>P_ES_val : Charge/discharge power for storage assets (kW)
+P_BLDG_val :Builfing power consumption (kW)
+P_import_val :Power imported from central grid (kW)
+P_export_val :Power exported to central grid (kW)
+P_demand_val :System power demand at energy management time</p>
+<blockquote>
+<div><p>resolution</p>
+</div></blockquote>
+</dd>
+</dl>
+</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>dictionary</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="System.EnergySystem.EnergySystem.EMS_copper_plate_t0">
+<span class="sig-name descname"><span class="pre">EMS_copper_plate_t0</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">t0</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#System.EnergySystem.EnergySystem.EMS_copper_plate_t0" title="Permalink to this definition">¶</a></dt>
+<dd><p>Setup and run a basic energy optimisation (single copper plate network
+model) for MPC interval t0</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="System.EnergySystem.EnergySystem.EMS_copper_plate_t0_c1deg">
+<span class="sig-name descname"><span class="pre">EMS_copper_plate_t0_c1deg</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">t0</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#System.EnergySystem.EnergySystem.EMS_copper_plate_t0_c1deg" title="Permalink to this definition">¶</a></dt>
+<dd><p>setup and run a basic energy optimisation (single copper plate network
+model) for MPC interval t0</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="System.EnergySystem.EnergySystem.simulate_network">
+<span class="sig-name descname"><span class="pre">simulate_network</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#System.EnergySystem.EnergySystem.simulate_network" title="Permalink to this definition">¶</a></dt>
+<dd><p>Run the Energy Management System in open loop and simulate a pandapower
+network.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>self</strong> (<em>EnergySystem object</em>) – Object containing information on assets, market, network and time
+resolution.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><p><strong>Output</strong> –</p>
+<dl>
+<dt>The following numpy.ndarrays are present depending upon asset mix:</dt><dd><p>buses_Vpu : Voltage magnitude at bus (V)
+buses_Vang : Voltage angle at bus (rad)
+buses_Pnet : Real power at bus (kW)
+buses_Qnet : Reactive power at bus (kVAR)
+Pnet_market : Real power seen by the market (kW)
+Qnet_market : Reactive power seen by the market (kVAR)
+P_ES_ems : Charge/discharge power for storage assets at energy</p>
+<blockquote>
+<div><p>management time resolution (kW)</p>
+</div></blockquote>
+<dl class="simple">
+<dt>P_BLDG_ems :Builfing power consumption at energy management</dt><dd><p>time resolution (kW)</p>
+</dd>
+<dt>P_import_ems :Power imported from central grid at energy</dt><dd><p>management time resolution (kW)</p>
+</dd>
+<dt>P_export_ems :Power exported to central grid at energy</dt><dd><p>management time resolution(kW)</p>
+</dd>
+<dt>P_demand_ems :System power demand at energy management time</dt><dd><p>resolution (kW)</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>dictionary</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="System.EnergySystem.EnergySystem.simulate_network_3phPF">
+<span class="sig-name descname"><span class="pre">simulate_network_3phPF</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ems_type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'3ph'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">i_unconstrained_lines</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">v_unconstrained_buses</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#System.EnergySystem.EnergySystem.simulate_network_3phPF" title="Permalink to this definition">¶</a></dt>
+<dd><p>Run the Energy Management System in open loop and simulate an IEEE 13
+bus network either copper plate or 3ph</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>self</strong> (<em>EnergySystem object</em>) – Object containing information on assets, market, network and time
+resolution.</p></li>
+<li><p><strong>ems_type</strong> (<em>string</em>) – Identifies whether the system is copper plate or 3ph. Default 3ph</p></li>
+<li><p><strong>i_unconstrained_lines</strong> (<em>list</em>) – List of network lines which have unconstrained current</p></li>
+<li><p><strong>v_unconstrained_buses</strong> (<em>list</em>) – List of buses at which the voltage is not constrained</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><p><strong>Output</strong> –</p>
+<dl class="simple">
+<dt>PF_network_res<span class="classifier">Network power flow results stored as a list of</span></dt><dd><p>objects</p>
+</dd>
+<dt>P_ES_ems<span class="classifier">Charge/discharge power for storage assets at energy</span></dt><dd><p>management time resolution (kW)</p>
+</dd>
+<dt>P_import_ems :Power imported from central grid at energy</dt><dd><p>management time resolution (kW)</p>
+</dd>
+<dt>P_export_ems :Power exported to central grid at energy</dt><dd><p>management time resolution(kW)</p>
+</dd>
+<dt>P_demand_ems :System power demand at energy management time</dt><dd><p>resolution (kW)</p>
+</dd>
+</dl>
+</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>dictionary</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="System.EnergySystem.EnergySystem.simulate_network_3phPF_lean">
+<span class="sig-name descname"><span class="pre">simulate_network_3phPF_lean</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ems_type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'3ph'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#System.EnergySystem.EnergySystem.simulate_network_3phPF_lean" title="Permalink to this definition">¶</a></dt>
+<dd><p>run the EMS in open loop and simulate a 3-phase AC network</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="System.EnergySystem.EnergySystem.simulate_network_mpc_3phPF">
+<span class="sig-name descname"><span class="pre">simulate_network_mpc_3phPF</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ems_type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'3ph'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">i_unconstrained_lines</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">v_unconstrained_buses</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#System.EnergySystem.EnergySystem.simulate_network_mpc_3phPF" title="Permalink to this definition">¶</a></dt>
+<dd><p>Run the Energy Management System using Model Predictive Control (MPC)
+and simulate an IEEE 13 bus network either copper plate or 3ph</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>self</strong> (<em>EnergySystem object</em>) – Object containing information on assets, market, network and time
+resolution.</p></li>
+<li><p><strong>ems_type</strong> (<em>string</em>) – Identifies whether the system is copper plate or 3ph. Default 3ph</p></li>
+<li><p><strong>i_unconstrained_lines</strong> (<em>list</em>) – List of network lines which have unconstrained current</p></li>
+<li><p><strong>v_unconstrained_buses</strong> (<em>list</em>) – List of buses at which the voltage is not constrained</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><p><strong>Output</strong> –</p>
+<dl class="simple">
+<dt>PF_network_res<span class="classifier">Network power flow results stored as a list of</span></dt><dd><p>objects</p>
+</dd>
+<dt>P_ES_ems<span class="classifier">Charge/discharge power for storage assets at energy</span></dt><dd><p>management time resolution (kW)</p>
+</dd>
+<dt>P_import_ems :Power imported from central grid at energy</dt><dd><p>management time resolution (kW)</p>
+</dd>
+<dt>P_export_ems :Power exported to central grid at energy</dt><dd><p>management time resolution(kW)</p>
+</dd>
+<dt>P_demand_ems :System power demand at energy management time</dt><dd><p>resolution (kW)</p>
+</dd>
+</dl>
+</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>dictionary</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="system-forecastingsystem-module">
+<h2>System.ForecastingSystem module<a class="headerlink" href="#system-forecastingsystem-module" title="Permalink to this heading">¶</a></h2>
+</section>
+<section id="module-System.Markets">
+<span id="system-markets-module"></span><h2>System.Markets module<a class="headerlink" href="#module-System.Markets" title="Permalink to this heading">¶</a></h2>
+<p>OPEN Markets module</p>
+<p>A Market class defines an upstream market which the EnergySystem is connected
+to. Attributes include the network location, prices of imports and exports
+over the simulation time-series, the demand charge paid on the maximum demand
+over the simulation time-series and import and export power limits.</p>
+<p>The market class has a method which calculates the total revenue associated
+with a particular set of real and reactive power profiles over the simulation
+time-series.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="System.Markets.Distribution_Markets">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">System.Markets.</span></span><span class="sig-name descname"><span class="pre">Distribution_Markets</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dt_market</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#System.Markets.Distribution_Markets" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="System.Markets.Distribution_Markets.DUOS_charges">
+<span class="sig-name descname"><span class="pre">DUOS_charges</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">T0</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#System.Markets.Distribution_Markets.DUOS_charges" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="System.Markets.Market">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">System.Markets.</span></span><span class="sig-name descname"><span class="pre">Market</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">bus_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">prices_export</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">prices_import</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">demand_charge</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Pmax</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Pmin</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dt_market</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">T_market</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">FR_window</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">FR_capacity</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">FR_SOC_max</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.6</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">FR_SOC_min</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.4</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">FR_price</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.005</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">stochastic_date</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">daily_connection_charge</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.13</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#System.Markets.Market" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>A market class to handle prices and other market associated parameters.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>bus_id</strong> (<em>int</em>) – id number of the bus in the network</p></li>
+<li><p><strong>prices_export</strong> (<em>numpy.ndarray</em>) – price paid for exports (£/kWh)</p></li>
+<li><p><strong>prices_import</strong> (<em>numpy.ndarray</em>) – price charged for imports (£/kWh)</p></li>
+<li><p><strong>demand_charge</strong> (<em>float</em>) – charge for the maximum demand over the time series (£/kWh)</p></li>
+<li><p><strong>Pmax</strong> (<em>float</em>) – maximum import power over the time series (kW)</p></li>
+<li><p><strong>Pmin</strong> (<em>float</em>) – minimum import over the time series (kW)</p></li>
+<li><p><strong>dt_market</strong> (<em>float</em>) – time interval duration (minutes)</p></li>
+<li><p><strong>T_market</strong> (<em>int</em>) – number of time intervals</p></li>
+<li><p><strong>FR_window</strong> (<em>int</em>) – binary value over time series to indicate when frequency response has
+been offered (0,1)</p></li>
+<li><p><strong>FR_capacity</strong> (<em>float</em>) – capacity of frequency response offered (kW)</p></li>
+<li><p><strong>FR_SOC_max</strong> (<em>float</em>) – max SOC at which frequency response can still be fulfilled if needed</p></li>
+<li><p><strong>FR_SOC_min</strong> (<em>float</em>) – min SOC at which frequency response can still be fulfilled if needed</p></li>
+<li><p><strong>FR_price</strong> (<em>float</em>) – price per kW capacity per hour avaiable (£/kW.h)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference internal" href="#System.Markets.Market" title="System.Markets.Market">Market</a></p>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="System.Markets.Market.calculate_revenue">
+<span class="sig-name descname"><span class="pre">calculate_revenue</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">P_import_tot</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dt</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#System.Markets.Market.calculate_revenue" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculate revenue according to simulation results</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>P_import_tot</strong> (<em>float</em>) – Total import power to the site over the time series (kW)</p></li>
+<li><p><strong>dt</strong> (<em>float</em>) – simulation time interval duration (minutes)</p></li>
+<li><p><strong>c_deg_lin</strong> (<em>float</em>) – cost of battery degradation associated with each kWh throughput
+(£/kWh)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>revenue</strong> – Total revenue generated during simulation</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="System.Markets.Market_set_up">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">System.Markets.</span></span><span class="sig-name descname"><span class="pre">Market_set_up</span></span><a class="headerlink" href="#System.Markets.Market_set_up" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="System.Markets.Market_set_up.dlCSV">
+<span class="sig-name descname"><span class="pre">dlCSV</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ipDate</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#System.Markets.Market_set_up.dlCSV" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="System.Markets.Market_set_up.dropZeros">
+<span class="sig-name descname"><span class="pre">dropZeros</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">df</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#System.Markets.Market_set_up.dropZeros" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="System.Markets.Market_set_up.fillMissing">
+<span class="sig-name descname"><span class="pre">fillMissing</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">apx</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#System.Markets.Market_set_up.fillMissing" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="System.Markets.Market_set_up.getLink">
+<span class="sig-name descname"><span class="pre">getLink</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">d1</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#System.Markets.Market_set_up.getLink" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="System.Markets.Market_set_up.getMIP">
+<span class="sig-name descname"><span class="pre">getMIP</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pDate</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">delays</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#System.Markets.Market_set_up.getMIP" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="System.Markets.Market_set_up.handleMissing">
+<span class="sig-name descname"><span class="pre">handleMissing</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ipDate</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#System.Markets.Market_set_up.handleMissing" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="System.Markets.Market_set_up.vectorise">
+<span class="sig-name descname"><span class="pre">vectorise</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#System.Markets.Market_set_up.vectorise" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="System.Markets.Transmission_Markets">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">System.Markets.</span></span><span class="sig-name descname"><span class="pre">Transmission_Markets</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dt_market</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#System.Markets.Transmission_Markets" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="System.Markets.Transmission_Markets.TRIAD_charge">
+<span class="sig-name descname"><span class="pre">TRIAD_charge</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">T0</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#System.Markets.Transmission_Markets.TRIAD_charge" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="System.Markets.Transmission_Markets.Triad_days">
+<span class="sig-name descname"><span class="pre">Triad_days</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">days</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#System.Markets.Transmission_Markets.Triad_days" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-System.Network_3ph_pf">
+<span id="system-network-3ph-pf-module"></span><h2>System.Network_3ph_pf module<a class="headerlink" href="#module-System.Network_3ph_pf" title="Permalink to this heading">¶</a></h2>
+<p>OPEN 3 phase networks module</p>
+<p>OPEN offers two options for network modelling. For balanced power flow
+analysis, the PandapowerNet class from the open-source python package
+pandapower can be used. For unbalanced multi-phase power flow analysis,
+OPEN offers the Network_3ph class.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="System.Network_3ph_pf.Network_3ph">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">System.Network_3ph_pf.</span></span><span class="sig-name descname"><span class="pre">Network_3ph</span></span><a class="headerlink" href="#System.Network_3ph_pf.Network_3ph" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>A 3-phase electric power network. Default to an unloaded IEEE 13 Bus Test
+Feeder.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>bus_df</strong> (<em>pandas.DataFrame</em>) – bus information, columns: [‘name’,’number’,’load_type’,’connect’,
+‘Pa’,’Pb’,’Pc’,’Qa’,’Qb’,’Qc’], load_type: ‘S’ (slack),’PQ’,’Z’ or ‘I’
+(only S and PQ are currently implemented),
+connect: ‘Y’ (wye) or ‘D’ (delta), ‘Px’ in (kW),
+‘Qx’ in (kVAr)</p></li>
+<li><p><strong>capacitor_df</strong> (<em>pandas.DataFrame</em>) – capacitor information, columns [‘name’,’number’,’bus’,’kVln’,
+‘connect’,’Qa’,’Qb’,’Qc’], connect: ‘Y’ (wye) or ‘D’ (delta),
+‘kVln’: line-to-line base voltage, ‘Qx’ in (kVAr)</p></li>
+<li><p><strong>di_iter</strong> (<em>np.ndarray</em>) – change in the sum of abs phase currents at each Z-Bus iteration</p></li>
+<li><p><strong>dv_iter</strong> (<em>np.ndarray</em>) – change in the sum of abs phsae voltages at each Z-Bus iteration</p></li>
+<li><p><strong>i_abs_max</strong> (<em>numpy.ndarray</em>) – max abs line phase currents [line, phase] (<a href="#id1"><span class="problematic" id="id2">|A|</span></a>)</p></li>
+<li><p><strong>i_PQ_iter</strong> (<em>numpy.ndarray</em>) – current injected at each phase at each Z-Bus iteration [iter,phase] (A)</p></li>
+<li><p><strong>i_PQ_res</strong> (<em>numpy.ndarray</em>) – power flow result, current injected at each phase (excl. slack) (A)</p></li>
+<li><p><strong>i_net_res</strong> (<em>numpy.ndarray</em>) – power flow result, current injected at each phase (A)</p></li>
+<li><p><strong>i_slack_res</strong> (<em>numpy.ndarray</em>) – power flow result, current injected at slack bus phases (A)</p></li>
+<li><p><strong>Jabs_dPQdel_list</strong> (<em>list</em><em> of </em><em>numpy.ndarray</em>) – linear line abs current model, [P_delta,Q_delta] coeff. matrix list</p></li>
+<li><p><strong>Jabs_dPQwye_list</strong> (<em>list</em><em> of </em><em>numpy.ndarray</em>) – linear line abs current model, [P_wye,Q_wye] coeff. matrix list</p></li>
+<li><p><strong>Jabs_I0_list</strong> (<em>list</em><em> of </em><em>numpy.ndarray</em>) – linear line abs current model, constant vector list</p></li>
+<li><p><strong>J_dPQdel_list</strong> (<em>list</em><em> of </em><em>numpy.ndarray</em>) – linear line current model, [P_delta,Q_delta] coeff. matrix list</p></li>
+<li><p><strong>J_dPQwye_list</strong> (<em>list</em><em> of </em><em>numpy.ndarray</em>) – linear line current model, [P_wye,Q_wye] coeff. matrix list</p></li>
+<li><p><strong>J_I0_list</strong> (<em>list</em><em> of </em><em>numpy.ndarray</em>) – linear line current model, constant vector list</p></li>
+<li><p><strong>K_del</strong> (<em>numpy.ndarray</em>) – linear abs voltage model, [P_delta,Q_delta] coeff. matrix</p></li>
+<li><p><strong>K_wye</strong> (<em>numpy.ndarray</em>) – linear abs voltage model, [P_wye,Q_wye] coeff. matrix</p></li>
+<li><p><strong>K0</strong> (<em>numpy.ndarray</em>) – linear abs voltage model, constant vector</p></li>
+<li><p><strong>line_config_df</strong> (<em>pandas.DataFrame</em>) – information on line configurations, columns: [‘name’,’Zaa’,
+‘Zbb’,’Zcc’,’Zab’,’Zac’,’Zbc’,’Baa’,’Bbb’,’Bcc’,’Bab’,’Bac’,’Bbc’],
+‘Zxx’ in (Ohms/length unit), ‘Bxx’ in (S/length unit) [base voltage of
+Vslack]</p></li>
+<li><p><strong>line_df</strong> (<em>pandas.DataFrame</em>) – line information: [‘busA’,’busB’,’Zaa’,’Zbb’,’Zcc’,’Zab’,’Zac’,’Zbc’,
+‘Baa’,’Bbb’,’Bcc’,’Bab’,’Bac’,’Bbc’], ‘Zxx’ in (Ohms) ‘Bxx’ in (S)
+[base voltage of Vslack]</p></li>
+<li><p><strong>line_info_df</strong> – matches lines to their configurations: [‘busA’,’busB’,’config’,
+‘length’,’Z_conv_factor’,’B_conv_factor’], Z,B_conv_factors used to
+match ‘lenth’ units to line_config_df ‘Zxx’ and ‘Bxx’ values</p></li>
+<li><p><strong>list_Yseries</strong> (<em>list</em><em> of </em><em>numpy.ndarray</em>) – list of series admittance matrices for the lines</p></li>
+<li><p><strong>list_Yshunt</strong> (<em>list</em><em> of </em><em>numpy.ndarray</em>) – list of shunt admittance matrices for the lines</p></li>
+<li><p><strong>M_del</strong> (<em>numpy.ndarray</em>) – linear voltage model, [P_delta,Q_delta] coeff. matrix</p></li>
+<li><p><strong>M_wye</strong> (<em>numpy.ndarray</em>) – linear voltage model, [P_wye,Q_wye] coeff. matrix</p></li>
+<li><p><strong>M0</strong> (<em>numpy.ndarray</em>) – linear abs voltage model, constant vector</p></li>
+<li><p><strong>N_buses</strong> (<em>int</em>) – number of buses</p></li>
+<li><p><strong>N_capacitors</strong> (<em>int</em>) – number of capacitors</p></li>
+<li><p><strong>N_iter</strong> (<em>int</em>) – number of Z-Bus power flow solver iterations</p></li>
+<li><p><strong>N_phases</strong> (<em>int</em>) – number of phases</p></li>
+<li><p><strong>N_lines</strong> (<em>int</em>) – number of lines</p></li>
+<li><p><strong>N_transformers</strong> (<em>int</em>) – number of transformers</p></li>
+<li><p><strong>res_bus_df</strong> (<em>pandas.DataFrame</em>) – power flow result, bus information, columns: [‘name’,’number’,
+‘load_type’,’connect’,’Sa’,’Sb’,’Sc’,’Va’,’Vb’,’Vc’,’Ia’,’Ib’,’Ic’]
+load_type: ‘S’ (slack),’PQ’,’Z’ or ‘I’ (only S and PQ are currently
+implemented), connect: ‘Y’ (wye) or ‘D’ (delta), ‘Sx’ in (kVA),
+‘Vx’ in (V), ‘Ix’ in (A)</p></li>
+<li><p><strong>res_lines_df</strong> (<em>pandas.DataFrame</em>) – power flow result, line information, columns: [‘busA’,’busB’,’Sa’,’Sb’,
+‘Sc’,’Ia’,’Ib’,’Ic’,’VAa’,’VAb’,’VAc’,’VBa’,’VBb’,’VBc’], ‘Sx’ in (VA),
+‘Ix’ in (A), bus A voltages ‘VAx’ in (V), bus B voltages ‘VBx’ in (V).</p></li>
+<li><p><strong>S_del_lin0</strong> (<em>numpy.ndarray</em>) – linear model, delta apparent power load (kVA)</p></li>
+<li><p><strong>S_PQloads_del_res</strong> (<em>numpy.ndarray</em>) – power flow result, delta apparent power load (kVA)</p></li>
+<li><p><strong>S_PQloads_wye_res</strong> (<em>numpy.ndarray</em>) – power flow result, wye apparent power load (kVA)</p></li>
+<li><p><strong>S_net_res</strong> (<em>pandas.DataFrame</em>) – power flow result, apparent power load at each phase (VA)</p></li>
+<li><p><strong>S_wye_lin0</strong> – linear model, delta apparent power load (kVA)    Y :</p></li>
+<li><p><strong>transformer_df</strong> (<em>pandas.DataFrame</em>) – transformer information, columns: [‘busA’,’busB’,’typeA’,’typeB’,
+‘Zseries’,’Zshunt’], typex: ‘wye-g’, ‘wye’ or ‘delta’</p></li>
+<li><p><strong>v_abs_min</strong> (<em>numpy.ndarray</em>) – min abs bus voltages [bus, phase] (<a href="#id3"><span class="problematic" id="id4">|V|</span></a>)</p></li>
+<li><p><strong>v_abs_max</strong> (<em>numpy.ndarray</em>) – max abs bus voltages [bus, phase] (<a href="#id5"><span class="problematic" id="id6">|V|</span></a>)</p></li>
+<li><p><strong>v_iter</strong> (<em>numpy.ndarray</em>) – bus phase voltages at each Z-Bus iteration [iteration, phase]</p></li>
+<li><p><strong>v_lin_abs_res</strong> (<em>numpy.ndarray</em>) – linear model result, bus phase abs voltage (excl. slack) (<a href="#id7"><span class="problematic" id="id8">|V|</span></a>)</p></li>
+<li><p><strong>v_lin_res</strong> (<em>numpy.ndarray</em>) – linear model result, bus phase voltage (excl. slack) (V)</p></li>
+<li><p><strong>v_net_lin_abs_res</strong> (<em>numpy.ndarray</em>) – linear model result, bus phase abs voltage (<a href="#id9"><span class="problematic" id="id10">|V|</span></a>)</p></li>
+<li><p><strong>v_net_lin_res</strong> (<em>numpy.ndarray</em>) – linear model result, bus phase voltage (V)</p></li>
+<li><p><strong>v_net_lin0</strong> (<em>numpy.ndarray</em>) – linear model, nominal bus phase voltages (V)</p></li>
+<li><p><strong>v_net_res</strong> (<em>numpy.ndarray</em>) – power flow result, bus phase voltages (V)</p></li>
+<li><p><strong>vs</strong> (<em>numpy.ndarray</em>) – slack bus phase voltages (V)</p></li>
+<li><p><strong>Vslack</strong> (<em>float</em>) – slack bus line-to-line voltage magnitude (<a href="#id11"><span class="problematic" id="id12">|V|</span></a>)</p></li>
+<li><p><strong>Vslack_ph</strong> (<em>float</em>) – slack bus line-to-phase voltage magnitude (<a href="#id13"><span class="problematic" id="id14">|V|</span></a>)</p></li>
+<li><p><strong>v_res</strong> (<em>numpy.ndarray</em>) – power flow result, bus phase voltages (excl. slack) (V)</p></li>
+<li><p><strong>Y</strong> (<em>numpy.ndarray</em>) – admittance matrix (excl. slack) (S)</p></li>
+<li><p><strong>Ynet</strong> (<em>numpy.ndarray</em>) – admittance matrix (S)</p></li>
+<li><p><strong>Y_non_singular</strong> – admittance matrix with 1e-20*I added (excl. slack) (S) [base voltage of
+Vslack]</p></li>
+<li><p><strong>Yns</strong> (<em>numpy.ndarray</em>) – admittance matrix partition [Yss, Ysn; Yns, Y] (S) [base voltage of
+Vslack]
+voltage of Vslack</p></li>
+<li><p><strong>Ysn</strong> (<em>numpy.ndarray</em>) – admittance matrix partition [Yss, Ysn; Yns, Y] (S) [base voltage of
+Vslack]</p></li>
+<li><p><strong>Yss</strong> (<em>numpy.ndarray</em>) – admittance matrix partition [Yss, Ysn; Yns, Y] (S) [base voltage of
+Vslack]</p></li>
+<li><p><strong>Z</strong> – impedance matrix (Ohm) [base voltage of Vslack]</p></li>
+<li><p><strong>Znet</strong> – impedance matrix (excl. slack) (Ohm) [base voltage of Vslack]</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference internal" href="#System.Network_3ph_pf.Network_3ph" title="System.Network_3ph_pf.Network_3ph">Network_3ph</a></p>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="System.Network_3ph_pf.Network_3ph.clear_loads">
+<span class="sig-name descname"><span class="pre">clear_loads</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#System.Network_3ph_pf.Network_3ph.clear_loads" title="Permalink to this definition">¶</a></dt>
+<dd><p>Removes all real and reactive power loads from the network by clearing
+bus_df.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="System.Network_3ph_pf.Network_3ph.dssTestPlot">
+<span class="sig-name descname"><span class="pre">dssTestPlot</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">RES</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pltShow</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">resMask</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dssMask</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">types</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">YNodeV</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#System.Network_3ph_pf.Network_3ph.dssTestPlot" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="System.Network_3ph_pf.Network_3ph.getDssResMasks">
+<span class="sig-name descname"><span class="pre">getDssResMasks</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">RES</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">YZorder</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#System.Network_3ph_pf.Network_3ph.getDssResMasks" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="System.Network_3ph_pf.Network_3ph.linear_model_setup">
+<span class="sig-name descname"><span class="pre">linear_model_setup</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">v_net_lin0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">S_wye_lin0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">S_del_lin0</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#System.Network_3ph_pf.Network_3ph.linear_model_setup" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set up a linear model based on A. Bernstein, et al., “Load Flow in
+Multiphase Distribution Networks: Existence, Uniqueness,
+Non-Singularity and Linear Models,” IEEE Transactions on Power Systems,
+2018.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>v_net_lin0</strong> (<em>numpy.ndarray</em>) – nominal operating point, bus phase voltages (V)</p></li>
+<li><p><strong>S_wye_lin0</strong> (<em>numpy.ndarray</em>) – nominal operating point, apparent wye power loads (kVA)</p></li>
+<li><p><strong>S_del_lin0</strong> (<em>numpy.ndarray</em>) – nominal operating point, apparent delta power loads (kVA)</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="System.Network_3ph_pf.Network_3ph.linear_pf">
+<span class="sig-name descname"><span class="pre">linear_pf</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#System.Network_3ph_pf.Network_3ph.linear_pf" title="Permalink to this definition">¶</a></dt>
+<dd><p>Solves the linear model based on A. Bernstein, et al., “Load Flow in
+Multiphase Distribution Networks: Existence, Uniqueness,
+Non-Singularity and Linear Models,” IEEE Transactions on Power Systems,
+2018. First run linear_model_setup().</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="System.Network_3ph_pf.Network_3ph.loadDssNetwork">
+<span class="sig-name descname"><span class="pre">loadDssNetwork</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ntwkName</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">updateYZ</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">testModel</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">testPlot</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#System.Network_3ph_pf.Network_3ph.loadDssNetwork" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="System.Network_3ph_pf.Network_3ph.set_load">
+<span class="sig-name descname"><span class="pre">set_load</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">bus_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ph_i</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Pph</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Qph</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#System.Network_3ph_pf.Network_3ph.set_load" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets the P and Q load on a particular bus and phase</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>bus_id</strong> (<em>int</em>) – the load bus id</p></li>
+<li><p><strong>ph_i</strong> (<em>int</em>) – the load phase (either 0, 1 or 2)</p></li>
+<li><p><strong>Pph</strong> (<em>float</em>) – nominal operating point, apparent wye load (kVA)</p></li>
+<li><p><strong>Qph</strong> (<em>float</em>) – nominal operating point, apparent delta load (kVA)</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="System.Network_3ph_pf.Network_3ph.set_pf_limits">
+<span class="sig-name descname"><span class="pre">set_pf_limits</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">v_abs_min_val</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">v_abs_max_val</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">i_abs_max_val</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#System.Network_3ph_pf.Network_3ph.set_pf_limits" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets the abs bus phase voltage limits and abs line phase current limits</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>v_abs_min_val</strong> (<em>float</em>) – minimum abs voltage bus phase voltage limit</p></li>
+<li><p><strong>v_abs_max_val</strong> (<em>float</em>) – maximum abs voltage bus phase voltage limit</p></li>
+<li><p><strong>i_abs_max_val</strong> (<em>float</em>) – maximum abs line phase current limit</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="System.Network_3ph_pf.Network_3ph.setup_network_ieee13">
+<span class="sig-name descname"><span class="pre">setup_network_ieee13</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#System.Network_3ph_pf.Network_3ph.setup_network_ieee13" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set up the network as the unloaded IEEE 13 Bus Test Feeder</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="System.Network_3ph_pf.Network_3ph.update_YandZ">
+<span class="sig-name descname"><span class="pre">update_YandZ</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#System.Network_3ph_pf.Network_3ph.update_YandZ" title="Permalink to this definition">¶</a></dt>
+<dd><p>Update the network admittance and impedance matrices</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="System.Network_3ph_pf.Network_3ph.update_line_pf_results">
+<span class="sig-name descname"><span class="pre">update_line_pf_results</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#System.Network_3ph_pf.Network_3ph.update_line_pf_results" title="Permalink to this definition">¶</a></dt>
+<dd><p>Updates the line power flow results dataframe res_lines_df, based on
+the results of zbus_pf().</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="System.Network_3ph_pf.Network_3ph.v_flat">
+<span class="sig-name descname"><span class="pre">v_flat</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#System.Network_3ph_pf.Network_3ph.v_flat" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the vector of 1 p.u. balanced bus phase voltages</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>numpy.ndarray</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="System.Network_3ph_pf.Network_3ph.voltageComparison">
+<span class="sig-name descname"><span class="pre">voltageComparison</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">RES</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#System.Network_3ph_pf.Network_3ph.voltageComparison" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="System.Network_3ph_pf.Network_3ph.zbus_pf">
+<span class="sig-name descname"><span class="pre">zbus_pf</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#System.Network_3ph_pf.Network_3ph.zbus_pf" title="Permalink to this definition">¶</a></dt>
+<dd><p>Solves the nonlinear power flow problem using the Z-bus method
+from M. Bazrafshan, N. Gatsis, “Comprehensive Modeling of Three-Phase
+Distribution Systems via the Bus Admittance Matrix,” IEEE Transactions
+on Power Systems, 2018.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="System.Network_3ph_pf.strCpx2cpx">
+<span class="sig-prename descclassname"><span class="pre">System.Network_3ph_pf.</span></span><span class="sig-name descname"><span class="pre">strCpx2cpx</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#System.Network_3ph_pf.strCpx2cpx" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</section>
+<section id="module-System.miscDssFncs">
+<span id="system-miscdssfncs-module"></span><h2>System.miscDssFncs module<a class="headerlink" href="#module-System.miscDssFncs" title="Permalink to this heading">¶</a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="System.miscDssFncs.add_generators">
+<span class="sig-prename descclassname"><span class="pre">System.miscDssFncs.</span></span><span class="sig-name descname"><span class="pre">add_generators</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">DSSObj</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">genBuses</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">delta</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#System.miscDssFncs.add_generators" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="System.miscDssFncs.build_y">
+<span class="sig-prename descclassname"><span class="pre">System.miscDssFncs.</span></span><span class="sig-name descname"><span class="pre">build_y</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">DSSObj</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fn_ckt</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#System.miscDssFncs.build_y" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="System.miscDssFncs.calc_sYsD">
+<span class="sig-prename descclassname"><span class="pre">System.miscDssFncs.</span></span><span class="sig-name descname"><span class="pre">calc_sYsD</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">YZ</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">B</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">I</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">V</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">S</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">D</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n2y</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#System.miscDssFncs.calc_sYsD" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="System.miscDssFncs.cpf_get_loads">
+<span class="sig-prename descclassname"><span class="pre">System.miscDssFncs.</span></span><span class="sig-name descname"><span class="pre">cpf_get_loads</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">DSSCircuit</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#System.miscDssFncs.cpf_get_loads" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="System.miscDssFncs.cpf_set_loads">
+<span class="sig-prename descclassname"><span class="pre">System.miscDssFncs.</span></span><span class="sig-name descname"><span class="pre">cpf_set_loads</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">DSSCircuit</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">BB</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">SS</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">k</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#System.miscDssFncs.cpf_set_loads" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="System.miscDssFncs.create_Hmat">
+<span class="sig-prename descclassname"><span class="pre">System.miscDssFncs.</span></span><span class="sig-name descname"><span class="pre">create_Hmat</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">DSSCircuit</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#System.miscDssFncs.create_Hmat" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="System.miscDssFncs.create_tapped_ybus">
+<span class="sig-prename descclassname"><span class="pre">System.miscDssFncs.</span></span><span class="sig-name descname"><span class="pre">create_tapped_ybus</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">DSSObj</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fn_y</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fn_ckt</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">TC_No0</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#System.miscDssFncs.create_tapped_ybus" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="System.miscDssFncs.create_tapped_ybus_slow">
+<span class="sig-prename descclassname"><span class="pre">System.miscDssFncs.</span></span><span class="sig-name descname"><span class="pre">create_tapped_ybus_slow</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">DSSObj</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fn_y</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">TC_No0</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#System.miscDssFncs.create_tapped_ybus_slow" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="System.miscDssFncs.create_tapped_ybus_very_slow">
+<span class="sig-prename descclassname"><span class="pre">System.miscDssFncs.</span></span><span class="sig-name descname"><span class="pre">create_tapped_ybus_very_slow</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">DSSObj</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fn_y</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">TC_No0</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#System.miscDssFncs.create_tapped_ybus_very_slow" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="System.miscDssFncs.feeder_to_fn">
+<span class="sig-prename descclassname"><span class="pre">System.miscDssFncs.</span></span><span class="sig-name descname"><span class="pre">feeder_to_fn</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">WD</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">feeder</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#System.miscDssFncs.feeder_to_fn" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="System.miscDssFncs.find_node_idx">
+<span class="sig-prename descclassname"><span class="pre">System.miscDssFncs.</span></span><span class="sig-name descname"><span class="pre">find_node_idx</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n2y</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bus</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">D</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#System.miscDssFncs.find_node_idx" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="System.miscDssFncs.find_tap_pos">
+<span class="sig-prename descclassname"><span class="pre">System.miscDssFncs.</span></span><span class="sig-name descname"><span class="pre">find_tap_pos</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">DSSCircuit</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#System.miscDssFncs.find_tap_pos" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="System.miscDssFncs.fix_tap_pos">
+<span class="sig-prename descclassname"><span class="pre">System.miscDssFncs.</span></span><span class="sig-name descname"><span class="pre">fix_tap_pos</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">DSSCircuit</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">TC_No</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#System.miscDssFncs.fix_tap_pos" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="System.miscDssFncs.getMu_Kk">
+<span class="sig-prename descclassname"><span class="pre">System.miscDssFncs.</span></span><span class="sig-name descname"><span class="pre">getMu_Kk</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">feeder</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ltcOn</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#System.miscDssFncs.getMu_Kk" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="System.miscDssFncs.get_Yvbase">
+<span class="sig-prename descclassname"><span class="pre">System.miscDssFncs.</span></span><span class="sig-name descname"><span class="pre">get_Yvbase</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">DSSCircuit</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#System.miscDssFncs.get_Yvbase" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="System.miscDssFncs.get_ckt">
+<span class="sig-prename descclassname"><span class="pre">System.miscDssFncs.</span></span><span class="sig-name descname"><span class="pre">get_ckt</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">WD</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">feeder</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#System.miscDssFncs.get_ckt" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="System.miscDssFncs.get_element_idxs">
+<span class="sig-prename descclassname"><span class="pre">System.miscDssFncs.</span></span><span class="sig-name descname"><span class="pre">get_element_idxs</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">DSSCircuit</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ele_types</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#System.miscDssFncs.get_element_idxs" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="System.miscDssFncs.get_idxs">
+<span class="sig-prename descclassname"><span class="pre">System.miscDssFncs.</span></span><span class="sig-name descname"><span class="pre">get_idxs</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">e_idx</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">DSSCircuit</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ELE</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#System.miscDssFncs.get_idxs" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="System.miscDssFncs.get_sYsD">
+<span class="sig-prename descclassname"><span class="pre">System.miscDssFncs.</span></span><span class="sig-name descname"><span class="pre">get_sYsD</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">DSSCircuit</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#System.miscDssFncs.get_sYsD" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="System.miscDssFncs.idx_shf">
+<span class="sig-prename descclassname"><span class="pre">System.miscDssFncs.</span></span><span class="sig-name descname"><span class="pre">idx_shf</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x_idx</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reIdx</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#System.miscDssFncs.idx_shf" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="System.miscDssFncs.ld_vals">
+<span class="sig-prename descclassname"><span class="pre">System.miscDssFncs.</span></span><span class="sig-name descname"><span class="pre">ld_vals</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">DSSCircuit</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#System.miscDssFncs.ld_vals" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="System.miscDssFncs.loadLinMagModel">
+<span class="sig-prename descclassname"><span class="pre">System.miscDssFncs.</span></span><span class="sig-name descname"><span class="pre">loadLinMagModel</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">feeder</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lin_point</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">WD</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lp_taps</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#System.miscDssFncs.loadLinMagModel" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="System.miscDssFncs.loadLtcModel">
+<span class="sig-prename descclassname"><span class="pre">System.miscDssFncs.</span></span><span class="sig-name descname"><span class="pre">loadLtcModel</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">feeder</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lin_point</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">WD</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lp_taps</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#System.miscDssFncs.loadLtcModel" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="System.miscDssFncs.node_to_YZ">
+<span class="sig-prename descclassname"><span class="pre">System.miscDssFncs.</span></span><span class="sig-name descname"><span class="pre">node_to_YZ</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">DSSCircuit</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#System.miscDssFncs.node_to_YZ" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="System.miscDssFncs.print_node_array">
+<span class="sig-prename descclassname"><span class="pre">System.miscDssFncs.</span></span><span class="sig-name descname"><span class="pre">print_node_array</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">YZ</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">thing</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#System.miscDssFncs.print_node_array" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="System.miscDssFncs.s_2_x">
+<span class="sig-prename descclassname"><span class="pre">System.miscDssFncs.</span></span><span class="sig-name descname"><span class="pre">s_2_x</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">s</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#System.miscDssFncs.s_2_x" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="System.miscDssFncs.set_generators">
+<span class="sig-prename descclassname"><span class="pre">System.miscDssFncs.</span></span><span class="sig-name descname"><span class="pre">set_generators</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">DSSCircuit</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">genNames</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">S</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#System.miscDssFncs.set_generators" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="System.miscDssFncs.tp2mat">
+<span class="sig-prename descclassname"><span class="pre">System.miscDssFncs.</span></span><span class="sig-name descname"><span class="pre">tp2mat</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tuple_ex</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#System.miscDssFncs.tp2mat" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="System.miscDssFncs.tp_2_ar">
+<span class="sig-prename descclassname"><span class="pre">System.miscDssFncs.</span></span><span class="sig-name descname"><span class="pre">tp_2_ar</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tuple_ex</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#System.miscDssFncs.tp_2_ar" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="System.miscDssFncs.vecSlc">
+<span class="sig-prename descclassname"><span class="pre">System.miscDssFncs.</span></span><span class="sig-name descname"><span class="pre">vecSlc</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">vec_like</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">new_idx</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#System.miscDssFncs.vecSlc" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="System.miscDssFncs.yzD2yzI">
+<span class="sig-prename descclassname"><span class="pre">System.miscDssFncs.</span></span><span class="sig-name descname"><span class="pre">yzD2yzI</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">yzD</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n2y</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#System.miscDssFncs.yzD2yzI" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</section>
+<section id="system-oxemf-dss-module">
+<h2>System.oxemf_dss module<a class="headerlink" href="#system-oxemf-dss-module" title="Permalink to this heading">¶</a></h2>
+</section>
+<section id="module-System">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-System" title="Permalink to this heading">¶</a></h2>
+</section>
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="index.html">OPENGUI</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="modules.html">OPENGUI</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="AssetList.html">AssetList module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="CurrentFullCanvas.html">CurrentFullCanvas module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Dialogues.html">Dialogues module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Popups.html">Popups module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="SaveData.html">SaveData module</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">System package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="building_test.html">building_test module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="building_test_old.html">building_test_old module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="curves.html">curves module</a></li>
+</ul>
+</li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+  <li><a href="modules.html">OPENGUI</a><ul>
+      <li>Previous: <a href="SaveData.html" title="previous chapter">SaveData module</a></li>
+      <li>Next: <a href="building_test.html" title="next chapter">building_test module</a></li>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2022, Gregor Mathieson.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 5.3.0</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="_sources/System.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>
