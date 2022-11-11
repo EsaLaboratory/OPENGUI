@@ -7,8 +7,8 @@ to use the OPENGUI with the OPEN package.
 See requirements.txt
 If using conda:
 
-``conda config --add channels invenia
-conda config --add channels picos
+``conda config --add channels invenia<br />
+conda config --add channels picos<br />
 conda config --add channels conda-forge``
 
 Creating a virtual environment:
