@@ -33,21 +33,47 @@
             
   <div class="section" id="module-curves">
 <span id="curves-module"></span><h1>curves module<a class="headerlink" href="#module-curves" title="Permalink to this headline">¶</a></h1>
+<p>OPENGUI curves module</p>
+<p>The curves module is module containing the logic for processing and displaying output curves for OPENGUI.
+This module is called from the simulation file, and will output its curves to the main canvas under “curves” on the central window.</p>
 <dl class="class">
 <dt id="curves.CanvasPanel">
 <em class="property">class </em><code class="sig-prename descclassname">curves.</code><code class="sig-name descname">CanvasPanel</code><span class="sig-paren">(</span><em class="sig-param">parent</em>, <em class="sig-param">x1</em>, <em class="sig-param">y1</em>, <em class="sig-param">line1='--'</em>, <em class="sig-param">label1=''</em>, <em class="sig-param">xlabel=''</em>, <em class="sig-param">ylabel=''</em>, <em class="sig-param">x2=[]</em>, <em class="sig-param">y2=[]</em>, <em class="sig-param">line2='--'</em>, <em class="sig-param">label2=''</em><span class="sig-paren">)</span><a class="headerlink" href="#curves.CanvasPanel" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">wx._core.Panel</span></code></p>
+<p>Class representing the curves panel on the central window.</p>
+<p>Output curves from any OPEN simulations are displayed in this window.</p>
 <dl class="method">
 <dt id="curves.CanvasPanel.draw">
 <code class="sig-name descname">draw</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#curves.CanvasPanel.draw" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Draw function to draw the output curve from the inputted x1/y1 x2/y2 values.</p>
+<p>Has no returns, but has internal plot and label functions called to draw the curves and labels.</p>
+</dd></dl>
 
 </dd></dl>
 
 <dl class="function">
 <dt id="curves.newgraph">
 <code class="sig-prename descclassname">curves.</code><code class="sig-name descname">newgraph</code><span class="sig-paren">(</span><em class="sig-param">inherit</em>, <em class="sig-param">x1</em>, <em class="sig-param">y1</em>, <em class="sig-param">line1='--'</em>, <em class="sig-param">label1=''</em>, <em class="sig-param">xlabel=''</em>, <em class="sig-param">ylabel=''</em>, <em class="sig-param">x2=[]</em>, <em class="sig-param">y2=[]</em>, <em class="sig-param">line2='--'</em>, <em class="sig-param">label2=''</em><span class="sig-paren">)</span><a class="headerlink" href="#curves.newgraph" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Creates a new graph with the inputted data and adds it to the canvaspanel as a subplot.</p>
+<p>#TODO How does this actually work?
+No returns, however the resulting curve is appended to the canvas.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>x1</strong> – The 1st x axis input array.</p></li>
+<li><p><strong>y1</strong> – The 1st y axis input array.</p></li>
+<li><p><strong>line1</strong> – The type of line to be displayed for x1/y1 (Default “–” dotted line).</p></li>
+<li><p><strong>label1</strong> – The type of label to be displayed for x1/y1 (Default “” no label).</p></li>
+<li><p><strong>xlabel</strong> – The x axis label (Default “” no label).</p></li>
+<li><p><strong>ylabel</strong> – The y axis label (Default “” no label).</p></li>
+<li><p><strong>x2</strong> – The 2nd x axis input array.</p></li>
+<li><p><strong>y2</strong> – The 2nd y axis input array.</p></li>
+<li><p><strong>line2</strong> – The type of line to be displayed for x2/y2 (Default “–” dotted line).</p></li>
+<li><p><strong>label2</strong> – The type of label to be displayed for x2/y2 (Default “” no label).</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
 
 </div>
 

@@ -34,15 +34,45 @@
             
   <div class="section" id="module-SaveData">
 <span id="savedata-module"></span><h1>SaveData module<a class="headerlink" href="#module-SaveData" title="Permalink to this headline">¶</a></h1>
+<p>OPENGUI SaveData module</p>
+<p>The SaveData module contains all of the methods of data storage and manipulation for OPENGUI.
+In this module there are methods to write and read from csv/txt files.</p>
 <dl class="function">
 <dt id="SaveData.readFromCSV">
 <code class="sig-prename descclassname">SaveData.</code><code class="sig-name descname">readFromCSV</code><span class="sig-paren">(</span><em class="sig-param">filename</em><span class="sig-paren">)</span><a class="headerlink" href="#SaveData.readFromCSV" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Reads data from a csv/txt file to the data grid.</p>
+<p>Currently takes the data from a csv or txt file (or any file containing text) and stores it line by line into the data grid.
+Newline is considered a line of data, so every newline will write the following data in the next row etc.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>filename</strong> – The chosen filename to read the data from.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>List of data taken from the file.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>returndata</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="function">
 <dt id="SaveData.writeToCSV">
 <code class="sig-prename descclassname">SaveData.</code><code class="sig-name descname">writeToCSV</code><span class="sig-paren">(</span><em class="sig-param">data</em>, <em class="sig-param">name</em>, <em class="sig-param">filetype</em><span class="sig-paren">)</span><a class="headerlink" href="#SaveData.writeToCSV" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Writes data from the data grid to a csv/txt file.</p>
+<p>Currently takes the data from the data grid and stores it line by line into a csv or txt file.
+The filetype is chosen by the user from a dialogue box option.
+No returns, however the output data is written to a file that is saved in the local directory.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>data</strong> – The data array taken from the data grid (line by line with existing text).</p></li>
+<li><p><strong>name</strong> – The filename (taken from the dialogue box user input).</p></li>
+<li><p><strong>filetype</strong> – The file type to be saved as (currently either csv or txt).</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
 
 </div>
 

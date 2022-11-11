@@ -1,3 +1,11 @@
+"""OPENGUI Popups module
+
+The Popups module contains all of the Popup boxes for OPENGUI.
+Popup boxes are considered different to Dialogue boxes in that they are used mainly for user feedback.
+In this module there is an error pop-up, a task complete pop-up, and a loading bar.
+
+"""
+
 import wx
 # import CurrentFullCanvas
 
@@ -10,6 +18,15 @@ import wx
 class GenericError ( wx.Dialog ):
 
     def __init__( self, text="Error!", parent=None):
+        """Constructor
+        
+        Parameters
+        ----------
+        text
+            The text to be displayed in the pop-up window (default "ERROR").
+        
+        """
+        
         wx.Dialog.__init__( self, parent, id = wx.ID_ANY, title = u"Error", pos = wx.DefaultPosition, size = wx.DefaultSize, style = wx.DEFAULT_DIALOG_STYLE )
 
         self.SetSizeHints( wx.DefaultSize, wx.DefaultSize )
@@ -57,6 +74,11 @@ class GenericError ( wx.Dialog ):
 
     # Virtual event handlers, override them in your derived class
     def closeOK( self, event ):
+        """Closes the pop-up window.
+        
+        This function is called from pressing the OK button in the pop-up window.
+        
+        """
 
         self.Close()
         event.Skip()
@@ -66,6 +88,15 @@ class GenericError ( wx.Dialog ):
 class GenericTaskComplete ( wx.Dialog ):
 
     def __init__( self, parent ):
+        """Constructor
+        
+        Parameters
+        ----------
+        parent
+            Parent of the pop-up, wx.Dialog
+        
+        """
+        
         wx.Dialog.__init__( self, parent, id = wx.ID_ANY, title = u"Task Complete", pos = wx.DefaultPosition, size = wx.DefaultSize, style = wx.DEFAULT_DIALOG_STYLE )
 
         self.SetSizeHints( wx.DefaultSize, wx.DefaultSize )
@@ -113,6 +144,11 @@ class GenericTaskComplete ( wx.Dialog ):
 
     # Virtual event handlers, override them in your derived class
     def closeOK( self, event ):
+        """Closes the pop-up window.
+        
+        This function is called from pressing the OK button in the pop-up window.
+        
+        """
 
         self.Close()
         event.Skip()
@@ -124,6 +160,10 @@ class GenericTaskComplete ( wx.Dialog ):
 class GenericLoadingDialogue ( wx.Dialog ): #changed from Dialog
 
     def __init__( self ): #removing parent here
+        """Constructor
+        
+        """
+        
         # parent = wx.Dialog # None below used to be parent
         wx.Dialog.__init__( self, None, id = wx.ID_ANY, title = u"Task in Progress", pos = wx.DefaultPosition, size = wx.DefaultSize, style = wx.DEFAULT_DIALOG_STYLE )
         # wxWindow.Update() #FIXME Text not appearing

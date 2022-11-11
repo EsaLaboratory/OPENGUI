@@ -1,3 +1,10 @@
+"""OPENGUI Dialogues module
+
+The Dialogues module contains all of the dialogue boxes for OPENGUI.
+Dialogue boxes are instantiated from the main gui (CurrentFullCanvas) module.
+
+"""
+
 import wx
 import building_test
 import AssetList as ass
@@ -433,6 +440,7 @@ class OPENTestDialogue ( wx.Dialog ): #remember to come and change these variabl
         
         network
             The network array with the names and voltages of each bus in the power system.
+
         """
         
         network = []

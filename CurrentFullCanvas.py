@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
-"""
-OPENGUI CurrentFullCanvas module
+"""OPENGUI CurrentFullCanvas module
 
 The CurrentFullCanvas module is the main file for OPENGUI.
 From here, the gui window runs, and all of the subsidary modules are called from this module.
+
 """
 ###########################################################################
 ## Python code generated with wxFormBuilder (version 3.10.1-0-g8feb16b3)

@@ -1,3 +1,7 @@
+"""OPENGUI AssetList Module
+
+The AssetList module contains all of the methods that manipulate the active asset list and the parameters of each asset."""
+#TODO FINISH DOCUMENTATION
 from unittest.util import strclass
 import wx
 import wx.propgrid as pg
