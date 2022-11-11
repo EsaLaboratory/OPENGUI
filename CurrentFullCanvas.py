@@ -1,10 +1,15 @@
 # -*- coding: utf-8 -*-
+"""
+OPENGUI CurrentFullCanvas module
 
+The CurrentFullCanvas module is the main file for OPENGUI.
+From here, the gui window runs, and all of the subsidary modules are called from this module.
+"""
 ###########################################################################
 ## Python code generated with wxFormBuilder (version 3.10.1-0-g8feb16b3)
 ## http://www.wxformbuilder.org/
 ###########################################################################
-
+#TODO change names of modules (gui_main etc...)
 import sys, os
 from SaveData import readFromCSV, writeToCSV
 import wx
@@ -35,6 +40,7 @@ if sys.argv:
 ###########################################################################
 class frameMain ( wx.Frame ):
     """Main frame of the canvas. Container for all subframes.
+
     """
 
     def __init__( self, parent ):
@@ -370,6 +376,7 @@ class frameMain ( wx.Frame ):
         
         Opens the file explorer dialogue on the user's computer and copies that
         path to the path of the file tree.
+
         """
         
         print(self.directory)
@@ -387,6 +394,7 @@ class frameMain ( wx.Frame ):
         Takes the file selected by the user (via double-click) and marks
         the file as "selected". The selected file's path is then displayed
         in the status bar at the bottom of the canvas.
+
         """
         
         self.active_file = self.m_userLibrary.GetFilePath() #selected in ctrl
@@ -398,6 +406,7 @@ class frameMain ( wx.Frame ):
         
         The actively selected branch of the energy system tree will have its
         active assets displayed on the active asset list.
+
         """
         active = self.m_treeCtrl.GetItemText(event.GetItem())
         print(f"Clicked on: {active}")
@@ -433,6 +442,7 @@ class frameMain ( wx.Frame ):
 
     def clearGrid( self, event ):
         """The data grid will be cleared of all text.
+
         """
         
         self.m_gridData.ClearGrid()
@@ -440,6 +450,7 @@ class frameMain ( wx.Frame ):
     
     def addRow( self, event ):
         """A row will be added to the data grid.
+
         """
         
         self.m_gridData.AppendRows()
@@ -447,6 +458,7 @@ class frameMain ( wx.Frame ):
 
     def addColumn( self, event ):
         """A column will be added to the data grid.
+
         """
         
         self.m_gridData.AppendCols()
@@ -458,6 +470,7 @@ class frameMain ( wx.Frame ):
         Whenever any parameter of an asset is edited in the active asset
         parameter list, the values will be refreshed and stored within 
         the local memory.
+
         """
         
         prop = event.GetProperty()
@@ -474,6 +487,7 @@ class frameMain ( wx.Frame ):
         
         Whenever an asset (or object) is selected from the active assets list,
         its parameters will be displayed on the active asset parameters list.
+
         """
         
         item = self.m_ActiveAssetList.GetFocusedItem() #active asset in list
@@ -487,6 +501,7 @@ class frameMain ( wx.Frame ):
         
         Once the items in the dialogue have been selected by the user,
         a new asset is selected and sent to the active asset list.
+
         """
         
         a = Dialogues.NewAssetDialogue(self)
@@ -502,6 +517,7 @@ class frameMain ( wx.Frame ):
         """Creates a new Market Object.
         
         Creates a Market Object with arbitrary default parameters.
+
         """
         
         AssetList.ActiveMarket("Active Market")
@@ -514,6 +530,7 @@ class frameMain ( wx.Frame ):
         
     def shutDown( self, event):
         """Closes the application
+
         """
         
         self.Close()
@@ -522,6 +539,7 @@ class frameMain ( wx.Frame ):
     def saveData( self, event ):
         """Saves the data in the grid as a .txt or .xml file,
         depending on user choice from a pop-up window.
+
         """
         
         #take active file as default save name
@@ -562,6 +580,7 @@ class frameMain ( wx.Frame ):
 
     def loadData( self, event ):
         """Loads data from selected file into the data grid.
+
         """
         
         loadeddata = readFromCSV(self.active_file)
@@ -608,6 +627,7 @@ class frameMain ( wx.Frame ):
     
     def updateCurves(self):
         """Prints the plots from OPEN simulation into the curves tab of the main canvas.
+
         """
         
         self.m_curves.Clear()
@@ -627,6 +647,7 @@ class frameMain ( wx.Frame ):
         """Runs the building_test.py simulation. 
         
         Currently the only simulation interaction with OPEN.
+
         """
         
         # Here we import network settings
@@ -649,6 +670,7 @@ class frameMain ( wx.Frame ):
     
     def videoTutorials( self, event ):
         """Opens the video tutorials wep page in the user's default browser.
+
         """
         
         link("https://gregorjmathieson.github.io/OPEN_GUI_Devlog/webhelp.html")
@@ -656,6 +678,7 @@ class frameMain ( wx.Frame ):
     
     def OPENDocs( self, event ):
         """Opens the OPEN documentation on the internal web viewer.
+
         """
         
         web = Dialogues.WebHelpDialogue(self).Show()
@@ -664,6 +687,7 @@ class frameMain ( wx.Frame ):
         
     def reportIssue( self, event ):
         """Opens the GitHub "report an issue" page for OPENGUI.
+
         """
         
         link("https://github.com/EsaLaboratory/OPENGUI/issues/new")

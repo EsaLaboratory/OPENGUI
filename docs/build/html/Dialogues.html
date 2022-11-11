@@ -1,20 +1,17 @@
 
 <!DOCTYPE html>
 
-<html lang="en">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
-
     <title>Dialogues module &#8212; OPENGUI 2023 documentation</title>
-    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
-    <link rel="stylesheet" type="text/css" href="_static/alabaster.css" />
-    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
-    <script src="_static/jquery.js"></script>
-    <script src="_static/underscore.js"></script>
-    <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
-    <script src="_static/doctools.js"></script>
-    <script src="_static/sphinx_highlight.js"></script>
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/language_data.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="Popups module" href="Popups.html" />
@@ -35,49 +32,49 @@
 
           <div class="body" role="main">
             
-  <section id="module-Dialogues">
-<span id="dialogues-module"></span><h1>Dialogues module<a class="headerlink" href="#module-Dialogues" title="Permalink to this heading">¶</a></h1>
-<dl class="py class">
-<dt class="sig sig-object py" id="Dialogues.NewAssetDialogue">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">Dialogues.</span></span><span class="sig-name descname"><span class="pre">NewAssetDialogue</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">parent</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Dialogues.NewAssetDialogue" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Dialog</span></code></p>
+  <div class="section" id="module-Dialogues">
+<span id="dialogues-module"></span><h1>Dialogues module<a class="headerlink" href="#module-Dialogues" title="Permalink to this headline">¶</a></h1>
+<dl class="class">
+<dt id="Dialogues.NewAssetDialogue">
+<em class="property">class </em><code class="sig-prename descclassname">Dialogues.</code><code class="sig-name descname">NewAssetDialogue</code><span class="sig-paren">(</span><em class="sig-param">parent</em><span class="sig-paren">)</span><a class="headerlink" href="#Dialogues.NewAssetDialogue" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">wx._core.Dialog</span></code></p>
 <p>Dialogue for creating a new asset.</p>
 <p>Has a drop down menu with different asset types.
 Once an asset type is selected, the name of the asset can also be chosen.
 The asset is instantiated once the OK button is selected.</p>
-<dl class="py method">
-<dt class="sig sig-object py" id="Dialogues.NewAssetDialogue.newAssetOK">
-<span class="sig-name descname"><span class="pre">newAssetOK</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">event</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Dialogues.NewAssetDialogue.newAssetOK" title="Permalink to this definition">¶</a></dt>
+<dl class="method">
+<dt id="Dialogues.NewAssetDialogue.newAssetOK">
+<code class="sig-name descname">newAssetOK</code><span class="sig-paren">(</span><em class="sig-param">event</em><span class="sig-paren">)</span><a class="headerlink" href="#Dialogues.NewAssetDialogue.newAssetOK" title="Permalink to this definition">¶</a></dt>
 <dd><p>Creates a new asset with the selected type and name.</p>
 </dd></dl>
 
 </dd></dl>
 
-<dl class="py class">
-<dt class="sig sig-object py" id="Dialogues.OPENTestDialogue">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">Dialogues.</span></span><span class="sig-name descname"><span class="pre">OPENTestDialogue</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">parent</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">curves_inherit</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">curve_container</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Dialogues.OPENTestDialogue" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Dialog</span></code></p>
+<dl class="class">
+<dt id="Dialogues.OPENTestDialogue">
+<em class="property">class </em><code class="sig-prename descclassname">Dialogues.</code><code class="sig-name descname">OPENTestDialogue</code><span class="sig-paren">(</span><em class="sig-param">parent</em>, <em class="sig-param">curves_inherit</em>, <em class="sig-param">curve_container</em><span class="sig-paren">)</span><a class="headerlink" href="#Dialogues.OPENTestDialogue" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">wx._core.Dialog</span></code></p>
 <p>Dialogue for running an OPEN simulation.</p>
 <p>Does the building case study simulation. Has a drop down menu with
 the ability to select either “summer” or “winter”.</p>
-<dl class="py method">
-<dt class="sig sig-object py" id="Dialogues.OPENTestDialogue.TestOK">
-<span class="sig-name descname"><span class="pre">TestOK</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">event</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Dialogues.OPENTestDialogue.TestOK" title="Permalink to this definition">¶</a></dt>
+<dl class="method">
+<dt id="Dialogues.OPENTestDialogue.TestOK">
+<code class="sig-name descname">TestOK</code><span class="sig-paren">(</span><em class="sig-param">event</em><span class="sig-paren">)</span><a class="headerlink" href="#Dialogues.OPENTestDialogue.TestOK" title="Permalink to this definition">¶</a></dt>
 <dd><p>Runs the OPEN simulation once the OK button is selected.</p>
 </dd></dl>
 
-<dl class="py attribute">
-<dt class="sig sig-object py" id="Dialogues.OPENTestDialogue.assets">
-<span class="sig-name descname"><span class="pre">assets</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">[]</span></em><a class="headerlink" href="#Dialogues.OPENTestDialogue.assets" title="Permalink to this definition">¶</a></dt>
+<dl class="attribute">
+<dt id="Dialogues.OPENTestDialogue.assets">
+<code class="sig-name descname">assets</code><em class="property"> = []</em><a class="headerlink" href="#Dialogues.OPENTestDialogue.assets" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
-<dl class="py method">
-<dt class="sig sig-object py" id="Dialogues.OPENTestDialogue.getData">
-<span class="sig-name descname"><span class="pre">getData</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#Dialogues.OPENTestDialogue.getData" title="Permalink to this definition">¶</a></dt>
+<dl class="method">
+<dt id="Dialogues.OPENTestDialogue.getData">
+<code class="sig-name descname">getData</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#Dialogues.OPENTestDialogue.getData" title="Permalink to this definition">¶</a></dt>
 <dd><p>Receives the data from the OPENTestdialogue.</p>
 <p>Takes selection in order to send variables to the simulation file.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dt class="field-odd">Returns</dt>
 <dd class="field-odd"><p><ul class="simple">
 <li><p><em>season</em> – The selected season to run the simulation with.</p></li>
 <li><p><em>network</em> – The network array with the names and voltages of each bus in the power system.</p></li>
@@ -87,28 +84,28 @@ the ability to select either “summer” or “winter”.</p>
 </dl>
 </dd></dl>
 
-<dl class="py attribute">
-<dt class="sig sig-object py" id="Dialogues.OPENTestDialogue.markets">
-<span class="sig-name descname"><span class="pre">markets</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">[]</span></em><a class="headerlink" href="#Dialogues.OPENTestDialogue.markets" title="Permalink to this definition">¶</a></dt>
+<dl class="attribute">
+<dt id="Dialogues.OPENTestDialogue.markets">
+<code class="sig-name descname">markets</code><em class="property"> = []</em><a class="headerlink" href="#Dialogues.OPENTestDialogue.markets" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
-<dl class="py attribute">
-<dt class="sig sig-object py" id="Dialogues.OPENTestDialogue.parameters">
-<span class="sig-name descname"><span class="pre">parameters</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">[18,</span> <span class="pre">16,</span> <span class="pre">17,</span> <span class="pre">90,</span> <span class="pre">200,</span> <span class="pre">3,</span> <span class="pre">1,</span> <span class="pre">0.04,</span> <span class="pre">0.07,</span> <span class="pre">0.1,</span> <span class="pre">500,</span> <span class="pre">-500]</span></em><a class="headerlink" href="#Dialogues.OPENTestDialogue.parameters" title="Permalink to this definition">¶</a></dt>
+<dl class="attribute">
+<dt id="Dialogues.OPENTestDialogue.parameters">
+<code class="sig-name descname">parameters</code><em class="property"> = [18, 16, 17, 90, 200, 3, 1, 0.04, 0.07, 0.1, 500, -500]</em><a class="headerlink" href="#Dialogues.OPENTestDialogue.parameters" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
 
-<dl class="py class">
-<dt class="sig sig-object py" id="Dialogues.SaveDialogue">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">Dialogues.</span></span><span class="sig-name descname"><span class="pre">SaveDialogue</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">parent</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">initial</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Dialogues.SaveDialogue" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Dialog</span></code></p>
+<dl class="class">
+<dt id="Dialogues.SaveDialogue">
+<em class="property">class </em><code class="sig-prename descclassname">Dialogues.</code><code class="sig-name descname">SaveDialogue</code><span class="sig-paren">(</span><em class="sig-param">parent</em>, <em class="sig-param">initial=''</em><span class="sig-paren">)</span><a class="headerlink" href="#Dialogues.SaveDialogue" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">wx._core.Dialog</span></code></p>
 <p>Dialogue for saving Data.</p>
 <p>Contains a method of selecting what file type to save the data as,
 as well as a filename text control box.</p>
-<dl class="py method">
-<dt class="sig sig-object py" id="Dialogues.SaveDialogue.saveOK">
-<span class="sig-name descname"><span class="pre">saveOK</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">event</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Dialogues.SaveDialogue.saveOK" title="Permalink to this definition">¶</a></dt>
+<dl class="method">
+<dt id="Dialogues.SaveDialogue.saveOK">
+<code class="sig-name descname">saveOK</code><span class="sig-paren">(</span><em class="sig-param">event</em><span class="sig-paren">)</span><a class="headerlink" href="#Dialogues.SaveDialogue.saveOK" title="Permalink to this definition">¶</a></dt>
 <dd><p>Completes the data entry and saves the file.</p>
 <p>Is activated by clicking the “OK” button in the dialogue.
 Once selected, the data is then sent to a file with the data selected.</p>
@@ -116,22 +113,22 @@ Once selected, the data is then sent to a file with the data selected.</p>
 
 </dd></dl>
 
-<dl class="py class">
-<dt class="sig sig-object py" id="Dialogues.WebHelpDialogue">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">Dialogues.</span></span><span class="sig-name descname"><span class="pre">WebHelpDialogue</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">parent</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Dialogues.WebHelpDialogue" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Dialog</span></code></p>
+<dl class="class">
+<dt id="Dialogues.WebHelpDialogue">
+<em class="property">class </em><code class="sig-prename descclassname">Dialogues.</code><code class="sig-name descname">WebHelpDialogue</code><span class="sig-paren">(</span><em class="sig-param">parent</em><span class="sig-paren">)</span><a class="headerlink" href="#Dialogues.WebHelpDialogue" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">wx._core.Dialog</span></code></p>
 <p>Dialogue for OPEN Documentation.</p>
 <p>Opens the website leading to the OPEN documentation in a window within
 the GUI.</p>
-<dl class="py method">
-<dt class="sig sig-object py" id="Dialogues.WebHelpDialogue.closeOK">
-<span class="sig-name descname"><span class="pre">closeOK</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">event</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Dialogues.WebHelpDialogue.closeOK" title="Permalink to this definition">¶</a></dt>
+<dl class="method">
+<dt id="Dialogues.WebHelpDialogue.closeOK">
+<code class="sig-name descname">closeOK</code><span class="sig-paren">(</span><em class="sig-param">event</em><span class="sig-paren">)</span><a class="headerlink" href="#Dialogues.WebHelpDialogue.closeOK" title="Permalink to this definition">¶</a></dt>
 <dd><p>Closes the dialogue.</p>
 </dd></dl>
 
 </dd></dl>
 
-</section>
+</div>
 
 
           </div>
@@ -150,7 +147,7 @@ the GUI.</p>
 
 
 <h3>Navigation</h3>
-<p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<p class="caption"><span class="caption-text">Contents:</span></p>
 <ul class="current">
 <li class="toctree-l1 current"><a class="reference internal" href="modules.html">OPENGUI</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="AssetList.html">AssetList module</a></li>
@@ -181,12 +178,12 @@ the GUI.</p>
   <h3 id="searchlabel">Quick search</h3>
     <div class="searchformwrapper">
     <form class="search" action="search.html" method="get">
-      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="text" name="q" aria-labelledby="searchlabel" />
       <input type="submit" value="Go" />
     </form>
     </div>
 </div>
-<script>document.getElementById('searchbox').style.display = "block"</script>
+<script type="text/javascript">$('#searchbox').show(0);</script>
 
 
 
@@ -203,7 +200,7 @@ the GUI.</p>
       &copy;2022, Gregor Mathieson.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 5.3.0</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 2.1.2</a>
       &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
       
       |

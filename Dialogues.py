@@ -15,10 +15,13 @@ class SaveDialogue ( wx.Dialog ):
     
     Contains a method of selecting what file type to save the data as,
     as well as a filename text control box.
+
     """
 
     def __init__( self, parent, initial=""):
-        """Constructor"""
+        """Constructor
+        
+        """
         
         wx.Dialog.__init__ ( self, parent, id = wx.ID_ANY, title = u"Save Data", pos = wx.DefaultPosition, size = wx.DefaultSize, style = wx.DEFAULT_DIALOG_STYLE )
 
@@ -86,6 +89,7 @@ class SaveDialogue ( wx.Dialog ):
         
         Is activated by clicking the "OK" button in the dialogue.
         Once selected, the data is then sent to a file with the data selected.
+
         """
         
         # ass.ActiveAsset(str(self.m_SaveAttribute1Value.GetValue()), self.m_AssetTypeChoice.GetString(self.m_AssetTypeChoice.GetSelection()))
@@ -104,6 +108,7 @@ class WebHelpDialogue ( wx.Dialog ):
     
     Opens the website leading to the OPEN documentation in a window within
     the GUI.
+
     """
 
     def __init__( self, parent ):
@@ -156,6 +161,7 @@ class WebHelpDialogue ( wx.Dialog ):
     # Virtual event handlers, override them in your derived class
     def closeOK( self, event ):
         """Closes the dialogue.
+
         """
 
         self.Close()
@@ -170,6 +176,7 @@ class NewAssetDialogue ( wx.Dialog ):
     Has a drop down menu with different asset types.
     Once an asset type is selected, the name of the asset can also be chosen.
     The asset is instantiated once the OK button is selected.
+
     """
 
     def __init__( self, parent ):
@@ -243,6 +250,7 @@ class NewAssetDialogue ( wx.Dialog ):
     # Virtual event handlers, override them in your derived class
     def newAssetOK( self, event ):
         """Creates a new asset with the selected type and name.
+
         """
         
         ass.ActiveAsset(str(self.m_NewAssetAttribute1Value.GetValue()), self.m_AssetTypeChoice.GetString(self.m_AssetTypeChoice.GetSelection()))
@@ -268,6 +276,7 @@ class OPENTestDialogue ( wx.Dialog ): #remember to come and change these variabl
     
     Does the building case study simulation. Has a drop down menu with
     the ability to select either "summer" or "winter".
+
     """
     
     assets = []
@@ -389,7 +398,7 @@ class OPENTestDialogue ( wx.Dialog ): #remember to come and change these variabl
         # Connect Events
         self.m_TestOK.Bind( wx.EVT_BUTTON, self.TestOK)
 
-    #parameters
+    #Default Parameters
     parameters = [18,16,17,90,200,3,1,0.04,0.07,0.10,500,-500] #set to default values
     
     def __del__( self ):
@@ -399,6 +408,7 @@ class OPENTestDialogue ( wx.Dialog ): #remember to come and change these variabl
     # Virtual event handlers, override them in your derived class
     def TestOK( self, event ):
         """Runs the OPEN simulation once the OK button is selected.
+
         """
         
         print(self.parameters)

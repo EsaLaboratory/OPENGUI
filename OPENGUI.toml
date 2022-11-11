@@ -1,0 +1,4 @@
+[project]
+name = "OPENGUI"
+authors = [{name = "Gregor Mathieson"}]
+dynamic = ["version", "description"]
