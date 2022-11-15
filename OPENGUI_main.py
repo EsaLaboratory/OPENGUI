@@ -46,7 +46,7 @@ class frameMain ( wx.Frame ):
     def __init__( self, parent ):
         """Constructor"""
         
-        wx.Frame.__init__ ( self, parent, id = wx.ID_ANY, title = u"OPEN_CANVAS", pos = wx.DefaultPosition, size = wx.Size( 1555,897 ), style = wx.DEFAULT_FRAME_STYLE|wx.TAB_TRAVERSAL )
+        wx.Frame.__init__ ( self, parent, id = wx.ID_ANY, title = u"OPEN_GUI", pos = wx.DefaultPosition, size = wx.Size( 1555,897 ), style = wx.DEFAULT_FRAME_STYLE|wx.TAB_TRAVERSAL )
 
         self.SetSizeHints( wx.DefaultSize, wx.DefaultSize )
 
@@ -55,6 +55,9 @@ class frameMain ( wx.Frame ):
         bSizerMainFrame = wx.BoxSizer( wx.VERTICAL )
 
         bSizerActiveArea = wx.BoxSizer( wx.HORIZONTAL )
+        
+        #Title font for panel titles
+        self.m_titleFont = wx.Font(wx.FontInfo(10).Bold())
 
 #--LEFT--############################################################################################################################################################################################
         bSizerLeft = wx.BoxSizer( wx.VERTICAL )
@@ -64,12 +67,18 @@ class frameMain ( wx.Frame ):
 
         bSizerPanelMainUserLibrary = wx.BoxSizer( wx.VERTICAL )
 
-    #Here I am using os.getcwd() to get the current directory
+        # USER LIBRARY
+
+        #User Library Panel Title
+        self.m_userLibraryTitle = wx.StaticText( self.m_panelUserLibrary, wx.ID_ANY, u"USER LIBRARY", wx.DefaultPosition, wx.DefaultSize, wx.ALIGN_CENTRE_HORIZONTAL, wx.StaticTextNameStr )
+        self.m_userLibraryTitle.SetFont(self.m_titleFont)
+        bSizerPanelMainUserLibrary.Add( self.m_userLibraryTitle, 0, wx.EXPAND, 0 )
+
+        #Here I am using os.getcwd() to get the current directory
         self.directory = os.getcwd()
         self.m_dirPicker = wx.DirPickerCtrl( self.m_panelUserLibrary, wx.ID_ANY, self.directory, u"Select a folder", wx.DefaultPosition, wx.DefaultSize, wx.DIRP_DEFAULT_STYLE )
         bSizerPanelMainUserLibrary.Add( self.m_dirPicker, 0, 0, 1 )
 
-        #User library
         self.m_userLibrary = wx.GenericDirCtrl( self.m_panelUserLibrary, wx.ID_ANY, self.directory, wx.DefaultPosition, wx.DefaultSize, wx.DIRCTRL_3D_INTERNAL|wx.SUNKEN_BORDER, wx.EmptyString, 0 )
         self.m_userLibrary.ShowHidden( False )
         
@@ -84,27 +93,35 @@ class frameMain ( wx.Frame ):
         bSizerMainPanelUserLibrary.Fit( self.m_panelUserLibrary )
         bSizerLeft.Add( self.m_panelUserLibrary, 1, wx.ALL|wx.EXPAND, 0 )
 
-        self.m_panelOPENLibrary = wx.Panel( self, wx.ID_ANY, wx.DefaultPosition, wx.DefaultSize, wx.TAB_TRAVERSAL )
-        bSizerMainPanelOPENLibrary = wx.BoxSizer( wx.VERTICAL )
+        
+        # ENERGY SYSTEM TREE
+        
+        self.m_panelEnergySystemTree = wx.Panel( self, wx.ID_ANY, wx.DefaultPosition, wx.DefaultSize, wx.TAB_TRAVERSAL )
+        bSizerMainPanelEnergySystemTree = wx.BoxSizer( wx.VERTICAL )
 
-        bSizerPanelMainOPENLibrary = wx.BoxSizer( wx.VERTICAL )
-
-        # TREE
-        self.m_treeCtrl = wx.TreeCtrl( self.m_panelOPENLibrary, wx.ID_ANY, wx.DefaultPosition, wx.DefaultSize, wx.TR_DEFAULT_STYLE )
+        bSizerPanelMainEnergySystemTree = wx.BoxSizer( wx.VERTICAL )
+        
+        # Energy System Tree Panel Title
+        self.m_panelEnergySystemTreeTitle = wx.StaticText( self.m_panelEnergySystemTree, wx.ID_ANY, u"ENERGY SYSTEM TREE", wx.DefaultPosition, wx.DefaultSize, wx.ALIGN_CENTRE_HORIZONTAL, wx.StaticTextNameStr )
+        self.m_panelEnergySystemTreeTitle.SetFont(self.m_titleFont)
+        bSizerPanelMainEnergySystemTree.Add( self.m_panelEnergySystemTreeTitle, 0, wx.EXPAND, 0 )
+        
+        self.m_treeCtrl = wx.TreeCtrl( self.m_panelEnergySystemTree, wx.ID_ANY, wx.DefaultPosition, wx.DefaultSize, wx.TR_DEFAULT_STYLE )
         self.m_EnergySystemRoot = self.m_treeCtrl.AddRoot(u"Energy System",-1,-1, None)
         self.m_AssetsBranch = self.m_treeCtrl.AppendItem(self.m_EnergySystemRoot, u"Assets", -1, -1, None)
         self.m_MarketBranch = self.m_treeCtrl.AppendItem(self.m_EnergySystemRoot, u"Market", -1, -1, None)
         self.m_NetworkBranch = self.m_treeCtrl.AppendItem(self.m_EnergySystemRoot, u"Network", -1, -1, None)
-        bSizerPanelMainOPENLibrary.Add( self.m_treeCtrl, 1, wx.EXPAND, 0 )
+        self.m_treeCtrl.ExpandAll()
+        bSizerPanelMainEnergySystemTree.Add( self.m_treeCtrl, 1, wx.EXPAND, 0 )
 
 
-        bSizerMainPanelOPENLibrary.Add( bSizerPanelMainOPENLibrary, 1, wx.EXPAND, 0 )
+        bSizerMainPanelEnergySystemTree.Add( bSizerPanelMainEnergySystemTree, 1, wx.EXPAND, 0 )
 
 
-        self.m_panelOPENLibrary.SetSizer( bSizerMainPanelOPENLibrary )
-        self.m_panelOPENLibrary.Layout()
-        bSizerMainPanelOPENLibrary.Fit( self.m_panelOPENLibrary )
-        bSizerLeft.Add( self.m_panelOPENLibrary, 1, wx.EXPAND |wx.ALL, 0 )
+        self.m_panelEnergySystemTree.SetSizer( bSizerMainPanelEnergySystemTree )
+        self.m_panelEnergySystemTree.Layout()
+        bSizerMainPanelEnergySystemTree.Fit( self.m_panelEnergySystemTree )
+        bSizerLeft.Add( self.m_panelEnergySystemTree, 1, wx.EXPAND |wx.ALL, 0 )
 
 
         bSizerActiveArea.Add( bSizerLeft, 0, wx.EXPAND, 0 )
@@ -224,31 +241,42 @@ class frameMain ( wx.Frame ):
 #--RIGHT--###########################################################################################################################################################################################
         bSizerRight = wx.BoxSizer( wx.VERTICAL )
         
-        # ASSET ATTRIBUTES
-        self.m_panelSelectedAssetAttributes = wx.Panel( self, wx.ID_ANY, wx.DefaultPosition, wx.DefaultSize, wx.TAB_TRAVERSAL )
-        bSizerMainPanelSelectedAssetAttributes = wx.BoxSizer( wx.VERTICAL )
+        # OBJECT PARAMETERS
+        
+        self.m_panelObjectParameters = wx.Panel( self, wx.ID_ANY, wx.DefaultPosition, wx.DefaultSize, wx.TAB_TRAVERSAL )
+        bSizerMainPanelObjectParameters = wx.BoxSizer( wx.VERTICAL )
 
-        bSizerPanelMainSelectedAssetAttributes = wx.BoxSizer( wx.VERTICAL )
+        bSizerPanelMainObjectParameters = wx.BoxSizer( wx.VERTICAL )
+        
+        # Asset Parameters Panel Title
+        self.m_panelObjectParametersTitle = wx.StaticText( self.m_panelObjectParameters, wx.ID_ANY, u"OBJECT PARAMETERS", wx.DefaultPosition, wx.DefaultSize, wx.ALIGN_CENTRE_HORIZONTAL, wx.StaticTextNameStr )
+        self.m_panelObjectParametersTitle.SetFont(self.m_titleFont)
+        bSizerPanelMainObjectParameters.Add( self.m_panelObjectParametersTitle, 0, wx.EXPAND, 0 )
 
-        self.m_propertyGrid = pg.PropertyGrid(self.m_panelSelectedAssetAttributes, wx.ID_ANY, wx.DefaultPosition, wx.DefaultSize, wx.propgrid.PG_DEFAULT_STYLE)
+        self.m_propertyGrid = pg.PropertyGrid(self.m_panelObjectParameters, wx.ID_ANY, wx.DefaultPosition, wx.DefaultSize, wx.propgrid.PG_DEFAULT_STYLE)
         self.m_propertyGrid.SetMinSize( wx.Size( 200,-1 ) )
 
-        bSizerPanelMainSelectedAssetAttributes.Add( self.m_propertyGrid, 1, wx.EXPAND, 0 )
+        bSizerPanelMainObjectParameters.Add( self.m_propertyGrid, 1, wx.EXPAND, 0 )
 
 
-        bSizerMainPanelSelectedAssetAttributes.Add( bSizerPanelMainSelectedAssetAttributes, 1, wx.EXPAND, 0 )
+        bSizerMainPanelObjectParameters.Add( bSizerPanelMainObjectParameters, 1, wx.EXPAND, 0 )
 
 
-        self.m_panelSelectedAssetAttributes.SetSizer( bSizerMainPanelSelectedAssetAttributes )
-        self.m_panelSelectedAssetAttributes.Layout()
-        bSizerMainPanelSelectedAssetAttributes.Fit( self.m_panelSelectedAssetAttributes )
-        bSizerRight.Add( self.m_panelSelectedAssetAttributes, 1, wx.EXPAND, 0 )
+        self.m_panelObjectParameters.SetSizer( bSizerMainPanelObjectParameters )
+        self.m_panelObjectParameters.Layout()
+        bSizerMainPanelObjectParameters.Fit( self.m_panelObjectParameters )
+        bSizerRight.Add( self.m_panelObjectParameters, 1, wx.EXPAND, 0 )
 
         # ACTIVE ASSET LIST
         self.m_panelActiveAssetList = wx.Panel( self, wx.ID_ANY, wx.DefaultPosition, wx.DefaultSize, wx.TAB_TRAVERSAL )
         bSizerMainPanelActiveAssetList = wx.BoxSizer( wx.VERTICAL )
 
         bSizerPanelMainActiveAssetList = wx.BoxSizer( wx.VERTICAL )
+
+        # Active Assets Panel Title
+        self.m_panelActiveAssetListTitle = wx.StaticText( self.m_panelActiveAssetList, wx.ID_ANY, u"ACTIVE OBJECTS", wx.DefaultPosition, wx.DefaultSize, wx.ALIGN_CENTRE_HORIZONTAL, wx.StaticTextNameStr )
+        self.m_panelActiveAssetListTitle.SetFont(self.m_titleFont)
+        bSizerPanelMainActiveAssetList.Add( self.m_panelActiveAssetListTitle, 0, wx.EXPAND, 0 )
 
         self.m_ActiveAssetList = wx.ListCtrl( self.m_panelActiveAssetList, wx.ID_ANY, wx.DefaultPosition, wx.DefaultSize, wx.LC_REPORT | wx.BORDER_NONE | wx.LC_EDIT_LABELS )
         bSizerPanelMainActiveAssetList.Add( self.m_ActiveAssetList, 1, wx.EXPAND, 0 )
@@ -346,8 +374,9 @@ class frameMain ( wx.Frame ):
 
 #--EVENTS--###########################################################################################################################################################################################
 
+        self.Bind( wx.EVT_CLOSE, self.on_close )
         self.m_dirPicker.Bind( wx.EVT_DIRPICKER_CHANGED, self.changeActiveDirectory, )
-        self.m_userLibrary.Bind( wx.EVT_DIRCTRL_FILEACTIVATED, self.changeActiveFile)
+        self.m_userLibrary.Bind( wx.EVT_DIRCTRL_FILEACTIVATED, self.loadData) #CHANGE THIS TO LOAD DATA
         self.Bind( wx.EVT_TREE_ITEM_ACTIVATED, self.branchSelect, self.m_treeCtrl )
         # self.m_notebookCentral.Bind( wx.EVT_NOTEBOOK_PAGE_CHANGED, self.updateCurves )
         self.m_buttonClearAll.Bind( wx.EVT_BUTTON, self.clearGrid )
@@ -359,7 +388,7 @@ class frameMain ( wx.Frame ):
         self.Bind( wx.EVT_MENU, self.createNewMarket, id = self.m_MenuItemMarket.GetId() )
         self.Bind( wx.EVT_MENU, self.shutDown, id = self.m_menuQuit.GetId() )
         self.Bind( wx.EVT_MENU, self.saveData, id = self.m_DataSave.GetId() )
-        self.Bind( wx.EVT_MENU, self.loadData, id = self.m_DataLoad.GetId() )
+        # self.Bind( wx.EVT_MENU, self.loadData, id = self.m_DataLoad.GetId() )
         # self.Bind( wx.EVT_MENU, self.importData, id = self.m_DataImport.GetId() )
         # self.Bind( wx.EVT_MENU, self.exportData, id = self.m_DataExport.GetId() )
         self.Bind( wx.EVT_MENU, self.runOPENTest, id = self.m_menuItemOPENTest.GetId() )
@@ -369,6 +398,13 @@ class frameMain ( wx.Frame ):
 
     def __del__( self ):
         pass
+    
+    def on_close(self, event):
+        """Closes the application
+
+        """
+        self.Destroy()
+        sys.exit(0)
 
     # Virtual event handlers, override them in your derived class
     def changeActiveDirectory( self, event ):
@@ -409,8 +445,9 @@ class frameMain ( wx.Frame ):
 
         """
         active = self.m_treeCtrl.GetItemText(event.GetItem())
+        column = self.m_ActiveAssetList.GetSize()[0] /2 - 2
         print(f"Clicked on: {active}")
-        AssetList.populateAssetList(self, active)
+        AssetList.populateAssetList(self, active, column)
         self.m_propertyGrid.Clear()
         event.Skip()
     
@@ -583,40 +620,53 @@ class frameMain ( wx.Frame ):
 
         """
         
+        #Data to be loaded
+        self.active_file = self.m_userLibrary.GetFilePath()
         loadeddata = readFromCSV(self.active_file)
         # loadeddata = readFromCSV("data")
         if loadeddata == None: return
         
-        rows = self.m_gridData.GetNumberRows()
-        columns = self.m_gridData.GetNumberCols()
-        itemsinrowlist = [len(x) for x in loadeddata if x] # list of active cell count per row in loaded data
-        rowsused = len(itemsinrowlist) # number of active rows in the loaded data
-        columnsused = itemsinrowlist[0] # number of active columns in the loaded data
-
-        #while loop to make sure normal grid is big enough.
-        while (rows < rowsused):
-            self.m_gridData.AppendRows()
-            rows = self.m_gridData.GetNumberRows()
-
-        while (columns < columnsused):
-            self.m_gridData.AppendCols()
-            columns = self.m_gridData.GetNumberCols()
-
-        for column in range(columnsused):
-            data = [item[column] for item in loadeddata if item]
-            for row in range(rowsused): 
-                try:
-                    gotdata = data[row] #defined a data thing here for error handling
-                except IndexError:
-                    gotdata = ''
-                if not data[row]: #Do I still need this???
-                    self.m_gridData.SetCellValue(row, column, "")
-                else:
-                    self.m_gridData.SetCellValue(row, column, str(gotdata))
-
-        #task complete
-        b = Popups.GenericTaskComplete(self)
+        #Confirmation
+        #TODO Check if empty
+        text = "Load file: \n" + str(self.active_file) + "?"
+        b = Popups.GenericConfirmation(text)
         print(b.ShowModal())
+        
+        if b.choice == True:
+            #Loading
+            rows = self.m_gridData.GetNumberRows()
+            columns = self.m_gridData.GetNumberCols()
+            itemsinrowlist = [len(x) for x in loadeddata if x] # list of active cell count per row in loaded data
+            rowsused = len(itemsinrowlist) # number of active rows in the loaded data
+            columnsused = itemsinrowlist[0] # number of active columns in the loaded data
+
+            #while loop to make sure normal grid is big enough.
+            while (rows < rowsused):
+                self.m_gridData.AppendRows()
+                rows = self.m_gridData.GetNumberRows()
+
+            while (columns < columnsused):
+                self.m_gridData.AppendCols()
+                columns = self.m_gridData.GetNumberCols()
+
+            for column in range(columnsused):
+                data = [item[column] for item in loadeddata if item]
+                for row in range(rowsused): 
+                    try:
+                        gotdata = data[row] #defined a data thing here for error handling
+                    except IndexError:
+                        gotdata = ''
+                    if not data[row]: #Do I still need this???
+                        self.m_gridData.SetCellValue(row, column, "")
+                    else:
+                        self.m_gridData.SetCellValue(row, column, str(gotdata))
+
+            self.m_notebookCentral.ChangeSelection(3)
+            #task complete
+            b = Popups.GenericTaskComplete(self)
+            print(b.ShowModal())
+        else:
+            pass
         event.Skip()
 
     # def importData( self, event ):

@@ -104,10 +104,22 @@ def updateParam(label, value, item, asset_type):
     for param, default in ActiveMarket.active_markets[item].market.__dict__.items():
         print(param, default)
 
-def populateAssetList( self , active ):
+def populateAssetList( self , active, column ):
+    """_summary_
+
+    Args:
+        active (_type_): _description_
+        column (_type_): _description_
+        font (_type_): _description_
+    """
+    
     self.m_ActiveAssetList.ClearAll()
-    self.m_ActiveAssetList.InsertColumn(0, "Object Name", wx.LIST_FORMAT_LEFT, wx.LIST_AUTOSIZE)
-    self.m_ActiveAssetList.InsertColumn(1, "Object Type", wx.LIST_FORMAT_RIGHT, wx.LIST_AUTOSIZE)
+    self.m_ActiveAssetList.InsertColumn(0, "Object Name", wx.LIST_FORMAT_LEFT, column)
+    self.m_ActiveAssetList.InsertColumn(1, "Object Type", wx.LIST_FORMAT_RIGHT, column)
+    listfont = self.m_ActiveAssetList.GetFont()
+    headfont = listfont.MakeBold()
+    headAttr = wx.ItemAttr((0,0,0), (240,240,240), headfont)
+    self.m_ActiveAssetList.SetHeaderAttr(headAttr)
     if active == "Market":
         for market in ActiveMarket.active_markets:
             index = self.m_ActiveAssetList.InsertItem( self.m_ActiveAssetList.GetItemCount(), market.name )
