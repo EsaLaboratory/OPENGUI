@@ -6,6 +6,8 @@ Development log: https://gregorjmathieson.github.io/OPEN_GUI_Devlog/
 
 Video Tutorials: https://gregorjmathieson.github.io/OPEN_GUI_Devlog/webhelp.html
 
+OPEN Platform for Energy Networks: https://open-platform-for-energy-networks.readthedocs.io/en/latest/
+
 ## Requirements
 --------------------------------------------------
 * Python 3
