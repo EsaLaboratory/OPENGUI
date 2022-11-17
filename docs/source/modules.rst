@@ -5,8 +5,8 @@ OPENGUI
    :maxdepth: 4
 
    AssetList
-   CurrentFullCanvas
    Dialogues
+   OPENGUI_main
    Popups
    SaveData
    System

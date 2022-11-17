@@ -17,6 +17,99 @@ import numpy as np
 ####################
 # Save File DIALOGUE
 ####################
+class NewProjectDialogue ( wx.Dialog ):
+    """Dialogue for saving Data.
+    
+    Contains a method of selecting what file type to save the data as,
+    as well as a filename text control box.
+
+    """
+
+    def __init__( self, parent, initial=""):
+        """Constructor
+        
+        """
+        
+        wx.Dialog.__init__ ( self, parent, id = wx.ID_ANY, title = u"New Project", pos = wx.DefaultPosition, size = wx.DefaultSize, style = wx.DEFAULT_DIALOG_STYLE )
+
+        #initialise variables
+        self.name = ""
+        # self.filetype = ""
+
+        self.SetSizeHints( wx.DefaultSize, wx.DefaultSize )
+
+        bNewProjectFrameMain = wx.BoxSizer( wx.VERTICAL )
+
+        bNewProjectMainFrame = wx.BoxSizer( wx.VERTICAL )
+
+        self.m_NewProjectActiveArea = wx.Panel( self, wx.ID_ANY, wx.DefaultPosition, wx.DefaultSize, wx.TAB_TRAVERSAL )
+        bNewProjectSizer = wx.BoxSizer( wx.VERTICAL )
+
+        bNewProjectSizer.SetMinSize( wx.Size( 200,60 ) )
+        bNewProjectRow1 = wx.BoxSizer( wx.HORIZONTAL )
+        
+        self.m_ProjectAttribute1 = wx.StaticText( self.m_NewProjectActiveArea, wx.ID_ANY, u"Project Name", wx.DefaultPosition, wx.DefaultSize, 0 )
+        self.m_ProjectAttribute1.Wrap( -1 )
+
+        bNewProjectRow1.Add( self.m_ProjectAttribute1, 1, wx.ALL, 0 )
+        
+        self.m_ProjectAttribute1Value = wx.TextCtrl( self.m_NewProjectActiveArea, wx.ID_ANY, initial, wx.DefaultPosition, wx.DefaultSize, 0 )
+        bNewProjectRow1.Add( self.m_ProjectAttribute1Value, 1, wx.ALL, 0 )
+
+        # m_FileTypeChoiceChoices = [".csv", ".txt"]
+
+        # self.m_FileTypeChoice = wx.Choice( self.m_NewProjectActiveArea, wx.ID_ANY, wx.DefaultPosition, wx.DefaultSize, m_FileTypeChoiceChoices, 0 )
+        # self.m_FileTypeChoice.SetSelection( 0 )
+        # bNewProjectRow1.Add( self.m_FileTypeChoice, 1, wx.ALL, 0 )
+
+        bNewProjectSizer.Add( bNewProjectRow1, 1, wx.EXPAND, 0 )
+
+        self.m_ProjectOK = wx.Button( self.m_NewProjectActiveArea, wx.ID_ANY, u"OK", wx.DefaultPosition, wx.DefaultSize, 0 )
+        bNewProjectSizer.Add( self.m_ProjectOK, 0, wx.ALIGN_RIGHT|wx.ALL, 5 )
+
+
+        self.m_NewProjectActiveArea.SetSizer( bNewProjectSizer )
+        self.m_NewProjectActiveArea.Layout()
+        bNewProjectSizer.Fit( self.m_NewProjectActiveArea )
+        bNewProjectMainFrame.Add( self.m_NewProjectActiveArea, 1, wx.EXPAND |wx.ALL, 5 )
+
+
+        bNewProjectFrameMain.Add( bNewProjectMainFrame, 1, wx.EXPAND, 5 )
+
+
+        self.SetSizer( bNewProjectFrameMain )
+        self.Layout()
+        bNewProjectFrameMain.Fit( self )
+
+        self.Centre( wx.BOTH )
+
+        # Connect Events
+        self.m_ProjectOK.Bind( wx.EVT_BUTTON, self.ProjectOK)
+
+    def __del__( self ):
+        pass
+
+
+    # Virtual event handlers, override them in your derived class
+    def ProjectOK( self, event ):
+        """Takes the project name and saves the file.
+        
+        Is activated by clicking the "OK" button in the dialogue.
+        Once selected, the data is then sent to a file with the data selected.
+
+        """
+        
+        # ass.ActiveAsset(str(self.m_ProjectAttribute1Value.GetValue()), self.m_AssetTypeChoice.GetString(self.m_AssetTypeChoice.GetSelection()))
+        # print(self.m_FileTypeChoice.GetString(self.m_FileTypeChoice.GetSelection()))
+        # print(self.m_FileTypeChoice.GetSelection())
+        self.name = self.m_ProjectAttribute1Value.GetValue()
+        # self.filetype = self.m_FileTypeChoice.GetString(self.m_FileTypeChoice.GetSelection())
+        self.Close()
+        event.Skip()
+
+####################
+# Save File DIALOGUE
+####################
 class SaveDialogue ( wx.Dialog ):
     """Dialogue for saving Data.
     

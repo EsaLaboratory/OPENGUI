@@ -11,6 +11,7 @@ from os.path import exists as file_exists
 # from os.path import join
 # from os import mkdir
 import os
+import pickle
 
 #TODO make it easier to pick file name and location etc
 def writeToCSV(data, name, filetype):
@@ -85,4 +86,42 @@ def readFromCSV(filename):
             return
     return returndata
 
+def saveObject(object, name, project, type):
+    """Serializes an instantiated object into a .open file
+
+    Args:
+        object (class): The instantiated object to be serialised and saved.
+        
+        name (string): The name of the object.
+        
+        project (string): The path to the active project.
+        
+        type (string): The type of object to be saved (Asset, Market, Network).
+        
+    """
+    
+    if type == "Asset":
+        folder = r"\ENERGY_SYSTEM\ASSETS"
+    elif type == "Market":
+        folder = r"\ENERGY_SYSTEM\MARKET"
+    elif type == "Network":
+        folder = r"\ENERGY_SYSTEM\NETWORK"
+    else:
+        pass
+    
+    #Way of getting object name from the object class?
+    f = open(project+folder+name+".open", "wb")
+    pickle.dump(object, f)
+    f.close()
+    
+    return
+
+def loadObject(filename):
+    """Loads and deserialises an object with the given filename
+    
+    Args:
+        filename (string): The name of the file to be imported.
+        
+    """
+    return
 # Eventually there will be an import data function here...

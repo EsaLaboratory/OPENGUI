@@ -1,7 +1,7 @@
-CurrentFullCanvas module
+OPENGUI_main module
 ========================
 
-.. automodule:: CurrentFullCanvas
+.. automodule:: OPENGUI_main
    :members:
    :undoc-members:
    :show-inheritance:

@@ -11,7 +11,7 @@ From here, the gui window runs, and all of the subsidary modules are called from
 ###########################################################################
 #TODO change names of modules (gui_main etc...)
 import sys, os
-from SaveData import readFromCSV, writeToCSV
+from SaveData import readFromCSV, writeToCSV, saveObject, loadObject
 import wx
 import wx.xrc
 import wx.grid
@@ -311,8 +311,12 @@ class frameMain ( wx.Frame ):
 #--MENU--###########################################################################################################################################################################################
         self.m_menuBar = wx.MenuBar( 0 )
     #File ---------------------------------
+        #TODO make these "New -> Something" create a file in the UserData folder
         self.m_menuFile = wx.Menu()
+        
         self.m_subMenuNew = wx.Menu()
+        self.m_MenuItemProject = wx.MenuItem( self.m_subMenuNew, wx.ID_ANY, u"Project", wx.EmptyString, wx.ITEM_NORMAL )
+        self.m_subMenuNew.Append( self.m_MenuItemProject )
         self.m_MenuItemAsset = wx.MenuItem( self.m_subMenuNew, wx.ID_ANY, u"Asset", wx.EmptyString, wx.ITEM_NORMAL )
         self.m_subMenuNew.Append( self.m_MenuItemAsset )
         self.m_MenuItemMarket = wx.MenuItem( self.m_subMenuNew, wx.ID_ANY, u"Market", wx.EmptyString, wx.ITEM_NORMAL )
@@ -327,11 +331,18 @@ class frameMain ( wx.Frame ):
 
     #Data ---------------------------------------------------
         self.m_menuData = wx.Menu()
-        self.m_DataSave = wx.MenuItem( self.m_menuData, wx.ID_ANY, u"Save Data", wx.EmptyString, wx.ITEM_NORMAL )
-        self.m_menuData.Append( self.m_DataSave )
+        
+        self.m_subMenuSave = wx.Menu()
+        self.m_MenuItemProjectData = wx.MenuItem( self.m_subMenuSave, wx.ID_ANY, u"Project Data", wx.EmptyString, wx.ITEM_NORMAL )
+        self.m_subMenuSave.Append( self.m_MenuItemProjectData )
+        self.m_DataSave = wx.MenuItem( self.m_subMenuSave, wx.ID_ANY, u"Grid Data", wx.EmptyString, wx.ITEM_NORMAL )
+        self.m_subMenuSave.Append( self.m_DataSave )
 
         self.m_DataLoad = wx.MenuItem( self.m_menuData, wx.ID_ANY, u"Load Selected File", wx.EmptyString, wx.ITEM_NORMAL )
         self.m_menuData.Append( self.m_DataLoad )
+        
+        self.m_menuData.AppendSubMenu( self.m_subMenuSave, u"Save" )
+        #TODO FINISH SETTING UP SUBMENUS FOR LOADING AND SAVING DATA
 
         # self.m_DataImport = wx.MenuItem( self.m_menuData, wx.ID_ANY, u"Import", wx.EmptyString, wx.ITEM_NORMAL )
         # self.m_menuData.Append( self.m_DataImport )
@@ -374,6 +385,7 @@ class frameMain ( wx.Frame ):
 
 #--EVENTS--###########################################################################################################################################################################################
 
+        #TODO correctly make events for saving and loading data. Note save project data should save EVERY OBJECT in .open files.
         self.Bind( wx.EVT_CLOSE, self.on_close )
         self.m_dirPicker.Bind( wx.EVT_DIRPICKER_CHANGED, self.changeActiveDirectory, )
         self.m_userLibrary.Bind( wx.EVT_DIRCTRL_FILEACTIVATED, self.loadData) #CHANGE THIS TO LOAD DATA
@@ -384,6 +396,7 @@ class frameMain ( wx.Frame ):
         self.m_buttonAddColumn.Bind( wx.EVT_BUTTON, self.addColumn )
         self.Bind( pg.EVT_PG_CHANGED, self.updateParams, id = self.m_propertyGrid.GetId() )
         self.m_ActiveAssetList.Bind( wx.EVT_LIST_ITEM_SELECTED, self.listItemSelected )
+        self.Bind( wx.EVT_MENU, self.createNewProject, id = self.m_MenuItemProject.GetId() )
         self.Bind( wx.EVT_MENU, self.createNewAsset, id = self.m_MenuItemAsset.GetId() )
         self.Bind( wx.EVT_MENU, self.createNewMarket, id = self.m_MenuItemMarket.GetId() )
         self.Bind( wx.EVT_MENU, self.shutDown, id = self.m_menuQuit.GetId() )
@@ -424,14 +437,11 @@ class frameMain ( wx.Frame ):
         print(self.directory)
         event.Skip()
         
-    def changeActiveFile (self, event ):
-        """Changes the selected file for import.
-        
-        Takes the file selected by the user (via double-click) and marks
-        the file as "selected". The selected file's path is then displayed
-        in the status bar at the bottom of the canvas.
+    def changeActiveProject (self, event ):
+        """Changes the Active Project.
 
         """
+        #FIXME MAKE SURE THIS WORKS PROPERLY
         
         self.active_file = self.m_userLibrary.GetFilePath() #selected in ctrl
         self.m_statusBar.SetStatusText(self.active_file)
@@ -533,6 +543,37 @@ class frameMain ( wx.Frame ):
         self.refreshModels()
         event.Skip()
 
+    def createNewProject( self, event ):
+        """Creates a new Project.
+        
+        A new project contains an Energy system, with directories within the
+        energy system for storing objects, such as Assets, Markets, and Network Objects.
+        The new project will be created within the UserData directory.
+
+        """
+        # User input to get project name
+        a = Dialogues.NewProjectDialogue(self)
+        print(a.ShowModal())
+        
+        # Creates new Standard Project with user inputted name
+        new_project_path = os.getcwd() + r"/UserData/" + a.name
+        os.mkdir(new_project_path)
+        os.mkdir(new_project_path+r"/ENERGY_SYSTEM/")
+        os.mkdir(new_project_path+r"/ENERGY_SYSTEM/ASSETS")
+        os.mkdir(new_project_path+r"/ENERGY_SYSTEM/MARKET")
+        os.mkdir(new_project_path+r"/ENERGY_SYSTEM/NETWORK")
+        os.mkdir(new_project_path+r"/SIMULATIONS")
+        print("Project " + a.name + " created at " + new_project_path)
+        
+        #task complete
+        b = Popups.GenericTaskComplete(self)
+        print(b.ShowModal())
+        
+        # Display active project on status bar
+        self.m_statusBar.SetStatusText("Active Project: "+a.name+" | Located at: "+new_project_path)
+        
+        event.Skip()
+    
     def createNewAsset( self, event ):
         """Opens the dialogue for creating a new asset.
         
@@ -544,6 +585,7 @@ class frameMain ( wx.Frame ):
         a = Dialogues.NewAssetDialogue(self)
         print(a.ShowModal())
         AssetList.populateAssetList(self, "Assets")
+        #TODO make sure this stuff is stored in files!
         
         #task complete
         b = Popups.GenericTaskComplete(self)
@@ -613,6 +655,7 @@ class frameMain ( wx.Frame ):
         self.m_userLibrary.SetPath(new_directory)
         self.m_userLibrary.Layout()
         self.m_userLibrary.FitInside()
+        #FIXME Make sure user library is refreshed!!!!
         event.Skip()
 
     def loadData( self, event ):

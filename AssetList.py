@@ -46,10 +46,13 @@ def translate(value, default):
     elif type(default) is str:
         return value
     elif type(default) is list:
-        print(ast.literal_eval(value))
-        return ast.literal_eval(value)
+        for i, val in enumerate(value):
+            value[i] = ast.literal_eval(val)
+        return value
     elif type(default) is np.ndarray:
-        return np.array(ast.literal_eval(value)) # I think this works!
+        for i, val in enumerate(value):
+            value[i] = ast.literal_eval(val) #TODO check if this needs to force the inputs to be a float etc
+        return np.array(value) # I think this works!
     #TODO maybe add more
 
 
@@ -136,6 +139,7 @@ def populateAssetList( self , active, column ):
 
 
 def populateParameterList( self, item, active ): # pass the market as ITEM when Market active
+    #TODO Have a differen way of displaying arrays
     self.m_propertyGrid.Clear()
     if active == "Market":
         #FIXME
@@ -154,6 +158,12 @@ def populateParameterList( self, item, active ): # pass the market as ITEM when 
                 continue
             if type(default) is np.ndarray: # Just to make it a bit more readable
                 default = list(default)
+                default_array=[]
+                for item in default:
+                    default_array.append(str(item))
+                #FIXME Should display index or something
+                self.m_propertyGrid.Append( pg.ArrayStringProperty( param ,param, default_array))
+                continue
             #TODO add a way of adding a multiple entry one for the array type data
             self.m_propertyGrid.Append( pg.StringProperty( param, param, str(default) )) #third param is default value
     

@@ -38,6 +38,17 @@
 <p>The SaveData module contains all of the methods of data storage and manipulation for OPENGUI.
 In this module there are methods to write and read from csv/txt files.</p>
 <dl class="function">
+<dt id="SaveData.loadObject">
+<code class="sig-prename descclassname">SaveData.</code><code class="sig-name descname">loadObject</code><span class="sig-paren">(</span><em class="sig-param">filename</em><span class="sig-paren">)</span><a class="headerlink" href="#SaveData.loadObject" title="Permalink to this definition">¶</a></dt>
+<dd><p>Loads and deserialises an object with the given filename</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>filename</strong> (<em>string</em>) – The name of the file to be imported.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
 <dt id="SaveData.readFromCSV">
 <code class="sig-prename descclassname">SaveData.</code><code class="sig-name descname">readFromCSV</code><span class="sig-paren">(</span><em class="sig-param">filename</em><span class="sig-paren">)</span><a class="headerlink" href="#SaveData.readFromCSV" title="Permalink to this definition">¶</a></dt>
 <dd><p>Reads data from a csv/txt file to the data grid.</p>
@@ -52,6 +63,22 @@ Newline is considered a line of data, so every newline will write the following 
 </dd>
 <dt class="field-odd">Return type</dt>
 <dd class="field-odd"><p>returndata</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="SaveData.saveObject">
+<code class="sig-prename descclassname">SaveData.</code><code class="sig-name descname">saveObject</code><span class="sig-paren">(</span><em class="sig-param">object</em>, <em class="sig-param">name</em>, <em class="sig-param">project</em>, <em class="sig-param">type</em><span class="sig-paren">)</span><a class="headerlink" href="#SaveData.saveObject" title="Permalink to this definition">¶</a></dt>
+<dd><p>Serializes an instantiated object into a .open file</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>object</strong> (<em>class</em>) – The instantiated object to be serialised and saved.</p></li>
+<li><p><strong>name</strong> (<em>string</em>) – The name of the object.</p></li>
+<li><p><strong>project</strong> (<em>string</em>) – The path to the active project.</p></li>
+<li><p><strong>type</strong> (<em>string</em>) – The type of object to be saved (Asset, Market, Network).</p></li>
+</ul>
 </dd>
 </dl>
 </dd></dl>
