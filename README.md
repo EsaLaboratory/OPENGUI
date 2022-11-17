@@ -3,7 +3,10 @@ This repository contains the necessary files
 to use the OPENGUI with the OPEN package.
 
 Development log: https://gregorjmathieson.github.io/OPEN_GUI_Devlog/
+
 Video Tutorials: https://gregorjmathieson.github.io/OPEN_GUI_Devlog/webhelp.html
+
+OPEN Platform for Energy Networks: https://open-platform-for-energy-networks.readthedocs.io/en/latest/
 
 ## Requirements
 --------------------------------------------------
