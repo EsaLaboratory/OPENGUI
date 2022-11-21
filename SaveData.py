@@ -101,16 +101,18 @@ def saveObject(object, name, project, type):
     """
     
     if type == "Asset":
-        folder = r"\ENERGY_SYSTEM\ASSETS"
+        folder = r"/ENERGY_SYSTEM/ASSETS/"
     elif type == "Market":
-        folder = r"\ENERGY_SYSTEM\MARKET"
+        folder = r"/ENERGY_SYSTEM/MARKET/"
     elif type == "Network":
-        folder = r"\ENERGY_SYSTEM\NETWORK"
+        folder = r"/ENERGY_SYSTEM/NETWORK/"
     else:
         pass
     
+    path = project+folder+name+".open"
+    print("Path is: " + path)
     #Way of getting object name from the object class?
-    f = open(project+folder+name+".open", "wb")
+    f = open(path, "wb")
     pickle.dump(object, f)
     f.close()
     

@@ -56,6 +56,11 @@ class frameMain ( wx.Frame ):
 
         bSizerActiveArea = wx.BoxSizer( wx.HORIZONTAL )
         
+        #active project
+        #TODO this should load the previous project by default
+        self.active_project_name = ""
+        self.active_project_path = ""
+        
         #Title font for panel titles
         self.m_titleFont = wx.Font(wx.FontInfo(10).Bold())
 
@@ -306,6 +311,7 @@ class frameMain ( wx.Frame ):
 #--StatusBar--###########################################################################################################################################################################################
         self.m_statusBar = self.CreateStatusBar( 1, wx.STB_DEFAULT_STYLE, wx.ID_ANY )
         self.m_statusBar.SetFieldsCount(2)
+        self.m_statusBar.SetStatusText("Active Project: "+self.active_project_name+" | Located at: "+self.active_project_path, 0)
         self.m_statusBar.SetStatusText("OPEN GUI Alpha v0.01", 1)
         
 #--MENU--###########################################################################################################################################################################################
@@ -333,15 +339,20 @@ class frameMain ( wx.Frame ):
         self.m_menuData = wx.Menu()
         
         self.m_subMenuSave = wx.Menu()
-        self.m_MenuItemProjectData = wx.MenuItem( self.m_subMenuSave, wx.ID_ANY, u"Project Data", wx.EmptyString, wx.ITEM_NORMAL )
+        self.m_MenuItemProjectData = wx.MenuItem( self.m_subMenuSave, wx.ID_ANY, u"Save Project Data", wx.EmptyString, wx.ITEM_NORMAL )
         self.m_subMenuSave.Append( self.m_MenuItemProjectData )
-        self.m_DataSave = wx.MenuItem( self.m_subMenuSave, wx.ID_ANY, u"Grid Data", wx.EmptyString, wx.ITEM_NORMAL )
+        self.m_DataSave = wx.MenuItem( self.m_subMenuSave, wx.ID_ANY, u"Save Grid Data", wx.EmptyString, wx.ITEM_NORMAL )
         self.m_subMenuSave.Append( self.m_DataSave )
-
-        self.m_DataLoad = wx.MenuItem( self.m_menuData, wx.ID_ANY, u"Load Selected File", wx.EmptyString, wx.ITEM_NORMAL )
-        self.m_menuData.Append( self.m_DataLoad )
-        
         self.m_menuData.AppendSubMenu( self.m_subMenuSave, u"Save" )
+
+        self.m_subMenuLoad = wx.Menu()
+        self.m_MenuItemLoadProject = wx.MenuItem( self.m_subMenuLoad, wx.ID_ANY, u"Load Project", wx.EmptyString, wx.ITEM_NORMAL )
+        self.m_subMenuLoad.Append( self.m_MenuItemLoadProject )
+        self.m_DataLoad = wx.MenuItem( self.m_subMenuLoad, wx.ID_ANY, u"Load Selected File", wx.EmptyString, wx.ITEM_NORMAL )
+        self.m_subMenuLoad.Append( self.m_DataLoad )
+        self.m_menuData.AppendSubMenu( self.m_subMenuLoad, u"Load" )
+        
+        
         #TODO FINISH SETTING UP SUBMENUS FOR LOADING AND SAVING DATA
 
         # self.m_DataImport = wx.MenuItem( self.m_menuData, wx.ID_ANY, u"Import", wx.EmptyString, wx.ITEM_NORMAL )
@@ -388,7 +399,6 @@ class frameMain ( wx.Frame ):
         #TODO correctly make events for saving and loading data. Note save project data should save EVERY OBJECT in .open files.
         self.Bind( wx.EVT_CLOSE, self.on_close )
         self.m_dirPicker.Bind( wx.EVT_DIRPICKER_CHANGED, self.changeActiveDirectory, )
-        self.m_userLibrary.Bind( wx.EVT_DIRCTRL_FILEACTIVATED, self.loadData) #CHANGE THIS TO LOAD DATA
         self.Bind( wx.EVT_TREE_ITEM_ACTIVATED, self.branchSelect, self.m_treeCtrl )
         # self.m_notebookCentral.Bind( wx.EVT_NOTEBOOK_PAGE_CHANGED, self.updateCurves )
         self.m_buttonClearAll.Bind( wx.EVT_BUTTON, self.clearGrid )
@@ -400,6 +410,9 @@ class frameMain ( wx.Frame ):
         self.Bind( wx.EVT_MENU, self.createNewAsset, id = self.m_MenuItemAsset.GetId() )
         self.Bind( wx.EVT_MENU, self.createNewMarket, id = self.m_MenuItemMarket.GetId() )
         self.Bind( wx.EVT_MENU, self.shutDown, id = self.m_menuQuit.GetId() )
+        self.Bind( wx.EVT_MENU, self.loadData, id = self.m_DataLoad.GetId() )
+        self.Bind( wx.EVT_MENU, self.loadProject, id = self.m_MenuItemLoadProject.GetId() )
+        self.Bind( wx.EVT_MENU, self.saveProject, id = self.m_MenuItemProjectData.GetId() )
         self.Bind( wx.EVT_MENU, self.saveData, id = self.m_DataSave.GetId() )
         # self.Bind( wx.EVT_MENU, self.loadData, id = self.m_DataLoad.GetId() )
         # self.Bind( wx.EVT_MENU, self.importData, id = self.m_DataImport.GetId() )
@@ -558,7 +571,7 @@ class frameMain ( wx.Frame ):
         # Creates new Standard Project with user inputted name
         new_project_path = os.getcwd() + r"/UserData/" + a.name
         os.mkdir(new_project_path)
-        os.mkdir(new_project_path+r"/ENERGY_SYSTEM/")
+        os.mkdir(new_project_path+r"/ENERGY_SYSTEM")
         os.mkdir(new_project_path+r"/ENERGY_SYSTEM/ASSETS")
         os.mkdir(new_project_path+r"/ENERGY_SYSTEM/MARKET")
         os.mkdir(new_project_path+r"/ENERGY_SYSTEM/NETWORK")
@@ -571,6 +584,8 @@ class frameMain ( wx.Frame ):
         
         # Display active project on status bar
         self.m_statusBar.SetStatusText("Active Project: "+a.name+" | Located at: "+new_project_path)
+        self.active_project_name = a.name
+        self.active_project_path = new_project_path
         
         event.Skip()
     
@@ -613,6 +628,25 @@ class frameMain ( wx.Frame ):
         """
         
         self.Close()
+        event.Skip()
+
+    def saveProject(self, event):
+        """Saves all instatiated objects in the ENERGY_SYSTEM Directory.
+
+        Calls on the function SaveData.saveObject() for every asset and market in the project.
+        """
+        
+        #TODO add markets and network
+        for asset in AssetList.ActiveAsset.active_assets:
+            saveObject(asset, asset.name, self.active_project_path, "Asset")
+        
+        for market in AssetList.ActiveMarket.active_markets:
+            saveObject(market, market.name, self.active_project_path, "Market")
+        
+        #task complete
+        b = Popups.GenericTaskComplete(self)
+        print(b.ShowModal())
+        
         event.Skip()
 
     def saveData( self, event ):
@@ -658,6 +692,17 @@ class frameMain ( wx.Frame ):
         #FIXME Make sure user library is refreshed!!!!
         event.Skip()
 
+    def loadProject( self, event ):
+        """Loads the entire project from projects in UserData directory.
+
+        Args:
+            event (_type_): _description_
+        """
+        
+        a = Dialogues.ActiveProjectDialogue(self)
+        print(a.ShowModal())
+        event.Skip()
+        
     def loadData( self, event ):
         """Loads data from selected file into the data grid.
 
