@@ -23,7 +23,7 @@ from webbrowser import open as link
 import Dialogues
 import Popups
 import AssetList
-import curves
+# import curves
 
 # #OPEN
 
@@ -80,11 +80,11 @@ class frameMain ( wx.Frame ):
         bSizerPanelMainUserLibrary.Add( self.m_userLibraryTitle, 0, wx.EXPAND, 0 )
 
         #Here I am using os.getcwd() to get the current directory
-        self.directory = os.getcwd()
-        self.m_dirPicker = wx.DirPickerCtrl( self.m_panelUserLibrary, wx.ID_ANY, self.directory, u"Select a folder", wx.DefaultPosition, wx.DefaultSize, wx.DIRP_DEFAULT_STYLE )
+        # self.directory = os.getcwd()
+        self.m_dirPicker = wx.DirPickerCtrl( self.m_panelUserLibrary, wx.ID_ANY, self.active_project_path, u"Select a folder", wx.DefaultPosition, wx.DefaultSize, wx.DIRP_DEFAULT_STYLE )
         bSizerPanelMainUserLibrary.Add( self.m_dirPicker, 0, 0, 1 )
 
-        self.m_userLibrary = wx.GenericDirCtrl( self.m_panelUserLibrary, wx.ID_ANY, self.directory, wx.DefaultPosition, wx.DefaultSize, wx.DIRCTRL_3D_INTERNAL|wx.SUNKEN_BORDER, wx.EmptyString, 0 )
+        self.m_userLibrary = wx.GenericDirCtrl( self.m_panelUserLibrary, wx.ID_ANY, self.active_project_path, wx.DefaultPosition, wx.DefaultSize, wx.DIRCTRL_3D_INTERNAL|wx.SUNKEN_BORDER, wx.EmptyString, 0 )
         self.m_userLibrary.ShowHidden( False )
         
         bSizerPanelMainUserLibrary.Add( self.m_userLibrary, 1, wx.EXPAND, 1 )
@@ -399,6 +399,7 @@ class frameMain ( wx.Frame ):
         #TODO correctly make events for saving and loading data. Note save project data should save EVERY OBJECT in .open files.
         self.Bind( wx.EVT_CLOSE, self.on_close )
         self.m_dirPicker.Bind( wx.EVT_DIRPICKER_CHANGED, self.changeActiveDirectory, )
+        self.m_userLibrary.Bind( wx.EVT_DIRCTRL_FILEACTIVATED, self.loadData )
         self.Bind( wx.EVT_TREE_ITEM_ACTIVATED, self.branchSelect, self.m_treeCtrl )
         # self.m_notebookCentral.Bind( wx.EVT_NOTEBOOK_PAGE_CHANGED, self.updateCurves )
         self.m_buttonClearAll.Bind( wx.EVT_BUTTON, self.clearGrid )
@@ -587,6 +588,9 @@ class frameMain ( wx.Frame ):
         self.active_project_name = a.name
         self.active_project_path = new_project_path
         
+        # Set project path in the user library
+        self.m_userLibrary.SetPath(self.active_project_path)
+        
         event.Skip()
     
     def createNewAsset( self, event ):
@@ -692,7 +696,7 @@ class frameMain ( wx.Frame ):
         #FIXME Make sure user library is refreshed!!!!
         event.Skip()
 
-    def loadProject( self, event ):
+    def loadProject( self, event=None ):
         """Loads the entire project from projects in UserData directory.
 
         Args:
@@ -701,7 +705,31 @@ class frameMain ( wx.Frame ):
         
         a = Dialogues.ActiveProjectDialogue(self)
         print(a.ShowModal())
-        event.Skip()
+        project = a.item
+        
+        # Display active project on status bar
+        new_project_path = os.getcwd() + r"/UserData/" + project
+        self.m_statusBar.SetStatusText("Active Project: "+project+" | Located at: "+new_project_path)
+        self.active_project_name = project
+        self.active_project_path = new_project_path
+        
+        # Set project path in the user library
+        self.m_userLibrary.SetPath(self.active_project_path)
+        
+        # LOAD ALL OBJECTS IN ENERGY_SYSTEM
+        #----------------------------------
+        energy_system_path = new_project_path + "/ENERGY_SYSTEM/"
+        
+        # ASSETS
+        AssetList.ActiveAsset.clear() # clear existing assets
+        assets_path = energy_system_path + "ASSETS/"
+        assets = os.listdir(assets_path)
+        for asset in assets:
+            loadObject(asset, assets_path, "Asset")
+            
+        
+        #TODO Have some way of refreshing everything
+        # event.Skip()
         
     def loadData( self, event ):
         """Loads data from selected file into the data grid.
@@ -839,4 +867,5 @@ app = wx.App()
 frame = frameMain(None)
 frame.Show()
 frame.Maximize(True)
+frame.loadProject()
 app.MainLoop()

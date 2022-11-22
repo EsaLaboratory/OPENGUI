@@ -32,8 +32,7 @@ class ActiveProjectDialogue ( wx.Dialog ):
         wx.Dialog.__init__ ( self, parent, id = wx.ID_ANY, title = u"Select Active Project", pos = wx.DefaultPosition, size = wx.DefaultSize, style = wx.DEFAULT_DIALOG_STYLE )
 
         #initialise variables
-        self.name = ""
-        # self.filetype = ""
+        self.item = ""
 
         self.SetSizeHints( wx.DefaultSize, wx.DefaultSize )
 
@@ -45,26 +44,34 @@ class ActiveProjectDialogue ( wx.Dialog ):
         bNewProjectSizer = wx.BoxSizer( wx.VERTICAL )
 
         bNewProjectSizer.SetMinSize( wx.Size( 200,60 ) )
-        bNewProjectRow1 = wx.BoxSizer( wx.VERTICAL )
+        # bNewProjectRow1 = wx.BoxSizer( wx.VERTICAL )
         
-        self.m_ProjectAttribute1 = wx.StaticText( self.m_NewProjectActiveArea, wx.ID_ANY, u"Project", wx.DefaultPosition, wx.DefaultSize, 0 )
-        self.m_ProjectAttribute1.Wrap( -1 )
+        # self.m_ProjectAttribute1 = wx.StaticText( self.m_NewProjectActiveArea, wx.ID_ANY, u"Project", wx.DefaultPosition, wx.DefaultSize, 1 )
+        # self.m_ProjectAttribute1.Wrap( -1 )
 
-        bNewProjectRow1.Add( self.m_ProjectAttribute1, 1, wx.ALL, 0 )
+        # bNewProjectRow1.Add( self.m_ProjectAttribute1, 1, wx.ALL, 0 )
         
         # self.m_ProjectAttribute1Value = wx.TextCtrl( self.m_NewProjectActiveArea, wx.ID_ANY, initial, wx.DefaultPosition, wx.DefaultSize, 0 )
         # bNewProjectRow1.Add( self.m_ProjectAttribute1Value, 1, wx.ALL, 0 )
-
-        self.m_ProjectAttribute1Value = wx.ListCtrl( self.m_NewProjectActiveArea, wx.ID_ANY, wx.DefaultPosition, wx.DefaultSize, wx.LC_REPORT | wx.BORDER_NONE | wx.LC_EDIT_LABELS )
-        bNewProjectRow1.Add( self.m_ProjectAttribute1Value, 1, wx.ALL, 0 )
+        size = wx.Size(400, 200)
+        self.m_ProjectAttribute1Value = wx.ListCtrl( self.m_NewProjectActiveArea, wx.ID_ANY, wx.DefaultPosition, size, wx.LC_REPORT | wx.BORDER_NONE | wx.LC_EDIT_LABELS )
         
         self.m_ProjectAttribute1Value.ClearAll()
-        self.m_ProjectAttribute1Value.InsertColumn(0, "Project Name", wx.LIST_FORMAT_LEFT, 0 )
+        self.m_ProjectAttribute1Value.InsertColumn(0, "Available Projects", wx.LIST_FORMAT_LEFT, 400 )
+        
+        listfont = self.m_ProjectAttribute1Value.GetFont()
+        headfont = listfont.MakeBold()
+        headAttr = wx.ItemAttr((0,0,0), (240,240,240), headfont)
+        self.m_ProjectAttribute1Value.SetHeaderAttr(headAttr)
         
         path = os.getcwd() + "/UserData/"
         projects = os.listdir(path)
         for i, project in enumerate(projects):
-            self.m_ProjectAttribute1Value.InsertItem( i, project )
+            print(project)
+            a = self.m_ProjectAttribute1Value.InsertItem( i, project )
+            print(a)
+            
+        bNewProjectSizer.Add( self.m_ProjectAttribute1Value, 1, wx.ALL, 1 )
         
         # m_FileTypeChoiceChoices = [".csv", ".txt"]
 
@@ -72,7 +79,7 @@ class ActiveProjectDialogue ( wx.Dialog ):
         # self.m_FileTypeChoice.SetSelection( 0 )
         # bNewProjectRow1.Add( self.m_FileTypeChoice, 1, wx.ALL, 0 )
 
-        bNewProjectSizer.Add( bNewProjectRow1, 1, wx.EXPAND, 0 )
+        # bNewProjectSizer.Add( bNewProjectRow1, 1, wx.EXPAND, 1 )
 
         self.m_ProjectOK = wx.Button( self.m_NewProjectActiveArea, wx.ID_ANY, u"OK", wx.DefaultPosition, wx.DefaultSize, 0 )
         bNewProjectSizer.Add( self.m_ProjectOK, 0, wx.ALIGN_RIGHT|wx.ALL, 5 )
@@ -112,8 +119,10 @@ class ActiveProjectDialogue ( wx.Dialog ):
         # ass.ActiveAsset(str(self.m_ProjectAttribute1Value.GetValue()), self.m_AssetTypeChoice.GetString(self.m_AssetTypeChoice.GetSelection()))
         # print(self.m_FileTypeChoice.GetString(self.m_FileTypeChoice.GetSelection()))
         # print(self.m_FileTypeChoice.GetSelection())
-        self.name = self.m_ProjectAttribute1Value.GetValue()
+        # self.name = self.m_ProjectAttribute1Value.GetValue()
         # self.filetype = self.m_FileTypeChoice.GetString(self.m_FileTypeChoice.GetSelection())
+        focus = self.m_ProjectAttribute1Value.GetFocusedItem()
+        self.item = self.m_ProjectAttribute1Value.GetItemText(focus)
         self.Close()
         event.Skip()
         

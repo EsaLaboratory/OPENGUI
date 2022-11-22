@@ -13,6 +13,8 @@ from os.path import exists as file_exists
 import os
 import pickle
 
+from AssetList import ActiveAsset, ActiveMarket
+
 #TODO make it easier to pick file name and location etc
 def writeToCSV(data, name, filetype):
     """Writes data from the data grid to a csv/txt file.
@@ -118,12 +120,50 @@ def saveObject(object, name, project, type):
     
     return
 
-def loadObject(filename):
+def loadObject(filename, filepath, object_type): #filepath without the file name
     """Loads and deserialises an object with the given filename
     
     Args:
         filename (string): The name of the file to be imported.
         
     """
+    
+    #ASSETS
+    f=open(filepath + filename,'rb') #opening the file to read the data in the binary form
+    object = pickle.load(f)
+    object_name = filename[:-5] # gets rid of .open extension
+    ActiveAsset(object_name, object_type, object)
+    
     return
 # Eventually there will be an import data function here...
+
+#TESTING - Works!!!!!!!!
+
+#building assets
+# bldg_i = ActiveAsset("Building 1", "Building")
+# bldg_i.asset.Tmax = 18*np.ones(T_ems)
+# bldg_i.asset.Tmin = 16*np.ones(T_ems)
+# bldg_i.asset.Hmax = 90
+# bldg_i.asset.Cmax = 200
+# bldg_i.asset.deltat
+# bldg_i.asset.T0 = 17
+# bldg_i.asset.C = 500
+# bldg_i.asset.R = 0.0337
+# bldg_i.asset.CoP_heating = 3
+# bldg_i.asset.CoP_cooling = 1
+# # bldg_i.asset.Ta = None #CHOOSE WITHIN CASE
+# # bldg_i.asset.bus_id  = None #CHOOSE WITHIN CASE
+# bldg_i.asset.dt = dt
+# bldg_i.asset.T = T
+# bldg_i.asset.dt_ems = dt_ems
+# bldg_i.asset.T_ems = T_ems
+
+# print(ActiveAsset.active_assets)
+
+# path = os.getcwd() + "/UserData/test/ENERGY_SYSTEM/ASSETS/"
+# name = "Building 1.open"
+# loadObject(name, path, "Asset")
+
+# print(ActiveAsset.active_assets)
+
+# print(ActiveAsset.active_assets[0].asset.Tmax)

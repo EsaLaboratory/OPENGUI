@@ -7,7 +7,7 @@ import wx
 import wx.propgrid as pg
 import System.Assets as ass
 import System.Markets as mar
-import SaveData as sv
+# import SaveData as sv
 
 # TEMPORARY
 import numpy as np
@@ -66,12 +66,17 @@ class ActiveAsset(ass.BuildingAsset, ass.StorageAsset, ass.NondispatchableAsset,
     
     # def update(self, )
 
-    def __init__(self, name, asset_type):
+    def __init__(self, name, asset_type, asset):
         self.name = name
         self.asset_type = asset_type
-        self.asset = ActiveAsset.pickAsset(asset_type)
-        
+        self.asset = asset
+        # self.asset = ActiveAsset.pickAsset(asset_type)
         ActiveAsset.active_assets.append(self)
+        
+    def clear():
+        ActiveAsset.active_assets = []
+        
+        
     
 class ActiveMarket(mar.Market):
     active_markets = []
@@ -106,6 +111,10 @@ def updateParam(label, value, item, asset_type):
                 break
     for param, default in ActiveMarket.active_markets[item].market.__dict__.items():
         print(param, default)
+    
+# #TESTING
+# def updateParam_(label, value, item, asset_type):
+    
 
 def populateAssetList( self , active, column ):
     """_summary_
@@ -169,66 +178,66 @@ def populateParameterList( self, item, active ): # pass the market as ITEM when 
     
     
 
-# TESTING ---------------------------------------------------------    
+# # TESTING ---------------------------------------------------------    
     
-# # TESTING: best method is to replace the class instance
-# #"Asset (3 phase)" : ass.Asset_3ph(0.0,[0],0.0,0), 
-# newasset = ActiveAsset("Wow", "Asset (3 phase)")
-# for attr, value in newasset.asset.__dict__.items():
-#     print(attr, value)
+# # # TESTING: best method is to replace the class instance
+# # #"Asset (3 phase)" : ass.Asset_3ph(0.0,[0],0.0,0), 
+# # newasset = ActiveAsset("Wow", "Asset (3 phase)")
+# # for attr, value in newasset.asset.__dict__.items():
+# #     print(attr, value)
     
-# newasset.asset = ass.Asset_3ph(7.4,[0],0.0,0)
+# # newasset.asset = ass.Asset_3ph(7.4,[0],0.0,0)
     
-# for attr, value in newasset.asset.__dict__.items():
-#     print(attr, value)
+# # for attr, value in newasset.asset.__dict__.items():
+# #     print(attr, value)
+
+# # x = ActiveMarket("Market1")
+# # print(x.name)
+# # print(ActiveMarket.active_markets[0].market.__dict__.items())
 
 # x = ActiveMarket("Market1")
-# print(x.name)
-# print(ActiveMarket.active_markets[0].market.__dict__.items())
 
-x = ActiveMarket("Market1")
+# # #storage assets
+# #None
 
-# #storage assets
-#None
+# dt = 1/60 #1 minute time intervals
+# T = int(24/dt) #Number of intervals
+# dt_ems = 15/60 #30 minute EMS time intervals
+# T_ems = int(T*dt/dt_ems) #Number of EMS intervals
 
-dt = 1/60 #1 minute time intervals
-T = int(24/dt) #Number of intervals
-dt_ems = 15/60 #30 minute EMS time intervals
-T_ems = int(T*dt/dt_ems) #Number of EMS intervals
-
-#building assets
-bldg_i = ActiveAsset("Building 1", "Building")
-bldg_i.asset.Tmax = 18*np.ones(T_ems)
-bldg_i.asset.Tmin = 16*np.ones(T_ems)
-bldg_i.asset.Hmax = 90
-bldg_i.asset.Cmax = 200
-bldg_i.asset.deltat
-bldg_i.asset.T0 = 17
-bldg_i.asset.C = 500
-bldg_i.asset.R = 0.0337
-bldg_i.asset.CoP_heating = 3
-bldg_i.asset.CoP_cooling = 1
-# bldg_i.asset.Ta = None #CHOOSE WITHIN CASE
-# bldg_i.asset.bus_id  = None #CHOOSE WITHIN CASE
-bldg_i.asset.dt = dt
-bldg_i.asset.T = T
-bldg_i.asset.dt_ems = dt_ems
-bldg_i.asset.T_ems = T_ems
+# #building assets
+# bldg_i = ActiveAsset("Building 1", "Building")
+# bldg_i.asset.Tmax = 18*np.ones(T_ems)
+# bldg_i.asset.Tmin = 16*np.ones(T_ems)
+# bldg_i.asset.Hmax = 90
+# bldg_i.asset.Cmax = 200
+# bldg_i.asset.deltat
+# bldg_i.asset.T0 = 17
+# bldg_i.asset.C = 500
+# bldg_i.asset.R = 0.0337
+# bldg_i.asset.CoP_heating = 3
+# bldg_i.asset.CoP_cooling = 1
+# # bldg_i.asset.Ta = None #CHOOSE WITHIN CASE
+# # bldg_i.asset.bus_id  = None #CHOOSE WITHIN CASE
+# bldg_i.asset.dt = dt
+# bldg_i.asset.T = T
+# bldg_i.asset.dt_ems = dt_ems
+# bldg_i.asset.T_ems = T_ems
 
 
-#nondispatch assets
-bus3_gen = ActiveAsset("PV Gen Bus3", "NonDispatch")
-bus3_gen.asset.dt = dt
-bus3_gen.asset.T = T
-# bus3_gen.asset
-# bus3_gen.asset
-# bus3_gen.asset
+# #nondispatch assets
+# bus3_gen = ActiveAsset("PV Gen Bus3", "NonDispatch")
+# bus3_gen.asset.dt = dt
+# bus3_gen.asset.T = T
+# # bus3_gen.asset
+# # bus3_gen.asset
+# # bus3_gen.asset
 
-bus3_load = ActiveAsset("Load Bus3", "NonDispatch")
-bus3_load.asset.dt = dt
-bus3_load.asset.T = T
-# bus3_load.asset
-# bus3_load.asset
-# bus3_load.asset
+# bus3_load = ActiveAsset("Load Bus3", "NonDispatch")
+# bus3_load.asset.dt = dt
+# bus3_load.asset.T = T
+# # bus3_load.asset
+# # bus3_load.asset
+# # bus3_load.asset
 
-# print(bus3_gen.asset.Pnet)
+# # print(bus3_gen.asset.Pnet)
