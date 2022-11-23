@@ -603,7 +603,8 @@ class frameMain ( wx.Frame ):
         
         a = Dialogues.NewAssetDialogue(self)
         print(a.ShowModal())
-        AssetList.populateAssetList(self, "Assets")
+        column = self.m_ActiveAssetList.GetSize()[0] /2 - 2
+        AssetList.populateAssetList(self, "Assets", column)
         #TODO make sure this stuff is stored in files!
         
         #task complete
@@ -619,7 +620,8 @@ class frameMain ( wx.Frame ):
         """
         
         AssetList.ActiveMarket("Active Market")
-        AssetList.populateAssetList(self, "Market")
+        column = self.m_ActiveAssetList.GetSize()[0] /2 - 2
+        AssetList.populateAssetList(self, "Market", column)
         
         #task complete
         b = Popups.GenericTaskComplete(self)
@@ -642,10 +644,10 @@ class frameMain ( wx.Frame ):
         
         #TODO add markets and network
         for asset in AssetList.ActiveAsset.active_assets:
-            saveObject(asset, asset.name, self.active_project_path, "Asset")
+            saveObject(asset.asset, asset.name, self.active_project_path, "Asset")
         
         for market in AssetList.ActiveMarket.active_markets:
-            saveObject(market, market.name, self.active_project_path, "Market")
+            saveObject(market.market, market.name, self.active_project_path, "Market")
         
         #task complete
         b = Popups.GenericTaskComplete(self)
@@ -726,6 +728,13 @@ class frameMain ( wx.Frame ):
         assets = os.listdir(assets_path)
         for asset in assets:
             loadObject(asset, assets_path, "Asset")
+        
+        # MARKETS
+        AssetList.ActiveMarket.clear() # clear existing assets
+        market_path = energy_system_path + "MARKET/"
+        markets = os.listdir(market_path)
+        for market in markets:
+            loadObject(market, market_path, "Market")
             
         
         #TODO Have some way of refreshing everything

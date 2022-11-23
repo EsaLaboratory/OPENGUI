@@ -14,8 +14,8 @@
     <script type="text/javascript" src="_static/language_data.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Popups module" href="Popups.html" />
-    <link rel="prev" title="CurrentFullCanvas module" href="CurrentFullCanvas.html" />
+    <link rel="next" title="OPENGUI_main module" href="OPENGUI_main.html" />
+    <link rel="prev" title="AssetList module" href="AssetList.html" />
    
   <link rel="stylesheet" href="_static/custom.css" type="text/css" />
   
@@ -38,6 +38,21 @@
 <p>The Dialogues module contains all of the dialogue boxes for OPENGUI.
 Dialogue boxes are instantiated from the main gui (CurrentFullCanvas) module.</p>
 <dl class="class">
+<dt id="Dialogues.ActiveProjectDialogue">
+<em class="property">class </em><code class="sig-prename descclassname">Dialogues.</code><code class="sig-name descname">ActiveProjectDialogue</code><span class="sig-paren">(</span><em class="sig-param">parent</em><span class="sig-paren">)</span><a class="headerlink" href="#Dialogues.ActiveProjectDialogue" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">wx._core.Dialog</span></code></p>
+<p>Dialogue for selecting a project to be the active project.</p>
+<dl class="method">
+<dt id="Dialogues.ActiveProjectDialogue.ProjectOK">
+<code class="sig-name descname">ProjectOK</code><span class="sig-paren">(</span><em class="sig-param">event</em><span class="sig-paren">)</span><a class="headerlink" href="#Dialogues.ActiveProjectDialogue.ProjectOK" title="Permalink to this definition">¶</a></dt>
+<dd><p>Takes the project name and saves the file.</p>
+<p>Is activated by clicking the “OK” button in the dialogue.
+Once selected, the data is then sent to a file with the data selected.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
 <dt id="Dialogues.NewAssetDialogue">
 <em class="property">class </em><code class="sig-prename descclassname">Dialogues.</code><code class="sig-name descname">NewAssetDialogue</code><span class="sig-paren">(</span><em class="sig-param">parent</em><span class="sig-paren">)</span><a class="headerlink" href="#Dialogues.NewAssetDialogue" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">wx._core.Dialog</span></code></p>
@@ -54,12 +69,30 @@ The asset is instantiated once the OK button is selected.</p>
 </dd></dl>
 
 <dl class="class">
+<dt id="Dialogues.NewAssetParametersDialogue">
+<em class="property">class </em><code class="sig-prename descclassname">Dialogues.</code><code class="sig-name descname">NewAssetParametersDialogue</code><span class="sig-paren">(</span><em class="sig-param">parent</em>, <em class="sig-param">name</em>, <em class="sig-param">choice</em><span class="sig-paren">)</span><a class="headerlink" href="#Dialogues.NewAssetParametersDialogue" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">wx._core.Dialog</span></code></p>
+<p>Dialogue for inputting the parameters of a new asset.</p>
+<p>Contains text control boxes for each parameter of an asset to be instantiated.</p>
+<dl class="method">
+<dt id="Dialogues.NewAssetParametersDialogue.newAsset">
+<code class="sig-name descname">newAsset</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#Dialogues.NewAssetParametersDialogue.newAsset" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="Dialogues.NewAssetParametersDialogue.newAssetParamsOK">
+<code class="sig-name descname">newAssetParamsOK</code><span class="sig-paren">(</span><em class="sig-param">event</em><span class="sig-paren">)</span><a class="headerlink" href="#Dialogues.NewAssetParametersDialogue.newAssetParamsOK" title="Permalink to this definition">¶</a></dt>
+<dd><p>Creates a new asset with the selected type and name.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
 <dt id="Dialogues.NewProjectDialogue">
 <em class="property">class </em><code class="sig-prename descclassname">Dialogues.</code><code class="sig-name descname">NewProjectDialogue</code><span class="sig-paren">(</span><em class="sig-param">parent</em>, <em class="sig-param">initial=''</em><span class="sig-paren">)</span><a class="headerlink" href="#Dialogues.NewProjectDialogue" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">wx._core.Dialog</span></code></p>
-<p>Dialogue for saving Data.</p>
-<p>Contains a method of selecting what file type to save the data as,
-as well as a filename text control box.</p>
+<p>Dialogue for creating a New Project.</p>
+<p>#TODO</p>
 <dl class="method">
 <dt id="Dialogues.NewProjectDialogue.ProjectOK">
 <code class="sig-name descname">ProjectOK</code><span class="sig-paren">(</span><em class="sig-param">event</em><span class="sig-paren">)</span><a class="headerlink" href="#Dialogues.NewProjectDialogue.ProjectOK" title="Permalink to this definition">¶</a></dt>
@@ -171,8 +204,8 @@ the GUI.</p>
 <ul class="current">
 <li class="toctree-l1 current"><a class="reference internal" href="modules.html">OPENGUI</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="AssetList.html">AssetList module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="CurrentFullCanvas.html">CurrentFullCanvas module</a></li>
 <li class="toctree-l2 current"><a class="current reference internal" href="#">Dialogues module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="OPENGUI_main.html">OPENGUI_main module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="Popups.html">Popups module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="SaveData.html">SaveData module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="System.html">System package</a></li>
@@ -188,8 +221,8 @@ the GUI.</p>
 <ul>
   <li><a href="index.html">Documentation overview</a><ul>
   <li><a href="modules.html">OPENGUI</a><ul>
-      <li>Previous: <a href="CurrentFullCanvas.html" title="previous chapter">CurrentFullCanvas module</a></li>
-      <li>Next: <a href="Popups.html" title="next chapter">Popups module</a></li>
+      <li>Previous: <a href="AssetList.html" title="previous chapter">AssetList module</a></li>
+      <li>Next: <a href="OPENGUI_main.html" title="next chapter">OPENGUI_main module</a></li>
   </ul></li>
   </ul></li>
 </ul>

@@ -126,13 +126,26 @@ def loadObject(filename, filepath, object_type): #filepath without the file name
     Args:
         filename (string): The name of the file to be imported.
         
+        filepath (string): The path to the current directory. (NOTE: DOES NOT INCLUDE FILENAME)
+        
+        object_type (string): The basic type of object to be loaded (Asset, Market, Network).
+        
     """
+    if object_type == "Asset":
+        #ASSETS
+        f=open(filepath + filename,'rb') #opening the file to read the data in the binary form
+        object = pickle.load(f)
+        object_name = filename[:-5] # gets rid of .open extension
+        print(type(object).__name__)
+
+        ActiveAsset(object_name, type(object).__name__, object)
     
-    #ASSETS
-    f=open(filepath + filename,'rb') #opening the file to read the data in the binary form
-    object = pickle.load(f)
-    object_name = filename[:-5] # gets rid of .open extension
-    ActiveAsset(object_name, object_type, object)
+    elif object_type == "Market":
+        #MARKETS
+        f=open(filepath + filename,'rb') #opening the file to read the data in the binary form
+        object = pickle.load(f)
+        object_name = filename[:-5] # gets rid of .open extension
+        ActiveMarket(object_name, object)
     
     return
 # Eventually there will be an import data function here...

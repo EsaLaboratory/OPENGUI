@@ -39,11 +39,15 @@
 In this module there are methods to write and read from csv/txt files.</p>
 <dl class="function">
 <dt id="SaveData.loadObject">
-<code class="sig-prename descclassname">SaveData.</code><code class="sig-name descname">loadObject</code><span class="sig-paren">(</span><em class="sig-param">filename</em><span class="sig-paren">)</span><a class="headerlink" href="#SaveData.loadObject" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">SaveData.</code><code class="sig-name descname">loadObject</code><span class="sig-paren">(</span><em class="sig-param">filename</em>, <em class="sig-param">filepath</em>, <em class="sig-param">object_type</em><span class="sig-paren">)</span><a class="headerlink" href="#SaveData.loadObject" title="Permalink to this definition">¶</a></dt>
 <dd><p>Loads and deserialises an object with the given filename</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>filename</strong> (<em>string</em>) – The name of the file to be imported.</p>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>filename</strong> (<em>string</em>) – The name of the file to be imported.</p></li>
+<li><p><strong>filepath</strong> (<em>string</em>) – The path to the current directory. (NOTE: DOES NOT INCLUDE FILENAME)</p></li>
+<li><p><strong>object_type</strong> (<em>string</em>) – The basic type of object to be loaded (Asset, Market, Network).</p></li>
+</ul>
 </dd>
 </dl>
 </dd></dl>
@@ -124,8 +128,8 @@ No returns, however the output data is written to a file that is saved in the lo
 <ul class="current">
 <li class="toctree-l1 current"><a class="reference internal" href="modules.html">OPENGUI</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="AssetList.html">AssetList module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="CurrentFullCanvas.html">CurrentFullCanvas module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="Dialogues.html">Dialogues module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="OPENGUI_main.html">OPENGUI_main module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="Popups.html">Popups module</a></li>
 <li class="toctree-l2 current"><a class="current reference internal" href="#">SaveData module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="System.html">System package</a></li>

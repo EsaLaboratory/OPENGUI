@@ -14,7 +14,7 @@
     <script type="text/javascript" src="_static/language_data.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="CurrentFullCanvas module" href="CurrentFullCanvas.html" />
+    <link rel="next" title="Dialogues module" href="Dialogues.html" />
     <link rel="prev" title="OPENGUI" href="modules.html" />
    
   <link rel="stylesheet" href="_static/custom.css" type="text/css" />
@@ -38,41 +38,47 @@
 <p>The AssetList module contains all of the methods that manipulate the active asset list and the parameters of each asset.</p>
 <dl class="class">
 <dt id="AssetList.ActiveAsset">
-<em class="property">class </em><code class="sig-prename descclassname">AssetList.</code><code class="sig-name descname">ActiveAsset</code><span class="sig-paren">(</span><em class="sig-param">name</em>, <em class="sig-param">asset_type</em><span class="sig-paren">)</span><a class="headerlink" href="#AssetList.ActiveAsset" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-prename descclassname">AssetList.</code><code class="sig-name descname">ActiveAsset</code><span class="sig-paren">(</span><em class="sig-param">name</em>, <em class="sig-param">asset_type</em>, <em class="sig-param">asset</em><span class="sig-paren">)</span><a class="headerlink" href="#AssetList.ActiveAsset" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="System.html#System.Assets.BuildingAsset" title="System.Assets.BuildingAsset"><code class="xref py py-class docutils literal notranslate"><span class="pre">System.Assets.BuildingAsset</span></code></a>, <a class="reference internal" href="System.html#System.Assets.StorageAsset" title="System.Assets.StorageAsset"><code class="xref py py-class docutils literal notranslate"><span class="pre">System.Assets.StorageAsset</span></code></a>, <a class="reference internal" href="System.html#System.Assets.NondispatchableAsset" title="System.Assets.NondispatchableAsset"><code class="xref py py-class docutils literal notranslate"><span class="pre">System.Assets.NondispatchableAsset</span></code></a>, <a class="reference internal" href="System.html#System.Assets.StorageAsset_3ph" title="System.Assets.StorageAsset_3ph"><code class="xref py py-class docutils literal notranslate"><span class="pre">System.Assets.StorageAsset_3ph</span></code></a>, <a class="reference internal" href="System.html#System.Assets.NondispatchableAsset_3ph" title="System.Assets.NondispatchableAsset_3ph"><code class="xref py py-class docutils literal notranslate"><span class="pre">System.Assets.NondispatchableAsset_3ph</span></code></a></p>
 <dl class="attribute">
 <dt id="AssetList.ActiveAsset.active_assets">
-<code class="sig-name descname">active_assets</code><em class="property"> = [&lt;AssetList.ActiveAsset object&gt;, &lt;AssetList.ActiveAsset object&gt;, &lt;AssetList.ActiveAsset object&gt;]</em><a class="headerlink" href="#AssetList.ActiveAsset.active_assets" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">active_assets</code><em class="property"> = []</em><a class="headerlink" href="#AssetList.ActiveAsset.active_assets" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
-<dt id="AssetList.ActiveAsset.pickAsset">
-<code class="sig-name descname">pickAsset</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#AssetList.ActiveAsset.pickAsset" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dt id="AssetList.ActiveAsset.clear">
+<code class="sig-name descname">clear</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#AssetList.ActiveAsset.clear" title="Permalink to this definition">¶</a></dt>
+<dd><p>Clears the active assets array.</p>
+</dd></dl>
 
 </dd></dl>
 
 <dl class="class">
 <dt id="AssetList.ActiveMarket">
-<em class="property">class </em><code class="sig-prename descclassname">AssetList.</code><code class="sig-name descname">ActiveMarket</code><span class="sig-paren">(</span><em class="sig-param">name</em><span class="sig-paren">)</span><a class="headerlink" href="#AssetList.ActiveMarket" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-prename descclassname">AssetList.</code><code class="sig-name descname">ActiveMarket</code><span class="sig-paren">(</span><em class="sig-param">name</em>, <em class="sig-param">market</em><span class="sig-paren">)</span><a class="headerlink" href="#AssetList.ActiveMarket" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="System.html#System.Markets.Market" title="System.Markets.Market"><code class="xref py py-class docutils literal notranslate"><span class="pre">System.Markets.Market</span></code></a></p>
 <dl class="attribute">
 <dt id="AssetList.ActiveMarket.active_markets">
-<code class="sig-name descname">active_markets</code><em class="property"> = [&lt;AssetList.ActiveMarket object&gt;]</em><a class="headerlink" href="#AssetList.ActiveMarket.active_markets" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">active_markets</code><em class="property"> = []</em><a class="headerlink" href="#AssetList.ActiveMarket.active_markets" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
+
+<dl class="method">
+<dt id="AssetList.ActiveMarket.clear">
+<code class="sig-name descname">clear</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#AssetList.ActiveMarket.clear" title="Permalink to this definition">¶</a></dt>
+<dd><p>Clears the active market array.</p>
+</dd></dl>
 
 </dd></dl>
 
 <dl class="function">
 <dt id="AssetList.populateAssetList">
 <code class="sig-prename descclassname">AssetList.</code><code class="sig-name descname">populateAssetList</code><span class="sig-paren">(</span><em class="sig-param">self</em>, <em class="sig-param">active</em>, <em class="sig-param">column</em><span class="sig-paren">)</span><a class="headerlink" href="#AssetList.populateAssetList" title="Permalink to this definition">¶</a></dt>
-<dd><p>_summary_</p>
+<dd><p>Populates the active object list whenever a branch of the energy system tree is selected.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>active</strong> (<em>_type_</em>) – _description_</p></li>
-<li><p><strong>column</strong> (<em>_type_</em>) – _description_</p></li>
-<li><p><strong>font</strong> (<em>_type_</em>) – _description_</p></li>
+<li><p><strong>active</strong> (<em>str</em>) – The active branch of the energy system tree (Asset, Market, Network).</p></li>
+<li><p><strong>column</strong> (<em>int</em>) – The width of the column (set to a standard size #TODO CHANGE THIS).</p></li>
 </ul>
 </dd>
 </dl>
@@ -81,17 +87,55 @@
 <dl class="function">
 <dt id="AssetList.populateParameterList">
 <code class="sig-prename descclassname">AssetList.</code><code class="sig-name descname">populateParameterList</code><span class="sig-paren">(</span><em class="sig-param">self</em>, <em class="sig-param">item</em>, <em class="sig-param">active</em><span class="sig-paren">)</span><a class="headerlink" href="#AssetList.populateParameterList" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Populates the object parameter list with the parameters of the selected object.</p>
+<p>Is activated when an object is selected from the active object list.
+The object’s parameters are then displayed on the object parameter list panel.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>item</strong> (<em>int</em>) – The row number of the selected object (enumerated from 0).</p></li>
+<li><p><strong>active</strong> (<em>str</em>) – The active branch selected from the energy system tree (Assets, Market, Network).</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="function">
 <dt id="AssetList.translate">
 <code class="sig-prename descclassname">AssetList.</code><code class="sig-name descname">translate</code><span class="sig-paren">(</span><em class="sig-param">value</em>, <em class="sig-param">default</em><span class="sig-paren">)</span><a class="headerlink" href="#AssetList.translate" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Takes in a value in string form, and changes its data type to the data type associated with the default value found in the asset_defaults dictionary.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>value</strong> (<em>str</em>) – The value to be have its data type changed.</p></li>
+<li><p><strong>default</strong> – The value attributed to the parameter by default.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Returns the value with the correct data type (int, float, numpy array, etc…)</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>value</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="function">
 <dt id="AssetList.updateParam">
 <code class="sig-prename descclassname">AssetList.</code><code class="sig-name descname">updateParam</code><span class="sig-paren">(</span><em class="sig-param">label</em>, <em class="sig-param">value</em>, <em class="sig-param">item</em>, <em class="sig-param">asset_type</em><span class="sig-paren">)</span><a class="headerlink" href="#AssetList.updateParam" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Updates the parameters of an object whenever they are edited in the parameter list.</p>
+<p>Whenever a parameter is changed in the object parameter list, the parameters are rewritten to the instantiated object stored in memory.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>label</strong> (<em>str</em>) – The label of the parameter to be changed.</p></li>
+<li><p><strong>value</strong> (<em>str</em>) – The new value of the parameter.</p></li>
+<li><p><strong>item</strong> (<em>int</em>) – The row in which the parameter exists in the table.</p></li>
+<li><p><strong>asset_type</strong> (<em>str</em>) – The type of asset to be changed (Asset, Market, Network).</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
 
 </div>
 
@@ -116,8 +160,8 @@
 <ul class="current">
 <li class="toctree-l1 current"><a class="reference internal" href="modules.html">OPENGUI</a><ul class="current">
 <li class="toctree-l2 current"><a class="current reference internal" href="#">AssetList module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="CurrentFullCanvas.html">CurrentFullCanvas module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="Dialogues.html">Dialogues module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="OPENGUI_main.html">OPENGUI_main module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="Popups.html">Popups module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="SaveData.html">SaveData module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="System.html">System package</a></li>
@@ -134,7 +178,7 @@
   <li><a href="index.html">Documentation overview</a><ul>
   <li><a href="modules.html">OPENGUI</a><ul>
       <li>Previous: <a href="modules.html" title="previous chapter">OPENGUI</a></li>
-      <li>Next: <a href="CurrentFullCanvas.html" title="next chapter">CurrentFullCanvas module</a></li>
+      <li>Next: <a href="Dialogues.html" title="next chapter">Dialogues module</a></li>
   </ul></li>
   </ul></li>
 </ul>

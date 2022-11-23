@@ -14,6 +14,8 @@ import numpy as np
 import ast
 
 asset_dict = {
+    """A dictionary of something... #TODO
+    """
     "Asset" : ass.Asset.__init__.__code__.co_varnames,
     "Building" : ass.BuildingAsset.__init__.__code__.co_varnames,
     "Storage" : ass.StorageAsset.__init__.__code__.co_varnames,
@@ -27,6 +29,8 @@ asset_dict = {
 # for now just manually import default values...
 #Note the first item bust be none since it is zipped with "self"
 asset_defaults = {
+    """A dictionary containing the default instantiations of each object.
+    """
     "Asset" : ass.Asset(1,1/60,60/24,1), #1440 below was 2
     "Building" : ass.BuildingAsset(18,16,90,200,17,500,0.0337,3,1,0,1,1/60,1440,0.25,0.166667),
     "Storage" :  ass.StorageAsset([0],[0],[0],[0],0.0,0.0,0.0,0.0,0,0.0,0),
@@ -39,6 +43,15 @@ asset_defaults = {
 
 
 def translate(value, default):
+    """Takes in a value in string form, and changes its data type to the data type associated with the default value found in the asset_defaults dictionary.
+
+    Args:
+        value (str): The value to be have its data type changed.
+        default: The value attributed to the parameter by default.
+
+    Returns:
+        value: Returns the value with the correct data type (int, float, numpy array, etc...)
+    """
     if type(default) is int:
         return int(value)
     elif type(default) is float:
@@ -61,8 +74,8 @@ class ActiveAsset(ass.BuildingAsset, ass.StorageAsset, ass.NondispatchableAsset,
     
     active_assets = []
     
-    def pickAsset(asset_type):
-        return asset_defaults[asset_type]
+    # def pickAsset(asset_type):
+    #     return asset_defaults[asset_type]
     
     # def update(self, )
 
@@ -74,6 +87,8 @@ class ActiveAsset(ass.BuildingAsset, ass.StorageAsset, ass.NondispatchableAsset,
         ActiveAsset.active_assets.append(self)
         
     def clear():
+        """Clears the active assets array.
+        """
         ActiveAsset.active_assets = []
         
         
@@ -81,12 +96,28 @@ class ActiveAsset(ass.BuildingAsset, ass.StorageAsset, ass.NondispatchableAsset,
 class ActiveMarket(mar.Market):
     active_markets = []
     
-    def __init__(self, name):
+    def __init__(self, name, market):
         self.name = name
         self.market = asset_defaults["Market"]
+        self.market = market
         ActiveMarket.active_markets.append(self)
+    
+    def clear():
+        """Clears the active market array.
+        """
+        ActiveMarket.active_markets = []
 
 def updateParam(label, value, item, asset_type): 
+    """Updates the parameters of an object whenever they are edited in the parameter list.
+    
+    Whenever a parameter is changed in the object parameter list, the parameters are rewritten to the instantiated object stored in memory.
+
+    Args:
+        label (str): The label of the parameter to be changed.
+        value (str): The new value of the parameter.
+        item (int): The row in which the parameter exists in the table.
+        asset_type (str): The type of asset to be changed (Asset, Market, Network).
+    """
     if asset_type == "Network":
         pass
     elif asset_type == "Market":
@@ -116,13 +147,12 @@ def updateParam(label, value, item, asset_type):
 # def updateParam_(label, value, item, asset_type):
     
 
-def populateAssetList( self , active, column ):
-    """_summary_
+def populateAssetList( self , active, column ): #TODO should really be changed to populatedObjectList()
+    """Populates the active object list whenever a branch of the energy system tree is selected.
 
     Args:
-        active (_type_): _description_
-        column (_type_): _description_
-        font (_type_): _description_
+        active (str): The active branch of the energy system tree (Asset, Market, Network).
+        column (int): The width of the column (set to a standard size #TODO CHANGE THIS).
     """
     
     self.m_ActiveAssetList.ClearAll()
@@ -148,6 +178,16 @@ def populateAssetList( self , active, column ):
 
 
 def populateParameterList( self, item, active ): # pass the market as ITEM when Market active
+    """Populates the object parameter list with the parameters of the selected object.
+    
+    Is activated when an object is selected from the active object list.
+    The object's parameters are then displayed on the object parameter list panel.
+
+    Args:
+        item (int): The row number of the selected object (enumerated from 0).
+        active (str): The active branch selected from the energy system tree (Assets, Market, Network).
+        
+    """
     #TODO Have a differen way of displaying arrays
     self.m_propertyGrid.Clear()
     if active == "Market":
@@ -166,7 +206,9 @@ def populateParameterList( self, item, active ): # pass the market as ITEM when 
             if param == "self":
                 continue
             if type(default) is np.ndarray: # Just to make it a bit more readable
+                #FIXME This doesnt work for "Asset"
                 default = list(default)
+                # default = np.array(list(default))
                 default_array=[]
                 for item in default:
                     default_array.append(str(item))
@@ -191,14 +233,14 @@ def populateParameterList( self, item, active ): # pass the market as ITEM when 
 # # for attr, value in newasset.asset.__dict__.items():
 # #     print(attr, value)
 
-# # x = ActiveMarket("Market1")
-# # print(x.name)
-# # print(ActiveMarket.active_markets[0].market.__dict__.items())
+# x = ActiveMarket("Market1")
+# print(x.name)
+# print(ActiveMarket.active_markets[0].market.__dict__.items())
 
 # x = ActiveMarket("Market1")
 
-# # #storage assets
-# #None
+# #storage assets
+#None
 
 # dt = 1/60 #1 minute time intervals
 # T = int(24/dt) #Number of intervals
@@ -240,4 +282,4 @@ def populateParameterList( self, item, active ): # pass the market as ITEM when 
 # # bus3_load.asset
 # # bus3_load.asset
 
-# # print(bus3_gen.asset.Pnet)
+# # # print(bus3_gen.asset.Pnet)

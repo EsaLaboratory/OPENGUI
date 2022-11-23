@@ -8,6 +8,7 @@ Dialogue boxes are instantiated from the main gui (CurrentFullCanvas) module.
 import wx
 import building_test
 import AssetList as ass
+import System.Assets as sys_ass
 import numpy as np
 import os
 # import CurrentFullCanvas
@@ -64,12 +65,16 @@ class ActiveProjectDialogue ( wx.Dialog ):
         headAttr = wx.ItemAttr((0,0,0), (240,240,240), headfont)
         self.m_ProjectAttribute1Value.SetHeaderAttr(headAttr)
         
-        path = os.getcwd() + "/UserData/"
-        projects = os.listdir(path)
-        for i, project in enumerate(projects):
-            print(project)
-            a = self.m_ProjectAttribute1Value.InsertItem( i, project )
-            print(a)
+        #Add try and exception for sphinx MAYBE UNECESSARY
+        try:
+            path = os.getcwd() + "/UserData/"
+            projects = os.listdir(path)
+            for i, project in enumerate(projects):
+                print(project)
+                a = self.m_ProjectAttribute1Value.InsertItem( i, project )
+                print(a)
+        except:
+            return LookupError
             
         bNewProjectSizer.Add( self.m_ProjectAttribute1Value, 1, wx.ALL, 1 )
         
@@ -378,6 +383,162 @@ class WebHelpDialogue ( wx.Dialog ):
         event.Skip()
 
 ####################
+# NEW ASSET PARAMETERS DIALOGUE
+####################
+class NewAssetParametersDialogue ( wx.Dialog ):
+    """Dialogue for inputting the parameters of a new asset.
+    
+    Contains text control boxes for each parameter of an asset to be instantiated.
+
+    """
+    #TODO Have all of the parameters as inputs on this dialogue depending on the asset type.
+    def __init__( self, parent, name, choice ):
+        wx.Dialog.__init__ ( self, parent, id = wx.ID_ANY, title = u"New Asset Parameters", pos = wx.DefaultPosition, size = wx.DefaultSize, style = wx.DEFAULT_DIALOG_STYLE )
+
+        self.name = name
+        self.asset_type = ""
+        
+        self.SetSizeHints( wx.DefaultSize, wx.DefaultSize )
+
+        bNewAssetParametersDialogueFrameMain = wx.BoxSizer( wx.VERTICAL )
+
+        bNewAssetParametersDialogueMainFrame = wx.BoxSizer( wx.VERTICAL )
+
+        self.m_NewAssetParametersDialogueActiveArea = wx.Panel( self, wx.ID_ANY, wx.DefaultPosition, wx.DefaultSize, wx.TAB_TRAVERSAL )
+        bNewAssetParametersDialogueSizer = wx.BoxSizer( wx.VERTICAL )
+        
+        #Start here -----------
+        #TODO Make this work without repeating AssetList.py(103)
+        pos_y = 0
+        
+        if choice == "Asset":
+            # Instantiate asset
+            self.asset_type = "Asset"
+            self.asset = sys_ass.Asset(0,0,0,0)
+            pass
+        
+        elif choice == "Building":
+            # Instantiate asset
+            self.asset_type = "BuildingAsset"
+            self.asset = sys_ass.BuildingAsset(18,16,90,200,17,500,0.0337,3,1,0,1,1/60,1440,0.25,0.166667)
+            print(self.asset.__dict__.items())
+            pass
+        
+        elif choice == "Storage":
+            # Instantiate asset
+            self.asset_type = "StorageAsset"
+            self.asset = sys_ass.StorageAsset([0],[0],[0],[0],0.0,0.0,0.0,0.0,0,0.0,0)
+            pass
+        
+        elif choice == "NonDispatch":
+            # Instantiate asset
+            self.asset_type = "NondispatchableAsset"
+            self.asset = sys_ass.NondispatchableAsset(0.0,0.0,0.0,0.0,0)
+            pass
+        
+        elif choice == "Asset (3 phase)":
+            # Instantiate asset
+            self.asset_type = "Asset_3ph"
+            self.asset = sys_ass.Asset_3ph(0.0,[0],0.0,0)
+            pass
+        
+        elif choice == "Storage (3 phase)":
+            # Instantiate asset
+            self.asset_type = "StorageAsset_3ph"
+            self.asset = sys_ass.StorageAsset_3ph([0],[0],[0],[0],0.0,0.0,0.0,[0],0.0,0,0.0,0)
+            pass
+        
+        elif choice == "NonDispatch (3 phase)":
+            # Instantiate asset
+            self.asset_type = "NondispatchableAsset_3ph"
+            self.asset = sys_ass.NondispatchableAsset_3ph(0.0,0.0,0.0,[0],0.0,0)
+            pass
+        else:
+            return TypeError #TODO Proper error handling here pls
+
+        bNewAssetParametersDialogueSizer.SetMinSize( wx.Size( 200,200 ) )
+        # bNewAssetParametersDialogueRow1 = wx.BoxSizer( wx.HORIZONTAL )
+
+        # self.m_AssetType = wx.StaticText( self.m_NewAssetParametersDialogueActiveArea, wx.ID_ANY, u"Asset Type", wx.DefaultPosition, wx.DefaultSize, 0 )
+        # self.m_AssetType.Wrap( -1 )
+
+        # bNewAssetParametersDialogueRow1.Add( self.m_AssetType, 1, wx.ALL, 0 )
+
+        # m_AssetTypeChoiceChoices = ["Asset", "Building", "Storage", "NonDispatch", "Asset (3 phase)", "Storage (3 phase)", "NonDispatch (3 phase)"]
+
+        # self.m_AssetTypeChoice = wx.Choice( self.m_NewAssetParametersDialogueActiveArea, wx.ID_ANY, wx.DefaultPosition, wx.DefaultSize, m_AssetTypeChoiceChoices, 0 )
+        # self.m_AssetTypeChoice.SetSelection( 0 )
+        # bNewAssetParametersDialogueRow1.Add( self.m_AssetTypeChoice, 1, wx.ALL, 0 )
+
+
+        # bNewAssetParametersDialogueSizer.Add( bNewAssetParametersDialogueRow1, 1, wx.EXPAND, 0 )
+
+        # bNewAssetParametersDialogueRow2 = wx.BoxSizer( wx.HORIZONTAL )
+
+        # self.m_NewAssetAttribute1 = wx.StaticText( self.m_NewAssetParametersDialogueActiveArea, wx.ID_ANY, u"Name", wx.DefaultPosition, wx.DefaultSize, 0 )
+        # self.m_NewAssetAttribute1.Wrap( -1 )
+
+        # bNewAssetParametersDialogueRow2.Add( self.m_NewAssetAttribute1, 1, wx.ALL, 0 )
+
+        # self.m_NewAssetAttribute1Value = wx.TextCtrl( self.m_NewAssetParametersDialogueActiveArea, wx.ID_ANY, wx.EmptyString, wx.DefaultPosition, wx.DefaultSize, 0 )
+        # bNewAssetParametersDialogueRow2.Add( self.m_NewAssetAttribute1Value, 1, wx.ALL, 0 )
+
+
+        # bNewAssetParametersDialogueSizer.Add( bNewAssetParametersDialogueRow2, 1, wx.EXPAND, 0 )
+
+        self.m_NewAssetOK = wx.Button( self.m_NewAssetParametersDialogueActiveArea, wx.ID_ANY, u"OK", wx.DefaultPosition, wx.DefaultSize, 0 )
+        bNewAssetParametersDialogueSizer.Add( self.m_NewAssetOK, 0, wx.ALIGN_RIGHT|wx.ALL, 5 )
+
+
+        self.m_NewAssetParametersDialogueActiveArea.SetSizer( bNewAssetParametersDialogueSizer )
+        self.m_NewAssetParametersDialogueActiveArea.Layout()
+        bNewAssetParametersDialogueSizer.Fit( self.m_NewAssetParametersDialogueActiveArea )
+        bNewAssetParametersDialogueMainFrame.Add( self.m_NewAssetParametersDialogueActiveArea, 1, wx.EXPAND |wx.ALL, 5 )
+
+
+        bNewAssetParametersDialogueFrameMain.Add( bNewAssetParametersDialogueMainFrame, 1, wx.EXPAND, 5 )
+
+
+        self.SetSizer( bNewAssetParametersDialogueFrameMain )
+        self.Layout()
+        bNewAssetParametersDialogueFrameMain.Fit( self )
+
+        self.Centre( wx.BOTH )
+
+        # Connect Events
+        self.m_NewAssetOK.Bind( wx.EVT_BUTTON, self.newAssetParamsOK)
+
+    def __del__( self ):
+        pass
+
+    def newAsset( self ):
+
+        pass
+    # Virtual event handlers, override them in your derived class
+    def newAssetParamsOK( self, event ):
+        """Creates a new asset with the selected type and name.
+
+        """
+        
+        # Instantiate new asset
+        ass.ActiveAsset(self.name, self.asset_type, self.asset)
+        
+        # ass.ActiveAsset(str(self.m_NewAssetAttribute1Value.GetValue()), self.m_AssetTypeChoice.GetString(self.m_AssetTypeChoice.GetSelection()))
+        # print(self.m_AssetTypeChoice.GetString(self.m_AssetTypeChoice.GetSelection()))
+        # print(self.m_AssetTypeChoice.GetSelection())
+        self.Close()
+        event.Skip()
+
+    # def getData(self):
+    #     data = []
+    #     # data.append(self.m_AssetTypeChoice.GetSelection().GetString()) #This doesn't work hmmmm
+    #     data.append(self.m_AssetTypeChoice.GetSelection())
+    #     # data.append(self.m_NewAssetAttribute1Value.GetValue())
+    #     # data.append(self.m_NewAssetAttribute1Value.GetValue())
+    #     return data
+
+##################################################################
+####################
 # NEW ASSET DIALOGUE
 ####################
 class NewAssetDialogue ( wx.Dialog ):
@@ -388,7 +549,7 @@ class NewAssetDialogue ( wx.Dialog ):
     The asset is instantiated once the OK button is selected.
 
     """
-
+    #TODO Have all of the parameters as inputs on this dialogue depending on the asset type.
     def __init__( self, parent ):
         wx.Dialog.__init__ ( self, parent, id = wx.ID_ANY, title = u"New Asset", pos = wx.DefaultPosition, size = wx.DefaultSize, style = wx.DEFAULT_DIALOG_STYLE )
 
@@ -463,7 +624,11 @@ class NewAssetDialogue ( wx.Dialog ):
 
         """
         
-        ass.ActiveAsset(str(self.m_NewAssetAttribute1Value.GetValue()), self.m_AssetTypeChoice.GetString(self.m_AssetTypeChoice.GetSelection()))
+        #CALL NEW ASSET PARAMETER DIALOGUE
+        a = NewAssetParametersDialogue(self, str(self.m_NewAssetAttribute1Value.GetValue()), self.m_AssetTypeChoice.GetString(self.m_AssetTypeChoice.GetSelection()))
+        print(a.ShowModal())
+        
+        # ass.ActiveAsset(str(self.m_NewAssetAttribute1Value.GetValue()), self.m_AssetTypeChoice.GetString(self.m_AssetTypeChoice.GetSelection()))
         # print(self.m_AssetTypeChoice.GetString(self.m_AssetTypeChoice.GetSelection()))
         # print(self.m_AssetTypeChoice.GetSelection())
         self.Close()
