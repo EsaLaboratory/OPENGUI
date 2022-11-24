@@ -442,9 +442,9 @@ class frameMain ( wx.Frame ):
 
         """
         
-        print(self.directory)
+        # print(self.directory)
         new_directory = self.m_dirPicker.GetPath()
-        self.directory = new_directory
+        # self.directory = new_directory
         self.m_userLibrary.SetPath(new_directory)
         self.m_userLibrary.Layout()
         self.m_userLibrary.FitInside()
@@ -590,6 +590,10 @@ class frameMain ( wx.Frame ):
         
         # Set project path in the user library
         self.m_userLibrary.SetPath(self.active_project_path)
+        self.m_userLibrary.Layout()
+        self.m_userLibrary.FitInside()
+        self.m_dirPicker.Layout()
+        self.m_dirPicker.FitInside()
         
         event.Skip()
     
@@ -736,6 +740,12 @@ class frameMain ( wx.Frame ):
         for market in markets:
             loadObject(market, market_path, "Market")
             
+        # Set project path in the user library
+        self.m_userLibrary.SetPath(self.active_project_path)
+        self.m_userLibrary.Layout()
+        self.m_userLibrary.FitInside()
+        self.m_dirPicker.Layout()
+        self.m_dirPicker.FitInside()
         
         #TODO Have some way of refreshing everything
         # event.Skip()

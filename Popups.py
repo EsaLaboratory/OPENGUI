@@ -120,11 +120,11 @@ class GenericConfirmation ( wx.Dialog ):
         self.m_label.SetLabel(self.m_txt)
         bConfirmationDialogueSizer.Add( self.m_label, 1, wx.ALIGN_CENTER|wx.ALL, 5 )
 
-        self.m_CloseNO = wx.Button( self.m_ConfirmationDialogueActiveArea, wx.ID_ANY, u"NO", wx.DefaultPosition, wx.DefaultSize, 0 )
-        bButtonSizer.Add( self.m_CloseNO, 1, wx.ALIGN_CENTER|wx.ALL, 5 )
-        
         self.m_CloseYES = wx.Button( self.m_ConfirmationDialogueActiveArea, wx.ID_ANY, u"YES", wx.DefaultPosition, wx.DefaultSize, 0 )
         bButtonSizer.Add( self.m_CloseYES, 1, wx.ALIGN_CENTER|wx.ALL, 5 )
+
+        self.m_CloseNO = wx.Button( self.m_ConfirmationDialogueActiveArea, wx.ID_ANY, u"NO", wx.DefaultPosition, wx.DefaultSize, 0 )
+        bButtonSizer.Add( self.m_CloseNO, 1, wx.ALIGN_CENTER|wx.ALL, 5 )
         
         bConfirmationDialogueSizer.Add( bButtonSizer, 1, wx.ALIGN_CENTER|wx.ALL, 5 )
 

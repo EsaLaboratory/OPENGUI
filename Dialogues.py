@@ -65,7 +65,7 @@ class ActiveProjectDialogue ( wx.Dialog ):
         headAttr = wx.ItemAttr((0,0,0), (240,240,240), headfont)
         self.m_ProjectAttribute1Value.SetHeaderAttr(headAttr)
         
-        #Add try and exception for sphinx MAYBE UNECESSARY
+        #FIXME Add try and exception for sphinx MAYBE UNECESSARY
         try:
             path = os.getcwd() + "/UserData/"
             projects = os.listdir(path)
@@ -421,7 +421,6 @@ class NewAssetParametersDialogue ( wx.Dialog ):
             # Instantiate asset
             self.asset_type = "BuildingAsset"
             self.asset = sys_ass.BuildingAsset(18,16,90,200,17,500,0.0337,3,1,0,1,1/60,1440,0.25,0.166667)
-            print(self.asset.__dict__.items())
             pass
         
         elif choice == "Storage":
@@ -457,39 +456,23 @@ class NewAssetParametersDialogue ( wx.Dialog ):
             return TypeError #TODO Proper error handling here pls
 
         bNewAssetParametersDialogueSizer.SetMinSize( wx.Size( 200,200 ) )
-        # bNewAssetParametersDialogueRow1 = wx.BoxSizer( wx.HORIZONTAL )
-
-        # self.m_AssetType = wx.StaticText( self.m_NewAssetParametersDialogueActiveArea, wx.ID_ANY, u"Asset Type", wx.DefaultPosition, wx.DefaultSize, 0 )
-        # self.m_AssetType.Wrap( -1 )
-
-        # bNewAssetParametersDialogueRow1.Add( self.m_AssetType, 1, wx.ALL, 0 )
-
-        # m_AssetTypeChoiceChoices = ["Asset", "Building", "Storage", "NonDispatch", "Asset (3 phase)", "Storage (3 phase)", "NonDispatch (3 phase)"]
-
-        # self.m_AssetTypeChoice = wx.Choice( self.m_NewAssetParametersDialogueActiveArea, wx.ID_ANY, wx.DefaultPosition, wx.DefaultSize, m_AssetTypeChoiceChoices, 0 )
-        # self.m_AssetTypeChoice.SetSelection( 0 )
-        # bNewAssetParametersDialogueRow1.Add( self.m_AssetTypeChoice, 1, wx.ALL, 0 )
-
-
-        # bNewAssetParametersDialogueSizer.Add( bNewAssetParametersDialogueRow1, 1, wx.EXPAND, 0 )
-
-        # bNewAssetParametersDialogueRow2 = wx.BoxSizer( wx.HORIZONTAL )
-
-        # self.m_NewAssetAttribute1 = wx.StaticText( self.m_NewAssetParametersDialogueActiveArea, wx.ID_ANY, u"Name", wx.DefaultPosition, wx.DefaultSize, 0 )
-        # self.m_NewAssetAttribute1.Wrap( -1 )
-
-        # bNewAssetParametersDialogueRow2.Add( self.m_NewAssetAttribute1, 1, wx.ALL, 0 )
-
-        # self.m_NewAssetAttribute1Value = wx.TextCtrl( self.m_NewAssetParametersDialogueActiveArea, wx.ID_ANY, wx.EmptyString, wx.DefaultPosition, wx.DefaultSize, 0 )
-        # bNewAssetParametersDialogueRow2.Add( self.m_NewAssetAttribute1Value, 1, wx.ALL, 0 )
-
-
-        # bNewAssetParametersDialogueSizer.Add( bNewAssetParametersDialogueRow2, 1, wx.EXPAND, 0 )
+        
+        boxes = []
+        for param, value in self.asset.__dict__.items(): # WORKS!!!!!!!!!!!!!
+            #TODO add support for arrays etc
+            pos_y += 40
+            box = wx.BoxSizer( wx.HORIZONTAL )
+            label = wx.StaticText(self.m_NewAssetParametersDialogueActiveArea, wx.ID_ANY, label=param, pos=(20,pos_y))
+            text = wx.TextCtrl(self.m_NewAssetParametersDialogueActiveArea, wx.ID_ANY, value=str(value), pos=(120,pos_y))
+            box.Add(label, 1, wx.ALL, 0)
+            box.Add(text, 1, wx.ALL, 0)
+            bNewAssetParametersDialogueSizer.Add( box, 1, wx.ALL, 0 )
+            boxes.append((param,text))
+        print(boxes)
 
         self.m_NewAssetOK = wx.Button( self.m_NewAssetParametersDialogueActiveArea, wx.ID_ANY, u"OK", wx.DefaultPosition, wx.DefaultSize, 0 )
         bNewAssetParametersDialogueSizer.Add( self.m_NewAssetOK, 0, wx.ALIGN_RIGHT|wx.ALL, 5 )
-
-
+        
         self.m_NewAssetParametersDialogueActiveArea.SetSizer( bNewAssetParametersDialogueSizer )
         self.m_NewAssetParametersDialogueActiveArea.Layout()
         bNewAssetParametersDialogueSizer.Fit( self.m_NewAssetParametersDialogueActiveArea )
@@ -507,6 +490,7 @@ class NewAssetParametersDialogue ( wx.Dialog ):
 
         # Connect Events
         self.m_NewAssetOK.Bind( wx.EVT_BUTTON, self.newAssetParamsOK)
+        
 
     def __del__( self ):
         pass
@@ -514,6 +498,7 @@ class NewAssetParametersDialogue ( wx.Dialog ):
     def newAsset( self ):
 
         pass
+    
     # Virtual event handlers, override them in your derived class
     def newAssetParamsOK( self, event ):
         """Creates a new asset with the selected type and name.
@@ -523,19 +508,8 @@ class NewAssetParametersDialogue ( wx.Dialog ):
         # Instantiate new asset
         ass.ActiveAsset(self.name, self.asset_type, self.asset)
         
-        # ass.ActiveAsset(str(self.m_NewAssetAttribute1Value.GetValue()), self.m_AssetTypeChoice.GetString(self.m_AssetTypeChoice.GetSelection()))
-        # print(self.m_AssetTypeChoice.GetString(self.m_AssetTypeChoice.GetSelection()))
-        # print(self.m_AssetTypeChoice.GetSelection())
         self.Close()
         event.Skip()
-
-    # def getData(self):
-    #     data = []
-    #     # data.append(self.m_AssetTypeChoice.GetSelection().GetString()) #This doesn't work hmmmm
-    #     data.append(self.m_AssetTypeChoice.GetSelection())
-    #     # data.append(self.m_NewAssetAttribute1Value.GetValue())
-    #     # data.append(self.m_NewAssetAttribute1Value.GetValue())
-    #     return data
 
 ##################################################################
 ####################
