@@ -126,22 +126,21 @@ def updateParam(label, value, item, asset_type):
                 continue
             if str(param) == label:
                 translate(value, default)
-                code = f"ActiveMarket.active_markets[item].market.{param} = value"
-                exec(code) #FIXME this is so hideous I hate it but it works for now
+                ActiveMarket.active_markets[item].market.__setattr__(param,value)
                 break
     else:
         for param, default in ActiveAsset.active_assets[item].asset.__dict__.items():
+            print("Type: ", type(default))
             if param == "self":
                 continue
             if str(param) == label:
                 translate(value, default)
                 # if type(default) is list:
                 #TODO add all data types
-                code = f"ActiveAsset.active_assets[item].asset.{param} = value"
-                exec(code) #FIXME this is so hideous I hate it but it works for now
+                ActiveAsset.active_assets[item].asset.__setattr__(param,value)
                 break
-    for param, default in ActiveMarket.active_markets[item].market.__dict__.items():
-        print(param, default)
+    # for param, default in ActiveMarket.active_markets[item].market.__dict__.items():
+    #     print(param, default)
     
 # #TESTING
 # def updateParam_(label, value, item, asset_type):

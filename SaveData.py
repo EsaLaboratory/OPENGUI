@@ -16,7 +16,7 @@ import pickle
 from AssetList import ActiveAsset, ActiveMarket
 
 #TODO make it easier to pick file name and location etc
-def writeToCSV(data, name, filetype):
+def writeToCSV(data, name, filetype, project_path):
     """Writes data from the data grid to a csv/txt file.
     
     Currently takes the data from the data grid and stores it line by line into a csv or txt file.
@@ -34,12 +34,18 @@ def writeToCSV(data, name, filetype):
     filetype
         The file type to be saved as (currently either csv or txt).
     
+    project_path
+        File path to active project directory.
+    
     """
     #TODO add option to select if overwrite file. Currently it will just overwrite.
-    if not file_exists("SaveData"):
-        os.mkdir(os.getcwd()+"/SaveData")
+    # if not file_exists("SaveData"):
+    #     os.mkdir(os.getcwd()+"/SaveData")
     #save to SaveData Directory
-    save_path = "SaveData/"
+    if not file_exists(project_path + "GRID_DATA"):
+        os.mkdir(project_path + "/GRID_DATA")
+    save_path = project_path + "/GRID_DATA/"
+    #TODO use os.path.join to fix the ugly backslashes maybe???
     filename = os.path.join(save_path, name + filetype)
     if filetype == ".txt":
         with open(filename, 'w') as f:

@@ -329,6 +329,9 @@ class WebHelpDialogue ( wx.Dialog ):
     def __init__( self, parent ):
         wx.Dialog.__init__ ( self, parent, id = wx.ID_ANY, title = u"Web Help", pos = wx.DefaultPosition, size = wx.DefaultSize, style = wx.DEFAULT_DIALOG_STYLE )
 
+        # Check if "DONE!" Pop-Up Needed
+        self.task_complete = 1
+        
         self.SetSizeHints( wx.DefaultSize, wx.DefaultSize )
 
         bWebHelpDialogueFrameMain = wx.BoxSizer( wx.VERTICAL )
@@ -349,7 +352,7 @@ class WebHelpDialogue ( wx.Dialog ):
         self.m_browser.LoadURL("https://open-platform-for-energy-networks.readthedocs.io/en/latest/api_reference.html")
         bWebHelpDialogueSizer.Add( self.m_browser, 1, wx.EXPAND, 5)
         
-        self.m_CloseOK = wx.Button( self.m_WebHelpDialogueActiveArea, wx.ID_ANY, u"OK", wx.DefaultPosition, wx.DefaultSize, 0 )
+        self.m_CloseOK = wx.Button( self.m_WebHelpDialogueActiveArea, wx.ID_ANY, u"Close", wx.DefaultPosition, wx.DefaultSize, 0 )
         bWebHelpDialogueSizer.Add( self.m_CloseOK, 0, wx.ALIGN_RIGHT|wx.ALL, 5 )
 
         self.m_WebHelpDialogueActiveArea.SetSizer( bWebHelpDialogueSizer )
@@ -369,9 +372,14 @@ class WebHelpDialogue ( wx.Dialog ):
 
         # Connect Events
         self.m_CloseOK.Bind( wx.EVT_BUTTON, self.closeOK)
+        self.Bind( wx.EVT_CLOSE, self.on_close )
 
     def __del__( self ):
         pass
+    
+    def on_close(self, event):
+        self.task_complete = 0
+        self.Destroy()
 
     # Virtual event handlers, override them in your derived class
     def closeOK( self, event ):
@@ -457,7 +465,7 @@ class NewAssetParametersDialogue ( wx.Dialog ):
 
         bNewAssetParametersDialogueSizer.SetMinSize( wx.Size( 200,200 ) )
         
-        boxes = []
+        self.boxes = [] # The wx.TextCtrl object for each text box
         for param, value in self.asset.__dict__.items(): # WORKS!!!!!!!!!!!!!
             #TODO add support for arrays etc
             pos_y += 40
@@ -467,8 +475,7 @@ class NewAssetParametersDialogue ( wx.Dialog ):
             box.Add(label, 1, wx.ALL, 0)
             box.Add(text, 1, wx.ALL, 0)
             bNewAssetParametersDialogueSizer.Add( box, 1, wx.ALL, 0 )
-            boxes.append((param,text))
-        print(boxes)
+            self.boxes.append(text)
 
         self.m_NewAssetOK = wx.Button( self.m_NewAssetParametersDialogueActiveArea, wx.ID_ANY, u"OK", wx.DefaultPosition, wx.DefaultSize, 0 )
         bNewAssetParametersDialogueSizer.Add( self.m_NewAssetOK, 0, wx.ALIGN_RIGHT|wx.ALL, 5 )
@@ -494,16 +501,17 @@ class NewAssetParametersDialogue ( wx.Dialog ):
 
     def __del__( self ):
         pass
-
-    def newAsset( self ):
-
-        pass
     
     # Virtual event handlers, override them in your derived class
     def newAssetParamsOK( self, event ):
         """Creates a new asset with the selected type and name.
 
         """
+
+        # Assign values from text boxes to parameters
+        for i, (parameter, value) in enumerate(self.asset.__dict__.items()):
+            newValue = self.boxes[i].GetValue()
+            self.asset.__setattr__(parameter, newValue)
         
         # Instantiate new asset
         ass.ActiveAsset(self.name, self.asset_type, self.asset)
@@ -527,6 +535,8 @@ class NewAssetDialogue ( wx.Dialog ):
     def __init__( self, parent ):
         wx.Dialog.__init__ ( self, parent, id = wx.ID_ANY, title = u"New Asset", pos = wx.DefaultPosition, size = wx.DefaultSize, style = wx.DEFAULT_DIALOG_STYLE )
 
+        self.task_complete = 1
+        
         self.SetSizeHints( wx.DefaultSize, wx.DefaultSize )
 
         bNewAssetDialogueFrameMain = wx.BoxSizer( wx.VERTICAL )
@@ -587,10 +597,14 @@ class NewAssetDialogue ( wx.Dialog ):
 
         # Connect Events
         self.m_NewAssetOK.Bind( wx.EVT_BUTTON, self.newAssetOK)
+        self.Bind( wx.EVT_CLOSE, self.on_close )
 
     def __del__( self ):
         pass
 
+    def on_close(self, event):
+        self.task_complete = 0
+        self.Destroy()
 
     # Virtual event handlers, override them in your derived class
     def newAssetOK( self, event ):

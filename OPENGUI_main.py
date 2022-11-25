@@ -136,6 +136,8 @@ class frameMain ( wx.Frame ):
 
         self.m_notebookCentral = wx.Notebook( self, wx.ID_ANY, wx.DefaultPosition, wx.DefaultSize, 0 )
         
+        #TODO TRY USING HTML/CSS TO DISPLAY GRAPHICS IN THE CENTRE!
+        
         # MODELS PANEL
         self.m_panelModels = wx.Panel( self.m_notebookCentral, wx.ID_ANY, wx.DefaultPosition, wx.DefaultSize, wx.TAB_TRAVERSAL )
         bSizerModels = wx.BoxSizer( wx.HORIZONTAL )
@@ -501,10 +503,19 @@ class frameMain ( wx.Frame ):
         #     else:
         #         pass
 
-    def clearGrid( self, event ):
+    def clearGrid( self, event, check=True ):
         """The data grid will be cleared of all text.
 
         """
+        
+        #Confirmation
+        if check:
+            #TODO Check if empty
+            text = "Clear Grid Data?"
+            b = Popups.GenericConfirmation(text)
+            print(b.ShowModal())
+            if b.choice == False:
+                return
         
         self.m_gridData.ClearGrid()
         event.Skip()
@@ -576,6 +587,7 @@ class frameMain ( wx.Frame ):
         os.mkdir(new_project_path+r"/ENERGY_SYSTEM/ASSETS")
         os.mkdir(new_project_path+r"/ENERGY_SYSTEM/MARKET")
         os.mkdir(new_project_path+r"/ENERGY_SYSTEM/NETWORK")
+        os.mkdir(new_project_path+r"/GRID_DATA")
         os.mkdir(new_project_path+r"/SIMULATIONS")
         print("Project " + a.name + " created at " + new_project_path)
         
@@ -607,6 +619,12 @@ class frameMain ( wx.Frame ):
         
         a = Dialogues.NewAssetDialogue(self)
         print(a.ShowModal())
+        
+        #TODO Add this to other dialogues
+        # If window closed
+        if a.task_complete == 0:
+            return
+        
         column = self.m_ActiveAssetList.GetSize()[0] /2 - 2
         AssetList.populateAssetList(self, "Assets", column)
         #TODO make sure this stuff is stored in files!
@@ -687,7 +705,7 @@ class frameMain ( wx.Frame ):
             inputdata = []
         # print(outputdata)
         print(a.name)
-        writeToCSV(outputdata, a.name, a.filetype) #should have a dialogue here that displays what the filename is
+        writeToCSV(outputdata, a.name, a.filetype, self.active_project_path) #should have a dialogue here that displays what the filename is
         #also, is it possible to change the directory that it saves in? Eventually there should be a DATA folder...
         
         #task complete
@@ -768,6 +786,9 @@ class frameMain ( wx.Frame ):
         print(b.ShowModal())
         
         if b.choice == True:
+            #Clear Grid
+            self.clearGrid(event, check=False)
+            
             #Loading
             rows = self.m_gridData.GetNumberRows()
             columns = self.m_gridData.GetNumberCols()
